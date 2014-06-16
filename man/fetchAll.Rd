@@ -3,7 +3,12 @@
 \alias{fetchAll}
 \title{Load all}
 \usage{
-fetchAll()
+fetchAll(calc = TRUE, autoload = TRUE)
+}
+\arguments{
+\item{calc}{should contents of directory 'calc' be loaded?}
+
+\item{autoload}{should contents of directory 'calc/autoload' be loaded?}
 }
 \description{
 Load the contents of 'calc' and its subdirectories (in particular 'autoLoad')

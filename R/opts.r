@@ -1,17 +1,17 @@
-# - #' @title milieu
-# - #' @description a function to create a function and an environment
+# @title milieu
+# @description a function to create a function and an environment
 
 make_milieu <- function() function() invisible(NULL)
 
-# - #' @title milieu
-# - #' @description a function that can serve as a reference to a 
-# - #' environment
+# @title milieu
+# @description a function that can serve as a reference to a 
+# environment
 
 milieu <- make_milieu()
 
-# - #' @title proh_get
-# - #' @description this function retrieves the proh settings
-# - #' @param name name of proh setting variable
+# @title proh_get
+# @description this function retrieves the proh settings
+# @param name name of proh setting variable
 
 proh_get <- function(name){
    defaults <- get("defaults", envir=environment(milieu))
@@ -26,9 +26,9 @@ proh_get <- function(name){
    }
 }
 
-# - #' @title proh_set
-# - #' @description this function sets the proh settings
-# - #' @param ... the names and values you want set, e.g. \code{"add_graph"=TRUE}
+# @title proh_set
+# @description this function sets the proh settings
+# @param ... the names and values you want set, e.g. \code{"add_graph"=TRUE}
 
 proh_set <- function(...){
    dots <- list(...)
@@ -40,8 +40,8 @@ proh_set <- function(...){
    invisible(NULL)
 }
 
-# - #' @title restore
-# - #' @description this function restores the default proh settings
+# @title restore
+# @description this function restores the default proh settings
 
 restore <- function(){
    assign(x="defaults", value=list(

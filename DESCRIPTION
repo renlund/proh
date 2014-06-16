@@ -1,6 +1,6 @@
 Package: proh
 Title: PROject Henrik style (PROH)
-Version: 0.1
+Version: 0.1.1
 Author: Henrik Renlund <henrik.renlund@ucr.uu.se>
 Maintainer: Henrik Renlund <henrik.renlund@ucr.uu.se>
 Description: Tools for working in PROH project structure
