@@ -9,20 +9,26 @@
 fetch <- function(name, overwrite=TRUE, message=FALSE){
    if(!is.character(name)) 
       stop("[proh::Load] 'name' should be the names (as a character vector) of variables saved in subdirectory 'calc'.")
-   L <- gsub(".rdat", "", list.files('calc'))
-   if(length(L)==0) stop("[proh::Load] there are no saves whatsoever")
+   formats=c("rdat", "rdata")
+   types <- paste0("\\.(", paste0(formats,collapse=")|("),")" )
+   Lext <- list.files('calc', pattern=types)
+   L <- gsub(types, "", Lext)
+   if(length(Lext)==0) stop("[proh::Load] there are no (rdat/rdata) saves whatsoever")
    for(K in name){
       if(K %in% L){
          dummy <- if(exists(K, envir=.GlobalEnv)) 1 else 0
+         place <- which(L==K)
          if(dummy==1){
             if(overwrite) {
-               load(file=file.path("calc",paste0(K, ".rdat")), envir=.GlobalEnv)
+               # load(file=file.path("calc",paste0(K, ".rdat")), envir=.GlobalEnv)
+               load(file=file.path("calc",Lext[place]), envir=.GlobalEnv)
                if(message) message(paste0("[proh::Load] '",K,"' was overwritten."))
             } else {
                if(message) message(paste0("[proh::Load] '",K,"' exists and was not overwritten."))
             }
          } else {
-            load(file=file.path("calc",paste0(K, ".rdat")), envir=.GlobalEnv)
+            #load(file=file.path("calc",paste0(K, ".rdat")), envir=.GlobalEnv)
+            load(file=file.path("calc",Lext[place]), envir=.GlobalEnv)
             if(message) message(paste0("[proh::Load] '",K,"' dit not exist and was loaded."))
          }
       } else {

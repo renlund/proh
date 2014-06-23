@@ -12,5 +12,5 @@ first <- function(){
    m <- (ms[ms>n])[1]
    if(length(m)==0) stop("[First] does autoLoad chunk never end?")
    X <- X[(n+1):(m-1)]
-   eval(parse(text=paste(X, collapse="; ")), envir=.GlobalEnv)   
+   eval(parse(text=paste(X, collapse="\n ")), envir=.GlobalEnv)   
 }

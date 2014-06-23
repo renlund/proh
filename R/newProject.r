@@ -94,7 +94,8 @@ require(knitr)
 opts_chunk$set(
    cache=TRUE,   
    include=FALSE,
-   echo=FALSE
+   echo=FALSE,
+   fig.pos='hbt'
 #   message=TRUE, 
 #   error=TRUE, 
 #   warning=TRUE,
@@ -112,10 +113,10 @@ opts_knit$set(
 #      width=75 #63
    )
 # CREATE PDF : ------------------------
-Comp() # knit2pdf(input='rapport.rnw', clean=TRUE)
+comp() # knit2pdf(input='rapport.rnw', clean=TRUE)
 
 # SEND RAPPORT : ----------------------
-Send()
+send()
 ")
 }
 

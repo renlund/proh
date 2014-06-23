@@ -8,11 +8,11 @@
 #' @export
  
 omni <- function(name){
-   if(!is.character(name)) 
+   if(!all(is.character(name))) 
       stop("[proh::omni] 'name' should be the names (as a character vector) of variables.")
    for(K in name){
       if(exists(K, envir=.GlobalEnv)){
-         save(list=name, envir=.GlobalEnv, file=file.path("calc", "autoload", paste0(name, ".rdat")))
+         save(list=name, envir=.GlobalEnv, file=file.path("calc", "autoload", paste0(K, ".rdat")))
       } else {
          warning(paste0("[proh::omni] '", K, "' does not exists."))
       }
