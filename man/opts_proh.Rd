@@ -1,17 +1,17 @@
 \docType{data}
 \name{opts_proh}
 \alias{opts_proh}
-\title{opts}
+\title{opts (not useful yet)}
 \format{\preformatted{List of 3
  $ get    :function (name)  
-  ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 16 13 27 1 13 1 16 27
-  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x00000000088bc540> 
+  ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 21 13 32 1 13 1 21 32
+  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000000000eb47638> 
  $ set    :function (...)  
-  ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 33 13 41 1 13 1 33 41
-  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x00000000088bc540> 
+  ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 38 13 46 1 13 1 38 46
+  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000000000eb47638> 
  $ restore:function ()  
-  ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 46 12 54 1 12 1 46 54
-  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x00000000088bc540> 
+  ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 51 12 59 1 12 1 51 59
+  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000000000eb47638> 
 }}
 \usage{
 opts_proh
@@ -20,6 +20,8 @@ opts_proh
 This list tries to mimic the behaviour of opts_chunk from
 knitr. Currently two values are maintained with opts_proh:
 \itemize{ \item attach_graph \item attach_table }
+Currently, these values has no effect on anything - but
+hopefully they will in the future...
 }
 \keyword{datasets}
 
