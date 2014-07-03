@@ -1,7 +1,7 @@
 #' @title Keep an object omnipresent
 #' @description Keep an object available within PROH structure
 #' @details If .rnw files are cached, sometimes the objects used in 'Sexpr' are
-#' unavailable. 'Keep' stores variables in 'calc/autoload' which are 
+#' unavailable. 'omni' stores variables in 'calc/autoload' which are 
 #' automatically loaded in the first chunk of a PROH rapport.
 #' @author Henrik Renlund
 #' @param name character; the name of a variable

@@ -60,7 +60,7 @@ restore <- function(){
 
 #' @title opts (not useful yet)
 #' @description This list tries to mimic the behaviour of opts_chunk from knitr. 
-#' Currently two values are maintained with opts_proh: \itemize{
+#' Currently two values are maintained with the functions in (the list) opts_proh: \itemize{
 #' \item attach_graph
 #' \item attach_table
 #' }

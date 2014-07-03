@@ -1,5 +1,5 @@
-#' @title autoFetch
-#' @description Load all files in 'calc/autoload'
+#' @title (do not use)
+#' @description Load all files in 'calc/autoload' - but this is now done with \code{fetchAll}. This function is kept for now to not break old code.
 #' @author Henrik Renlund
 #' @export
 
