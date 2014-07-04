@@ -1,5 +1,5 @@
 #' @title Create git branch
-#' @description Create git branch
+#' @description Create git branch. This function is mainly a helper for \code{send}.
 #' @author Henrik Renlund
 #' @param name Name of branch
 #' @export

@@ -56,14 +56,6 @@ send <- function(name='rapport', minimal = TRUE,
          branch_name <- paste0("branch_", todaytime)
       }
       gitBranch(branch_name)
-#       system(paste("git branch", branch_name))
-#       system(paste("git checkout", branch_name))
-#       branch_text <- paste0("If you can see this file you are in branch '",branch_name,"' of project '",rev(strsplit(getwd(),.Platform$file.sep)[[1]])[1],"'.\n --- \nThis file was created with ",R.version.string," and package proh ",packageVersion('proh')," on ",Sys.Date() )
-#       fil <- paste0("BRANCH_", branch_name, ".txt")
-#       cat(branch_text, file=fil)
-#       system(paste0("git add \"",fil,"\""))
-#       system("git commit -m \"initializing branch\"")
-#       system("git checkout master")
    }
    
    if(minimal){

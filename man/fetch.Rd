@@ -3,14 +3,19 @@
 \alias{fetch}
 \title{Fetch}
 \usage{
-fetch(name, overwrite = TRUE, message = FALSE)
+fetch(name, overwrite = TRUE, message = FALSE, autoload = FALSE,
+  formats = c("rdat", "rdata"))
 }
 \arguments{
 \item{name}{character; the name of a variable}
 
 \item{overwrite}{if variable already exists in global workspace, should it be overwritten?}
 
-\item{message}{do you want a message?}
+\item{message}{do you want an explanatory message?}
+
+\item{autoload}{is the variable in subdirectory 'autoload'? Default \code{FALSE}}
+
+\item{formats}{formats to look for. Default \code{c('.rdata', '.rdat')}.}
 }
 \description{
 Load an object from 'calc' directory

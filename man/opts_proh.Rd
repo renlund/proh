@@ -6,13 +6,13 @@
 \format{\preformatted{List of 3
  $ get    :function (name)  
   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 21 13 32 1 13 1 21 32
-  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000000000f783ef0> 
+  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000000000ecbcea0> 
  $ set    :function (...)  
   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 38 13 46 1 13 1 38 46
-  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000000000f783ef0> 
+  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000000000ecbcea0> 
  $ restore:function ()  
   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 51 12 59 1 12 1 51 59
-  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000000000f783ef0> 
+  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x000000000ecbcea0> 
 }}
 \usage{
 opts_proh

@@ -5,7 +5,7 @@
 #' @export
 
 clean <- function(){
-   look <- c(
+   removables <- c(
       ".tex",
       ".toc",
       ".concordance",
@@ -18,7 +18,7 @@ clean <- function(){
       ".aux",
       "lot"
    )
-   monster <- paste(paste0("(", look, ")"), collapse="|")
+   monster <- paste(paste0("(", removables, ")"), collapse="|")
    file.remove(list.files(pattern=monster))
    invisible(NULL)
 }

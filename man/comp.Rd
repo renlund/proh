@@ -18,7 +18,7 @@ comp(input = "rapport.rnw", settings = TRUE, clean = TRUE, look = FALSE,
 \item{...}{arguments to be passed to \code{knit}}
 }
 \description{
-Compile the rapport in a PROH structured project
+Compile the rapport
 }
 \author{
 Henrik Renlund

@@ -9,7 +9,7 @@ gitBranch(name)
 \item{name}{Name of branch}
 }
 \description{
-Create git branch
+Create git branch. This function is mainly a helper for \code{send}.
 }
 \author{
 Henrik Renlund

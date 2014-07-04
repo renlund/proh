@@ -3,10 +3,12 @@
 \alias{keep}
 \title{Save}
 \usage{
-keep(name)
+keep(name, autoload = FALSE)
 }
 \arguments{
 \item{name}{character; the name of one or more variable}
+
+\item{autoload}{should the object be saved in subdirectory 'calc/autoload'?}
 }
 \description{
 Save an object to 'calc' folder
