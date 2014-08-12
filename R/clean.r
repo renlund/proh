@@ -5,7 +5,7 @@
 #' @export
 
 clean <- function(){
-   look <- c(
+   removables <- c(
       ".tex",
       ".toc",
       ".concordance",

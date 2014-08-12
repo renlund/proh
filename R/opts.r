@@ -1,3 +1,8 @@
+# These function creates and handles overall project options
+# and will hopefully be elaborated. The options are stored in
+# an environment created by 'make_milieu' (this is probably
+# the wrong way to do this...)
+
 # @title milieu
 # @description a function to create a function and an environment
 
@@ -46,19 +51,21 @@ proh_set <- function(...){
 restore <- function(){
    assign(x="defaults", value=list(
       attach_graph = FALSE,
-      attach_table = FALSE,
-      sumatra_path = file.path("C:", "Program Files", "RStudio", "bin", "sumatra")
+      attach_table = FALSE#,
+      #sumatra_path = file.path("C:", "Program Files", "RStudio", "bin", "sumatra")
    ), envir=environment(milieu)) 
    assign(x="value", value = names(get(x="defaults", envir=environment(milieu))), envir=environment(milieu)) 
    invisible(NULL)
 }
 
-#' @title opts
+#' @title opts (not useful yet)
 #' @description This list tries to mimic the behaviour of opts_chunk from knitr. 
-#' Currently two values are maintained with opts_proh: \itemize{
+#' Currently two values are maintained with the functions in (the list) opts_proh: \itemize{
 #' \item attach_graph
 #' \item attach_table
 #' }
+#' Currently, these values has no effect on anything - but hopefully they will
+#' in the future...
 #' @export
 
 opts_proh <- list(

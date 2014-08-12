@@ -3,15 +3,17 @@
 #' @author Henrik Renlund
 #' @param name character; the name of a variable
 #' @param overwrite if variable already exists in global workspace, should it be overwritten?
-#' @param message do you want a message?
+#' @param message do you want an explanatory message?
+#' @param autoload is the variable in subdirectory 'autoload'? Default \code{FALSE}
+#' @param formats formats to look for. Default \code{c('.rdata', '.rdat')}.
 #' @export
 
-fetch <- function(name, overwrite=TRUE, message=FALSE){
+fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c("rdat", "rdata")){
    if(!is.character(name)) 
-      stop("[proh::Load] 'name' should be the names (as a character vector) of variables saved in subdirectory 'calc'.")
-   formats=c("rdat", "rdata")
+      stop("[proh::Load] 'name' should be the names (as a character vector) of variables saved")
    types <- paste0("\\.(", paste0(formats,collapse=")|("),")" )
-   Lext <- list.files('calc', pattern=types)
+   location <- if(autoload) file.path("calc", "autoload") else "calc"
+   Lext <- list.files(location, pattern=types, all.files=TRUE)
    L <- gsub(types, "", Lext)
    if(length(Lext)==0) stop("[proh::Load] there are no (rdat/rdata) saves whatsoever")
    for(K in name){
@@ -20,19 +22,17 @@ fetch <- function(name, overwrite=TRUE, message=FALSE){
          place <- which(L==K)
          if(dummy==1){
             if(overwrite) {
-               # load(file=file.path("calc",paste0(K, ".rdat")), envir=.GlobalEnv)
-               load(file=file.path("calc",Lext[place]), envir=.GlobalEnv)
-               if(message) message(paste0("[proh::Load] '",K,"' was overwritten."))
+               load(file=file.path(location, Lext[place]), envir=.GlobalEnv)
+               if(message) message(paste0("[proh::Load] '", K, "' was overwritten."))
             } else {
-               if(message) message(paste0("[proh::Load] '",K,"' exists and was not overwritten."))
+               if(message) message(paste0("[proh::Load] '", K, "' exists and was not overwritten."))
             }
          } else {
-            #load(file=file.path("calc",paste0(K, ".rdat")), envir=.GlobalEnv)
-            load(file=file.path("calc",Lext[place]), envir=.GlobalEnv)
+            load(file=file.path(location, Lext[place]), envir=.GlobalEnv)
             if(message) message(paste0("[proh::Load] '",K,"' dit not exist and was loaded."))
          }
       } else {
-         warning(paste0("[proh::Load] '", K, "' does not exists in sub directory 'calc'."))
+         warning(paste0("[proh::Load] '", K, "' does not exists in directory '",location,"'."))
       }
    }
 }

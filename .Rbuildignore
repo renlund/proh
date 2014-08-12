@@ -2,3 +2,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^ignorera_detta/.*
+^\.Rproj\.user$
+^.git$
+.gitignore
+.Rhistory
+2DO.txt
+

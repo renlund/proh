@@ -2,7 +2,7 @@
 \docType{data}
 \name{opts_proh}
 \alias{opts_proh}
-\title{opts}
+\title{opts (not useful yet)}
 \format{\preformatted{List of 3
  $ get    :function (name)  
   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 16 13 27 1 13 1 16 27
@@ -19,10 +19,12 @@ opts_proh
 }
 \description{
 This list tries to mimic the behaviour of opts_chunk from knitr.
-Currently two values are maintained with opts_proh: \itemize{
+Currently two values are maintained with the functions in (the list) opts_proh: \itemize{
 \item attach_graph
 \item attach_table
 }
+Currently, these values has no effect on anything - but hopefully they will
+in the future...
 }
 \keyword{datasets}
 

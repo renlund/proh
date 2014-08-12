@@ -1,5 +1,5 @@
 #' @title Compile the rapport
-#' @description Compile the rapport in a PROH structured project
+#' @description Compile the rapport
 #' @author Henrik Renlund
 #' @param input should be 'rapport.rnw' (but can be changed)
 #' @param settings should the settings be read off '_META_.r'?
@@ -18,12 +18,12 @@ comp <- function(input="rapport.rnw", settings=TRUE, clean=TRUE, look=FALSE,...)
       if(length(a)==1 & length(b)==1){
          eval(parse(text=paste0(X[(a+1):(b-1)])))
       } else {
-         warning("[proh::Comp] There seems to be no 'KNITR OPTIONS' section to _META_")
+         warning("[proh::comp] There seems to be no 'KNITR OPTIONS' section to _META_")
       }
       if(length(b)==1 & length(c)==1){
          eval(parse(text=paste0(X[(b+1):(c-1)])))
       } else {
-         warning("[proh::Comp] There seems to be no 'PACKAGE OPTIONS' section to _META_")
+         warning("[proh::comp] There seems to be no 'PACKAGE OPTIONS' section to _META_")
       }
    }
    knit2pdf(input, ..., clean=TRUE, envir=.GlobalEnv)

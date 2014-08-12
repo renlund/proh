@@ -1,23 +1,23 @@
-#' @title Create new PROH structured project
+#' @title Create new project
 #' @description This function sets up a project directory structure along with some files
 #' @author Henrik Renlund
 #' @details This function sets up a folder with subfolders
 #' \itemize{
 #' \item{cache: this is only used by knitr}
 #' \item{calc: this is for storage of .rdat files}
-#' \item{calc/autoload: this is for storage of inline values. Typically this folder will automatically be loaded in a first (uncached) chunk of the rapport file by \code{autoLoad}.}
+#' \item{calc/autoload: this is for storage of inline values. Typically this folder will automatically be loaded in a first (uncached) chunk of the rapport file by \code{fetchAll}.}
 #' \item{figure: for plots (also used by knitr)}
 #' \item{recieved: typically this is were I put files given by clients}
-#' \item{sent: this is were I store things sent to client. The function \code{Send} will attach the current date to the pdf version of the rapport and put it in this directory. Optionally, \code{Send} can zip the rapport along with the graphs and tables from their respective directory}
+#' \item{sent: this is were I store things sent to client. The function \code{send} will attach the current date to the pdf version of the rapport and put it in this directory. Optionally, \code{send} can zip the rapport along with the graphs and tables from their respective directory}
 #' \item{table: for (human readable) tabulated data}
 #' }
-#' and creates a the files
+#' and creates the files
 #' \itemize{
-#' \item{'rapport.rnw': the rapport file, can be changed to suit your needs, but is designed to have a first uncached chunk (by default called 'autoLoad') that executes \code{autoLoad()}}
-#' \item{'_META_.r': this is a file for the compilation of the rapport, which is useful if you want to change e.g. global chunk options - if, not, usually \code{Comp()} will suffice}
+#' \item{'rapport.rnw': the rapport file, can be changed to suit your needs, but is designed to have a first uncached chunk (by default called 'autoLoad') that executes \code{fetchAll()}}
+#' \item{'_META_.r': this is a file for the compilation of the rapport, which is useful if you want to change e.g. global chunk options - if, not, usually \code{comp()} will suffice}
 #' \item{'references.bib': a template for bibTeX references}
 #' \item{a .rsproj file with the project name: this is an RStudio project file, by starting this file RStudio will set the working directory and remember what documents you were looking at. There are settings to be made that can be project specific}
-#' \item{.gitignore: a file that git used to tell which files to ignore}
+#' \item{.gitignore: a file that git uses to tell which files to ignore}
 #' }
 #'  @param name Name of the project
 #'  @param path Path to project directory (else current)
@@ -68,19 +68,24 @@ newProject <- function(name="new_project", path=NULL, class="ucr", go_there=TRUE
       paste(rep("-", 65),collapse=""), "\n"
    )
    cat(end.text)
-   if(git) {
-      cat(create_git_ignore(), file=".gitignore")
-      system("git init")
-      cat(paste(rep("-", 65),collapse=""), "\n")
-      yr_name <- readline("Provide name for git\n (e.g. Anaximandros Janson)     ")
-      system(paste0("git config user.name \"",yr_name,"\""))
-      yr_mail <- readline("Provide email for git\n (e.g. Anaximandros.Janson@foo.bar)     ")
-      system(paste0("git config user.email ",yr_mail))
-      system("git add rapport.rnw references.bib")
-      system(paste0("git commit -m \"proh initialized project ",gsub("-","",Sys.Date()),"\""))
-      cat(paste(rep("-", 65),collapse=""), " Done! \n")
-   }
+   if(git) create_git()
    if(go_there) setwd(full.path) else setwd(wd)
+   invisible(NULL)
+}
+
+# create_git --------------------
+
+create_git <- function(){
+  cat(create_git_ignore(), file=".gitignore")
+  system("git init")
+  cat(paste(rep("-", 65),collapse=""), "\n")
+  yr_name <- readline("Provide name for git\n (e.g. Anaximandros Janson)     ")
+  system(paste0("git config user.name \"",yr_name,"\""))
+  yr_mail <- readline("Provide email for git\n (e.g. Anaximandros.Janson@foo.bar)     ")
+  system(paste0("git config user.email ",yr_mail))
+  system("git add rapport.rnw references.bib")
+  system(paste0("git commit -m \"proh initialized project ",gsub("-","",Sys.Date()),"\""))
+  cat(paste(rep("-", 65),collapse=""), " Done! \n")
 }
 
 # META TEXT ---------------------
@@ -258,4 +263,71 @@ Encoding: UTF-8
 RnwWeave: knitr
 LaTeX: pdfLaTeX
 ")
+}
+
+#' @title Impose project structure
+#' @description Impose project structure in existing directory, files and directories created by \code{newProject} will be 
+#' @author Henrik Renlund
+#'  @param path Path to project directory (else current)
+#'  @param class Class of document in 'rapport.rnw' (default: 'ucr')
+#'  @param go_there Set working directory to project directory? (default: TRUE)
+#'  @param RSproj Start a RStudio project? (deault: TRUE)
+#'  @param git should git be initialized? (also a .gitignore file will be created)
+#'  @seealso \code{proh::newProject}
+#'  @export
+
+imposeProject <- function(path=NULL, class="ucr", go_there=TRUE, RSproj=TRUE, git=TRUE){
+  wd <- getwd()
+  if(is.null(path)) path <- wd
+  tryCatch(
+    expr=setwd(path), 
+    error = function(e) stop("[proh::imposeProject] there seems to be no such directory")
+  )
+  name <- rev(strsplit(getwd(),.Platform$file.sep)[[1]])[1]
+  cat(paste0("A project directory structure will be imposed among\n   ",paste0(list.files(), collapse="\n   "),"\nin the directory:\n   ", wd, "\n Press 'x' to abort.\n Press anything else to proceed.")) 
+  if( readline()=="x" ) {
+    setwd(wd)
+    return(NULL)
+  }
+  
+  SET <- c("table", "received", "sent", "calc", "figure", "cache")
+  for(S in SET) {
+    if(!file.exists(S)) {
+      dir.create(S)
+      cat(paste0("created directory '", S, "'\n"))
+    }
+  }
+  setwd(file.path(path, "calc"))
+  if(!file.exists("autoload")) {
+    dir.create("autoload")
+    cat("created directory 'calc/autoload'\n")
+  }
+  setwd(path)
+  
+  if(!file.exists("_META_.r")) {
+    cat(create_meta(path), file="_META_.r")
+    cat("created file '_META_.r'\n")
+  }
+  if(!file.exists("rapport.rnw")) {
+    cat(create_rapport(name, class), file="rapport.rnw")
+    cat("created file 'rapport.rnw'\n")
+  }
+  if(!file.exists("references.bib")) {
+    cat(create_bib(), file="references.bib")
+    cat("created file 'references.bib'\n")
+  }
+  if(!file.exists(paste0(name,".rproj"))) {
+    if(RSproj) {
+      cat(create_proj(), file=paste0(name,".rproj"))
+      cat("created Rstudio project file\n")
+    }
+  }
+  
+  cat( paste(rep("-", 65),collapse="") )
+
+  if(!file.exists(".git")) {
+    if(git) create_git()
+  }
+  if(go_there) setwd(path) else setwd(wd)
+  invisible(NULL)
 }

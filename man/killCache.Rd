@@ -13,10 +13,10 @@ killCache(cache = TRUE, figure = TRUE, table = TRUE)
 \item{table}{remove files from sub directory 'table'? (default: TRUE)}
 }
 \description{
-Remove the contents of subdirectory 'cache'
+Remove the contents of subdirectory 'cache', 'figure' and 'table'.
 }
 \details{
-Sometimes it is easier clean the cache than to set \code{CACHE = FALSE} globally
+Sometimes it is easier clean the cache than to set \code{CACHE = FALSE} globally, since you may have forgotten to specify all dependencies...
 }
 \author{
 Henrik Renlund

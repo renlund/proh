@@ -1,6 +1,6 @@
 #' @title Kill Cache
-#' @description Remove the contents of subdirectory 'cache'
-#' @details Sometimes it is easier clean the cache than to set \code{CACHE = FALSE} globally
+#' @description Remove the contents of subdirectory 'cache', 'figure' and 'table'.
+#' @details Sometimes it is easier clean the cache than to set \code{CACHE = FALSE} globally, since you may have forgotten to specify all dependencies... 
 #' @author Henrik Renlund
 #' @param cache remove files from sub directory 'cache'? (default: TRUE)
 #' @param figure remove files from sub directory 'figure'? (default: TRUE)

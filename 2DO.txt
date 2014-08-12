@@ -1,0 +1,11 @@
+* write the implementation for project options in 'opts'. 
+ --> if 'add_graph' then all graphs should be included with \attachfile in the caption, possibly another option to choose what format (pdf, tiff, png, ...). can this be achieved with an output or chunk hook?  http://stackoverflow.com/questions/22299250/knitr-how-to-update-chunk-options
+ --> if 'add_table' then all (some?) tables should have a corresponding data file to be included with \attachfile in the caption, possibly another option to choose what format (txt, dat, csv, xlsx, ...).
+
+* include packrat functionality?
+ --> 'newProject' (and 'imposeProject') could do packrat::init()
+ --> 'send' could to packrat::snapshot()
+
+* since 'newProject' and 'imposeProject' essentially are the same,
+  perhaps the latter should be accomplished through the former via an
+  extra argument?
