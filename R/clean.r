@@ -16,9 +16,9 @@ clean <- function(){
       ".lof",
       ".out",
       ".aux",
-      "lot"
+      ".lot"
    )
-   monster <- paste(paste0("(", look, ")"), collapse="|")
+   monster <- paste0("(", paste(paste0("(", look, ")"), collapse="|"), ")$")
    file.remove(list.files(pattern=monster))
    invisible(NULL)
 }
