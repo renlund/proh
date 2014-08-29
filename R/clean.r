@@ -18,7 +18,7 @@ clean <- function(){
       ".aux",
       ".lot"
    )
-   monster <- paste0("(", paste(paste0("(", look, ")"), collapse="|"), ")$")
+   monster <- paste0("(", paste(paste0("(\\", removables, ")"), collapse="|"), ")$")
    file.remove(list.files(pattern=monster))
    invisible(NULL)
 }
