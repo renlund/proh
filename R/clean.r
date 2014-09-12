@@ -9,6 +9,7 @@ clean <- function(){
       ".tex",
       ".toc",
       ".concordance",
+      "concordance.tex",
       ".log",
       ".brf",
       ".bbl",
@@ -16,7 +17,8 @@ clean <- function(){
       ".lof",
       ".out",
       ".aux",
-      ".lot"
+      ".lot",
+      ".synctex.gz"
    )
    monster <- paste0("(", paste(paste0("(\\", removables, ")"), collapse="|"), ")$")
    file.remove(list.files(pattern=monster))
