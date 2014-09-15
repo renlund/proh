@@ -4,22 +4,16 @@
 # the wrong way to do this...)
 
 # @title milieu
-# @description a function to create a function and an environment
+# @description an environment 
 
-make_milieu <- function() function() invisible(NULL)
-
-# @title milieu
-# @description a function that can serve as a reference to a 
-# environment
-
-milieu <- make_milieu()
+milieu <- new.env(hash=FALSE, parent=.GlobalEnv)
 
 # @title proh_get
 # @description this function retrieves the proh settings
 # @param name name of proh setting variable
 
 proh_get <- function(name){
-   defaults <- get("defaults", envir=environment(milieu))
+   defaults <- get("defaults", envir=milieu)
    if (missing(name)) 
       defaults
    else {
@@ -37,11 +31,11 @@ proh_get <- function(name){
 
 proh_set <- function(...){
    dots <- list(...)
-   value <- get("value", environment(milieu))
+   value <- get("value", milieu)
    for(k in names(dots)) if(!(k %in% value)) dots[[k]] <- NULL
    current <- proh_get()
    for(k in names(dots)) current[[k]] <- dots[[k]]
-   assign(x="defaults", value=current, envir=environment(milieu))
+   assign(x="defaults", value=current, envir=milieu)
    invisible(NULL)
 }
 
@@ -53,8 +47,8 @@ restore <- function(){
       attach_graph = FALSE,
       attach_table = FALSE#,
       #sumatra_path = file.path("C:", "Program Files", "RStudio", "bin", "sumatra")
-   ), envir=environment(milieu)) 
-   assign(x="value", value = names(get(x="defaults", envir=environment(milieu))), envir=environment(milieu)) 
+   ), envir=milieu) 
+   assign(x="value", value = names(get(x="defaults", envir=milieu)), envir=milieu) 
    invisible(NULL)
 }
 
