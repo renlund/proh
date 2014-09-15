@@ -7,7 +7,8 @@ Description: Tools for working with projects set up according to the arbitrary
     preferences of the author
 Depends:
     R (>= 3.1.0),
-    knitr
+    knitr,
+    wesanderson
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr

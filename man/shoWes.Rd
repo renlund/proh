@@ -6,6 +6,9 @@
 shoWes()
 }
 \description{
+Show available Wes Andersson palettes
+}
+\details{
 
 }
 \examples{
