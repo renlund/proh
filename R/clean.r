@@ -20,7 +20,8 @@ clean <- function(){
       ".lot",
       ".synctex.gz",
       ".nav",
-      ".snm"
+      ".snm",
+      "vrb"
    )
    monster <- paste0("(", paste(paste0("(\\", removables, ")"), collapse="|"), ")$")
    file.remove(list.files(pattern=monster))
