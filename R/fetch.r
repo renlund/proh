@@ -15,7 +15,7 @@ fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c
    location <- if(autoload) file.path("calc", "autoload") else "calc"
    Lext <- list.files(location, pattern=types, all.files=TRUE)
    L <- gsub(types, "", Lext)
-   if(length(Lext)==0) stop("[proh::Load] there are no (rdat/rdata) saves whatsoever")
+   if(length(Lext)==0) stop("[proh::Load] there are no saves whatsoever")
    for(K in name){
       if(K %in% L){
          dummy <- if(exists(K, envir=.GlobalEnv)) 1 else 0
