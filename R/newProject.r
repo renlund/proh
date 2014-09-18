@@ -100,10 +100,12 @@ opts_chunk$set(
    cache=TRUE,   
    include=FALSE,
    echo=FALSE,
-   fig.pos='hbt'
-#   message=TRUE, 
-#   error=TRUE, 
-#   warning=TRUE,
+   fig.pos='hbt',
+   fig.width=7,
+   fig.height=5,
+   message=FALSE, 
+   error=FALSE, 
+   warning=FALSE
 )
 # PACKAGE OPTIONS: --------------------
 opts_knit$set(
