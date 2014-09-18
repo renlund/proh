@@ -1,4 +1,4 @@
-#' @title Load all 'kept' objects
+#' @title Load all saves
 #' @description Load the contents of 'calc' and its subdirectory 'autoLoad'
 #' @author Henrik Renlund
 #' @param calc should contents of directory 'calc' be loaded?

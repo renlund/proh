@@ -243,7 +243,6 @@ create_git_ignore <- function(){
 *~
 cache/*
 figure/*
-table/*
 sent/*
 ")
 }
