@@ -11,7 +11,7 @@ keep <- function(name, autoload=FALSE){
       stop("[proh::keep] 'name' should be the names (as a character vector) of variables.")
    for(K in name){
       if(exists(K, envir=.GlobalEnv)){
-         save(list=name, envir=.GlobalEnv, file=file.path(location, paste0(K, ".rdat")))
+         save(list=K, envir=.GlobalEnv, file=file.path(location, paste0(K, ".rdat")))
       } else {
          warning(paste0("[proh::keep] '", K, "' does not exists."))
       }
