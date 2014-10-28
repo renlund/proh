@@ -19,7 +19,7 @@ cap_att  <- function(caption, chunk){
 #' @export
 
 .keep <- function() {
-   if(opts_proh$get("attach_graph")[[1]]){
+   if(!opts_proh$get("attach_graph")[[1]]){
       'none'
    } else {
       opts_chunk$get('fig.keep')

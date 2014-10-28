@@ -24,7 +24,7 @@ test_that("'.dev' works", {
 })
 test_that("'.keep' works", {
    opts_proh$restore()
-   expect_false(.keep())
+   expect_equal(.keep(), 'none')
    opts_proh$set("attach_graph" = TRUE)
-   expect_true(.keep())
+   expect_equal(.keep(), 'high')
 })
