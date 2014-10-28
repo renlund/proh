@@ -119,6 +119,12 @@ opts_knit$set(
 #    header = '\\newcommand{\\rlang}{\\textbf{R}}' # things that go into the preamble
 #      width=75 #63
    )
+# PROH OPTIONS: -------------------
+opts_proh$set(
+   'attach_table' = FALSE,
+   'attach_graph' = FALSE,
+   'graph_dev' = 'pdf'
+   )
 # CREATE PDF : ------------------------
 comp() # knit2pdf(input='rapport.rnw', clean=TRUE)
 
