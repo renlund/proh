@@ -8,7 +8,6 @@ Description: Tools for working with projects set up according to the arbitrary
 Depends:
     R (>= 3.1.0),
     knitr,
-    wesanderson,
     Hmisc
 License: GPL-3
 LazyData: true
