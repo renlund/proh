@@ -3,14 +3,19 @@
 \alias{tableh}
 \title{Create table with attached info}
 \usage{
-tableh(object, label, fun = write.csv, caption, data, ...)
+tableh(object, attach_table = FALSE, label, fun = write.csv, caption, data,
+  ...)
 }
 \arguments{
 \item{object}{usually a data frame or matrix}
 
+\item{attach_table}{logical; should the table be attached? if missing this
+will be determined by \code{opts_proh$get("attach_table")}}
+
 \item{label}{a label 'tab:<label>' will be set in \code{latex}}
 
-\item{fun}{what function to use to write \code{object} to file 'table/<label>.txt'.}
+\item{fun}{what function to use to write \code{object} to file
+'table/<label>.txt'.}
 
 \item{caption}{caption for \code{latex}}
 
