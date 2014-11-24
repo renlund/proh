@@ -13,6 +13,7 @@
 #' @export
 
 tableh <- function(object, attach_table=FALSE, label, fun=write.csv, caption, data, ...){
+   given_caption <- caption
    if(opts_proh$get("attach_table")[[1]] | attach_table){
       if(missing(data)) data <- object
       if(!dir.exists("table")) dir.create("table")
@@ -26,7 +27,7 @@ tableh <- function(object, attach_table=FALSE, label, fun=write.csv, caption, da
       label = paste0("tab:", label),
       caption = caption,
       where = "htb",
-      caption.lot = caption,
+      caption.lot = given_caption,
       ...
    )
 }
