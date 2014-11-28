@@ -1,7 +1,7 @@
 #' @title Fetch
 #' @description Load an object from 'calc' directory
 #' @author Henrik Renlund
-#' @param name character; the name of a variable
+#' @param name character; the name of a variable. If missing, available objects will be listed
 #' @param overwrite if variable already exists in global workspace, should it be overwritten?
 #' @param message do you want an explanatory message?
 #' @param autoload is the variable in subdirectory 'autoload'? Default \code{FALSE}
@@ -9,9 +9,14 @@
 #' @export
 
 fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c("rdat", "rdata")){
-   if(!is.character(name)) 
-      stop("[proh::fetch] 'name' should be the names (as a character vector) of variables saved")
    types <- paste0("\\.(", paste0(formats,collapse=")|("),")" )
+   if(missing(name)){
+      available <- gsub(types, "",  list.files("calc/", pattern = types))
+      cat("The project keeps the following:", available, sep="\n    ")
+      return(invisible(NULL))
+   }
+   if(!is.character(name))
+      stop("[proh::fetch] 'name' should be the names (as a character vector) of variables saved")
    location <- if(autoload) file.path("calc", "autoload") else "calc"
    Lext <- list.files(location, pattern=types, all.files=TRUE)
    L <- gsub(types, "", Lext)
