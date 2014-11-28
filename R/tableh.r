@@ -12,9 +12,10 @@
 #' @importFrom Hmisc latex
 #' @export
 
-tableh <- function(object, attach_table=FALSE, label, fun=write.csv, caption, data, ...){
+tableh <- function(object, attach_table, label, fun=write.csv, caption, data, ...){
    given_caption <- caption
-   if(opts_proh$get("attach_table")[[1]] | attach_table){
+   if(missing(attach_table)) attach_table <- opts_proh$get("attach_table")[[1]]
+   if(attach_table){
       if(missing(data)) data <- object
       if(!dir.exists("table")) dir.create("table")
       file_path <- file.path("table", paste0(label, ".txt"))
