@@ -12,11 +12,11 @@ fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c
    types <- paste0("\\.(", paste0(formats,collapse=")|("),")" )
    if(missing(name)){
       if(autoload){
-         available <- gsub(types, "",  list.files("calc/autoload/", pattern = types))
+         available <- gsub(types, "",  list.files("calc/autoload/", pattern = types, all.files = TRUE))
          cat("The project keeps the following omnipresent(ish):", available, sep="\n    ")
          return(invisible(NULL))
       } else {
-         available <- gsub(types, "",  list.files("calc/", pattern = types))
+         available <- gsub(types, "",  list.files("calc/", pattern = types, all.files = TRUE))
          cat("The project keeps the following:", available, sep="\n    ")
          return(invisible(NULL))
       }
