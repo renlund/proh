@@ -11,9 +11,15 @@
 fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c("rdat", "rdata")){
    types <- paste0("\\.(", paste0(formats,collapse=")|("),")" )
    if(missing(name)){
-      available <- gsub(types, "",  list.files("calc/", pattern = types))
-      cat("The project keeps the following:", available, sep="\n    ")
-      return(invisible(NULL))
+      if(autoload){
+         available <- gsub(types, "",  list.files("calc/autoload/", pattern = types))
+         cat("The project keeps the following omnipresent(ish):", available, sep="\n    ")
+         return(invisible(NULL))
+      } else {
+         available <- gsub(types, "",  list.files("calc/", pattern = types))
+         cat("The project keeps the following:", available, sep="\n    ")
+         return(invisible(NULL))
+      }
    }
    if(!is.character(name))
       stop("[proh::fetch] 'name' should be the names (as a character vector) of variables saved")
