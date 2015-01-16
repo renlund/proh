@@ -6,9 +6,10 @@
 #' @param message do you want an explanatory message?
 #' @param autoload is the variable in subdirectory 'autoload'? Default \code{FALSE}
 #' @param formats formats to look for. Default \code{c('.rdata', '.rdat')}.
+#' @param env the environment to load into. Defaults to the global enviroment.
 #' @export
 
-fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c("rdat", "rdata")){
+fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c("rdat", "rdata"), env = .GlobalEnv){
    types <- paste0("\\.(", paste0(formats,collapse=")|("),")" )
    if(missing(name)){
       if(autoload){
@@ -29,17 +30,17 @@ fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c
    if(length(Lext)==0) stop("[proh::fetch] there are no saves whatsoever")
    for(K in name){
       if(K %in% L){
-         dummy <- if(exists(K, envir=.GlobalEnv)) 1 else 0
+         dummy <- if(exists(K, envir=env)) 1 else 0
          place <- which(L==K)
          if(dummy==1){
             if(overwrite) {
-               load(file=file.path(location, Lext[place]), envir=.GlobalEnv)
+               load(file=file.path(location, Lext[place]), envir=env)
                if(message) message(paste0("[proh::fetch] '", K, "' was overwritten."))
             } else {
                if(message) message(paste0("[proh::fetch] '", K, "' exists and was not overwritten."))
             }
          } else {
-            load(file=file.path(location, Lext[place]), envir=.GlobalEnv)
+            load(file=file.path(location, Lext[place]), envir=env)
             if(message) message(paste0("[proh::fetch] '",K,"' dit not exist and was loaded."))
          }
       } else {
