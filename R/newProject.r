@@ -204,6 +204,14 @@ create_bib <- function(){
  year                 = {1983},
  }
 
+@Manual{coxme,
+    title = {coxme: Mixed Effects Cox Models.},
+    author = {Terry Therneau},
+    year = {2012},
+    note = {R package version 2.2-3},
+    url = {http://CRAN.R-project.org/package=coxme},
+  }
+
 @book{,
  author               = {},
  journal              = {},
