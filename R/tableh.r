@@ -8,17 +8,18 @@
 #'   'table/<label>.txt'.
 #' @param caption caption for \code{latex}
 #' @param data if attach data is something other than object
+#' @param fe file extension given if data is written to file
 #' @param ... arguments passed to \code{latex}
 #' @importFrom Hmisc latex
 #' @export
 
-tableh <- function(object, attach_table, label, fun=write.csv, caption, data, ...){
+tableh <- function(object, attach_table, label, fun=write.csv, caption, data, fe = ".txt", ...){
    given_caption <- caption
    if(missing(attach_table)) attach_table <- opts_proh$get("attach_table")[[1]]
    if(attach_table){
       if(missing(data)) data <- object
       if(!dir.exists("table")) dir.create("table")
-      file_path <- file.path("table", paste0(label, ".txt"))
+      file_path <- file.path("table", paste0(label, fe))
       fun(data, file=file_path, row.names=FALSE, quote=FALSE)
       caption <- paste0(caption, "\\attachfile{",file_path,"}")
    }

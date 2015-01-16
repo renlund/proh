@@ -4,7 +4,8 @@
 \alias{tableh}
 \title{Create table with attached info}
 \usage{
-tableh(object, attach_table, label, fun = write.csv, caption, data, ...)
+tableh(object, attach_table, label, fun = write.csv, caption, data,
+  fe = ".txt", ...)
 }
 \arguments{
 \item{object}{usually a data frame or matrix}
@@ -20,6 +21,8 @@ will be determined by \code{opts_proh$get("attach_table")}}
 \item{caption}{caption for \code{latex}}
 
 \item{data}{if attach data is something other than object}
+
+\item{fe}{file extension given if data is written to file}
 
 \item{...}{arguments passed to \code{latex}}
 }
