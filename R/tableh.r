@@ -13,14 +13,15 @@
 #' @importFrom Hmisc latex
 #' @export
 
-tableh <- function(object, attach_table, label, fun=write.csv, caption, data, fe = ".txt", ...){
+tableh <- function(object, attach_table, label, fun=write.csv, caption, data, fe = "txt", ...){
    given_caption <- caption
+   if(!grepl("^\\.", fe)) fe <- paste0(".", fe)
    if(missing(attach_table)) attach_table <- opts_proh$get("attach_table")[[1]]
    if(attach_table){
       if(missing(data)) data <- object
       if(!dir.exists("table")) dir.create("table")
       file_path <- file.path("table", paste0(label, fe))
-      fun(data, file=file_path, row.names=FALSE, quote=FALSE)
+      fun(data, file=file_path)
       caption <- paste0(caption, "\\attachfile{",file_path,"}")
    }
    latex(
