@@ -6,7 +6,7 @@
 #' @param clean should the LaTeX files be cleaned?
 #' @param look should the pdf be opened after compilation?
 #' @param ... arguments to be passed to \code{knit}
-#' @importFrom knitr knit2pdf
+#' @import knitr
 #' @export
 
 comp <- function(input="rapport.rnw", settings=TRUE, clean=TRUE, look=FALSE,...){

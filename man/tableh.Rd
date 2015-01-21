@@ -5,7 +5,7 @@
 \title{Create table with attached info}
 \usage{
 tableh(object, attach_table, label, fun = write.csv, caption, data,
-  fe = ".txt", ...)
+  fe = "txt", ...)
 }
 \arguments{
 \item{object}{usually a data frame or matrix}

@@ -6,7 +6,7 @@
 
 shoWes <- function(){
    if(require("wesanderson")){
-      df <- namelist
+      df <- wesanderson::namelist
       n <- nrow(df)
       N <- max(df$wesnums)
       plot(1,1, xlim=c(0,N+2.5), ylim=c(1,n), type='n', xaxt='n', yaxt='n', bty='n', xlab="", ylab="")
