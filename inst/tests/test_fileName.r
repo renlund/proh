@@ -1,9 +1,10 @@
-library(testthat)
-test_that("it works", {
+context("testing 'fileName'")
+
+test_that("'fileName' works", {
    x <- c(
-      "foo.bar", 
-      "foo.bar.bar", 
-      ".foo", 
+      "foo.bar",
+      "foo.bar.bar",
+      ".foo",
       "foo"
    )
    df <- data.frame(

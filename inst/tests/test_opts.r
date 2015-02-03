@@ -1,4 +1,4 @@
-context("opts is somewhat ok")
+context("testing that 'opts_proh' is somewhat ok")
 
 test_that("'restore' works", {
    # ls(envir=environment(milieu))

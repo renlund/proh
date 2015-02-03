@@ -1,4 +1,4 @@
-context("All test of 'toDate'")
+context("testing 'toDate'")
 
 test_that("'toDate' works", {
    expect_equal(toDate("2007-04-01"), as.Date("2007-04-01"))

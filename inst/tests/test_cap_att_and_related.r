@@ -1,4 +1,4 @@
-context("'cap_att' and related functions")
+context("testing 'cap_att' and related functions")
 
 test_that("'cap_att' works", {
    opts_proh$restore()
