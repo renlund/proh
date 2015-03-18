@@ -4,9 +4,11 @@
 \alias{killCache}
 \title{Kill Cache}
 \usage{
-killCache(cache = TRUE, figure = TRUE, table = TRUE)
+killCache(pattern = NULL, cache = TRUE, figure = TRUE, table = TRUE)
 }
 \arguments{
+\item{pattern}{if not \code{NULL} (default) this can search for cache items to remove}
+
 \item{cache}{remove files from sub directory 'cache'? (default: TRUE)}
 
 \item{figure}{remove files from sub directory 'figure'? (default: TRUE)}
