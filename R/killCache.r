@@ -34,9 +34,10 @@ killCache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE){
             file.remove(da_flies)
          }
       }
+   } else {
+      if(cache)  file.remove(list.files('cache',  full.names=TRUE))
+      if(figure) file.remove(list.files('figure', full.names=TRUE))
+      if(table)  file.remove(list.files('table',  full.names=TRUE))
    }
-   if(cache)  file.remove(list.files('cache',  full.names=TRUE))
-   if(figure) file.remove(list.files('figure', full.names=TRUE))
-   if(table)  file.remove(list.files('table',  full.names=TRUE))
    invisible(NULL)
 }
