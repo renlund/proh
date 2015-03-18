@@ -4,7 +4,7 @@
 \alias{print_loop_info}
 \title{Print loop info}
 \usage{
-print_loop_info(i, n, len = 10)
+print_loop_info(i, n, len = 10, prefix = "", suffix = "")
 }
 \arguments{
 \item{i}{loopin index (\code{i in 1:n})}
@@ -15,5 +15,12 @@ print_loop_info(i, n, len = 10)
 }
 \description{
 Prints progress
+}
+\examples{
+n <- 1E3
+for(i in 1:n){
+   print_loop_info(i, n)
+   print_loop_info(i, n, len = 20, "       ", " <yeah>")
+}; rm(i, n)
 }
 

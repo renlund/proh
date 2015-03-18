@@ -12,7 +12,7 @@ killCache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE){
    if(!is.null(pattern)){
       da_flies <- list.files(path = 'cache',  pattern = pattern, full.names=TRUE)
       if(length(da_flies)==0){
-         cat("No matching files in directory 'cache'")
+         cat("No matching files in directory 'cache'.\n")
       } else {
          if(readline(prompt = paste0("The following files will be deleted in directory 'cache':\n       ", paste0(da_flies, collapse="\n       "), "\n Press 'y' to accept, anything else to abort.")) == "y"){
             file.remove(da_flies)
@@ -20,7 +20,7 @@ killCache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE){
       }
       da_flies <- list.files(path = 'figure',  pattern = pattern, full.names=TRUE)
       if(length(da_flies)==0){
-         cat("No matching files in directory 'table'")
+         cat("No matching files in directory 'figure'.\n")
       } else {
          if(readline(prompt = paste0("The following files will be deleted in directory 'figure':\n       ", paste0(da_flies, collapse="\n       "), "\n Press 'y' to accept, anything else to abort.")) == "y"){
             file.remove(da_flies)
@@ -28,7 +28,7 @@ killCache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE){
       }
       da_flies <- list.files(path = 'table',  pattern = pattern, full.names=TRUE)
       if(length(da_flies)==0){
-         cat("No matching files in directory 'table'")
+         cat("No matching files in directory 'table'.\n")
       } else {
          if(readline(prompt = paste0("The following files will be deleted in directory 'table':\n       ", paste0(da_flies, collapse="\n       "), "\n Press 'y' to accept, anything else to abort.")) == "y"){
             file.remove(da_flies)
