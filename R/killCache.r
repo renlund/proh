@@ -14,7 +14,8 @@ killCache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE){
       if(length(da_flies)==0){
          cat("No matching files in directory 'cache'.\n")
       } else {
-         if(readline(prompt = paste0("The following files will be deleted in directory 'cache':\n       ", paste0(da_flies, collapse="\n       "), "\n Press 'y' to accept, anything else to abort.")) == "y"){
+         cat(paste0("The following files will be deleted in directory 'cache':\n       ", paste0(da_flies, collapse="\n       ")))
+         if(readline(prompt = "\n Press 'y' to accept, anything else to abort.\n         \n   ") == "y"){
             file.remove(da_flies)
          }
       }
@@ -22,7 +23,8 @@ killCache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE){
       if(length(da_flies)==0){
          cat("No matching files in directory 'figure'.\n")
       } else {
-         if(readline(prompt = paste0("The following files will be deleted in directory 'figure':\n       ", paste0(da_flies, collapse="\n       "), "\n Press 'y' to accept, anything else to abort.")) == "y"){
+         cat(paste0("The following files will be deleted in directory 'cache':\n       ", paste0(da_flies, collapse="\n       ")))
+         if(readline(prompt = "\n Press 'y' to accept, anything else to abort.\n         \n   ") == "y"){
             file.remove(da_flies)
          }
       }
@@ -30,13 +32,15 @@ killCache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE){
       if(length(da_flies)==0){
          cat("No matching files in directory 'table'.\n")
       } else {
-         if(readline(prompt = paste0("The following files will be deleted in directory 'table':\n       ", paste0(da_flies, collapse="\n       "), "\n Press 'y' to accept, anything else to abort.")) == "y"){
+         cat(paste0("The following files will be deleted in directory 'cache':\n       ", paste0(da_flies, collapse="\n       ")))
+         if(readline(prompt = "\n Press 'y' to accept, anything else to abort.\n         \n   ") == "y"){
             file.remove(da_flies)
          }
       }
+   } else {
+      if(cache)  file.remove(list.files('cache',  full.names=TRUE))
+      if(figure) file.remove(list.files('figure', full.names=TRUE))
+      if(table)  file.remove(list.files('table',  full.names=TRUE))
    }
-   if(cache)  file.remove(list.files('cache',  full.names=TRUE))
-   if(figure) file.remove(list.files('figure', full.names=TRUE))
-   if(table)  file.remove(list.files('table',  full.names=TRUE))
    invisible(NULL)
 }
