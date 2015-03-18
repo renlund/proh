@@ -1,5 +1,1 @@
-* include packrat functionality?
- --> 'newProject' (and 'imposeProject') could do packrat::init()
- --> 'send' could to packrat::snapshot()
-
-* since 'newProject' and 'imposeProject' essentially are the same, perhaps the latter should be accomplished through the former via an extra argument?
+make everything wonderful
