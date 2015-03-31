@@ -12,8 +12,8 @@ fileName <- function(filename){
    main <- ext
    for(k in seq_along(filename)){
       K <- filename[k]
-      test <- regmatches(K, regexpr("\\.[A-Za-z]*$", K))
-      ext[k] <- if(length(test)>0) test else "" 
+      test <- regmatches(K, regexpr("\\.[A-Za-z0-9]*$", K))
+      ext[k] <- if(length(test)>0) test else ""
       main[k] <- sub( paste0(ext[k], "$"), "", K)
    }
    R <- data.frame(
