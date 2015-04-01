@@ -4,8 +4,8 @@
 \alias{comp}
 \title{Compile the rapport}
 \usage{
-comp(input = "rapport.rnw", settings = TRUE, clean = TRUE, look = FALSE,
-  ...)
+comp(input = "rapport.rnw", settings = FALSE, clean = TRUE,
+  look = FALSE, ...)
 }
 \arguments{
 \item{input}{should be 'rapport.rnw' (but can be changed)}
