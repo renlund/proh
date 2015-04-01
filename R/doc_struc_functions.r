@@ -1,14 +1,15 @@
 #' @title Chunks info
 #' @description Get information about chunks in a rnw file
 #' @param file file of interest ( = 'rapport.rnw' by default)
+#' @param all if TRUE some extra chunk info will be given
 #' @return A data frame with variables
 #' \itemize{
 #'    \item name: name of chunk (if any)
 #'    \item row: start row
 #'    \item n.row: number of rows
 #'    \item stop: end line of chunk
-#'    \item eval.arg: if there is an argument specified for \code{eval}
-#'    \item code: the code in the chunk
+#'    \item eval.arg: (if \code{all = TRUE}) if there is an argument specified for \code{eval}
+#'    \item code:  (if \code{all = TRUE}) the code in the chunk
 #' }
 #' @export
 
@@ -30,7 +31,7 @@ chunks_info <- function(file = "rapport.rnw", all = FALSE){
    inits4 <- ifelse(grepl(pattern = "=", x = inits3), 1:n, gsub(pattern = "'", replacement = "", x = inits3))
    eval_val <- unlist(lapply(X=chunk_val, FUN = function(x) x[grepl(pattern = "^eval=.*$", x = x)][1]))
    eval_arg <- gsub(pattern = "eval=", replacement = "", x = eval_val)
-   gEt <- function(x) if(!is.na(x) & !x %in% c("FALSE", "TRUE")) get(x, env = .GlobalEnv) else NA
+   gEt <- function(x) if(!is.na(x) & !x %in% c("FALSE", "TRUE")) get(x, envir = .GlobalEnv) else NA
    eval = ifelse(
       is.na(eval_arg),
       opts_chunk$get("eval"),

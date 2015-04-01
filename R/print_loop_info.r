@@ -3,6 +3,8 @@
 #' @param i loopin index (\code{i in 1:n})
 #' @param n length of looping index
 #' @param len number of times to get progress information
+#' @param prefix printing prefix
+#' @param suffix printing suffix
 #' @examples
 #' n <- 1E3
 #' for(i in 1:n){

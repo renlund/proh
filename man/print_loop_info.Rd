@@ -12,6 +12,10 @@ print_loop_info(i, n, len = 10, prefix = "", suffix = "")
 \item{n}{length of looping index}
 
 \item{len}{number of times to get progress information}
+
+\item{prefix}{printing prefix}
+
+\item{suffix}{printing suffix}
 }
 \description{
 Prints progress
