@@ -1,10 +1,11 @@
 #' @title Run first chunk
-#' @description This function executes the chunk called autoLoad 
+#' @description This function executes the chunk called autoLoad
 #' (as created by \code{newProject})
 #' @author Henrik Renlund
 #' @export
 
 first <- function(){
+   message("[proh::first] from proh version 0.2.0, we suggest using proh::cess instead")
    X <- readLines(con="rapport.rnw")
    n <- which(grepl("^<<autoLoad.*", X))
    if(length(n)!=1) stop("[First] does two autoLoad chunk exist?")
