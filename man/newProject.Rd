@@ -4,13 +4,15 @@
 \alias{newProject}
 \title{Create new project}
 \usage{
-newProject(name = "new_project", path = NULL, class = "ucr",
-  go_there = TRUE, RSproj = TRUE, git = TRUE)
+newProject(name = "new_project", path = NULL, meta = FALSE,
+  class = "ucr", go_there = TRUE, RSproj = TRUE, git = TRUE)
 }
 \arguments{
 \item{name}{Name of the project}
 
 \item{path}{Path to project directory (else current)}
+
+\item{meta}{should a '_META_' file be created? (default \code{FALSE})}
 
 \item{class}{Class of document in 'rapport.rnw' (default: 'ucr')}
 
@@ -18,30 +20,36 @@ newProject(name = "new_project", path = NULL, class = "ucr",
 
 \item{RSproj}{Start a RStudio project? (deault: TRUE)}
 
-\item{git}{should git be initialized? (also a .gitignore file will be created)}
+\item{git}{should git be initialized? (also a .gitignore file will be
+created)}
 }
 \description{
-This function sets up a project directory structure along with some files
+This function sets up a project directory structure along with
+  some files
 }
 \details{
-This function sets up a folder with subfolders
-\itemize{
-\item{cache: this is only used by knitr}
-\item{calc: this is for storage of .rdat files}
-\item{calc/autoload: this is for storage of inline values. Typically this folder will automatically be loaded in a first (uncached) chunk of the rapport file by \code{fetchAll}.}
-\item{figure: for plots (also used by knitr)}
-\item{recieved: typically this is were I put files given by clients}
-\item{sent: this is were I store things sent to client. The function \code{send} will attach the current date to the pdf version of the rapport and put it in this directory. Optionally, \code{send} can zip the rapport along with the graphs and tables from their respective directory}
-\item{table: for (human readable) tabulated data}
-}
-and creates the files
-\itemize{
-\item{'rapport.rnw': the rapport file, can be changed to suit your needs, but is designed to have a first uncached chunk (by default called 'autoLoad') that executes \code{fetchAll()}}
-\item{'_META_.r': this is a file for the compilation of the rapport, which is useful if you want to change e.g. global chunk options - if, not, usually \code{comp()} will suffice}
-\item{'references.bib': a template for bibTeX references}
-\item{a .rsproj file with the project name: this is an RStudio project file, by starting this file RStudio will set the working directory and remember what documents you were looking at. There are settings to be made that can be project specific}
-\item{.gitignore: a file that git uses to tell which files to ignore}
-}
+This function sets up a folder with subfolders \itemize{
+  \item{cache: this is only used by knitr} \item{calc: this is for storage of
+  .rdat files} \item{calc/autoload: this is for storage of inline values.
+  Typically this folder will automatically be loaded in a first (uncached)
+  chunk of the rapport file by \code{fetchAll}.} \item{figure: for plots
+  (also used by knitr)} \item{recieved: typically this is were I put files
+  given by clients} \item{sent: this is were I store things sent to client.
+  The function \code{send} will attach the current date to the pdf version of
+  the rapport and put it in this directory. Optionally, \code{send} can zip
+  the rapport along with the graphs and tables from their respective
+  directory} \item{table: for (human readable) tabulated data} } and creates,
+  optionally, the files \itemize{ \item{'rapport.rnw': the rapport file, can
+  be changed to suit your needs, but is designed to have a first uncached
+  chunk (by default called 'autoLoad') that executes \code{fetchAll()}}
+  \item{'_META_.r': this WAS a file for the global options which can be read
+  by comp... nowadays I think it is better to include these options in a
+  first uncached chunk} \item{'references.bib': a template for bibTeX
+  references} \item{a .rsproj file with the project name: this is an RStudio
+  project file, by starting this file RStudio will set the working directory
+  and remember what documents you were looking at. There are settings to be
+  made that can be project specific} \item{.gitignore: a file that git uses
+  to tell which files to ignore} }
 }
 \author{
 Henrik Renlund

@@ -1,33 +1,40 @@
 #' @title Create new project
-#' @description This function sets up a project directory structure along with some files
+#' @description This function sets up a project directory structure along with
+#'   some files
 #' @author Henrik Renlund
-#' @details This function sets up a folder with subfolders
-#' \itemize{
-#' \item{cache: this is only used by knitr}
-#' \item{calc: this is for storage of .rdat files}
-#' \item{calc/autoload: this is for storage of inline values. Typically this folder will automatically be loaded in a first (uncached) chunk of the rapport file by \code{fetchAll}.}
-#' \item{figure: for plots (also used by knitr)}
-#' \item{recieved: typically this is were I put files given by clients}
-#' \item{sent: this is were I store things sent to client. The function \code{send} will attach the current date to the pdf version of the rapport and put it in this directory. Optionally, \code{send} can zip the rapport along with the graphs and tables from their respective directory}
-#' \item{table: for (human readable) tabulated data}
-#' }
-#' and creates the files
-#' \itemize{
-#' \item{'rapport.rnw': the rapport file, can be changed to suit your needs, but is designed to have a first uncached chunk (by default called 'autoLoad') that executes \code{fetchAll()}}
-#' \item{'_META_.r': this is a file for the compilation of the rapport, which is useful if you want to change e.g. global chunk options - if, not, usually \code{comp()} will suffice}
-#' \item{'references.bib': a template for bibTeX references}
-#' \item{a .rsproj file with the project name: this is an RStudio project file, by starting this file RStudio will set the working directory and remember what documents you were looking at. There are settings to be made that can be project specific}
-#' \item{.gitignore: a file that git uses to tell which files to ignore}
-#' }
-#'  @param name Name of the project
-#'  @param path Path to project directory (else current)
-#'  @param class Class of document in 'rapport.rnw' (default: 'ucr')
-#'  @param go_there Set working directory to project directory? (default: TRUE)
-#'  @param RSproj Start a RStudio project? (deault: TRUE)
-#'  @param git should git be initialized? (also a .gitignore file will be created)
-#'  @export
+#' @details This function sets up a folder with subfolders \itemize{
+#'   \item{cache: this is only used by knitr} \item{calc: this is for storage of
+#'   .rdat files} \item{calc/autoload: this is for storage of inline values.
+#'   Typically this folder will automatically be loaded in a first (uncached)
+#'   chunk of the rapport file by \code{fetchAll}.} \item{figure: for plots
+#'   (also used by knitr)} \item{recieved: typically this is were I put files
+#'   given by clients} \item{sent: this is were I store things sent to client.
+#'   The function \code{send} will attach the current date to the pdf version of
+#'   the rapport and put it in this directory. Optionally, \code{send} can zip
+#'   the rapport along with the graphs and tables from their respective
+#'   directory} \item{table: for (human readable) tabulated data} } and creates,
+#'   optionally, the files \itemize{ \item{'rapport.rnw': the rapport file, can
+#'   be changed to suit your needs, but is designed to have a first uncached
+#'   chunk (by default called 'autoLoad') that executes \code{fetchAll()}}
+#'   \item{'_META_.r': this WAS a file for the global options which can be read
+#'   by comp... nowadays I think it is better to include these options in a
+#'   first uncached chunk} \item{'references.bib': a template for bibTeX
+#'   references} \item{a .rsproj file with the project name: this is an RStudio
+#'   project file, by starting this file RStudio will set the working directory
+#'   and remember what documents you were looking at. There are settings to be
+#'   made that can be project specific} \item{.gitignore: a file that git uses
+#'   to tell which files to ignore} }
+#' @param name Name of the project
+#' @param path Path to project directory (else current)
+#' @param meta should a '_META_' file be created? (default \code{FALSE})
+#' @param class Class of document in 'rapport.rnw' (default: 'ucr')
+#' @param go_there Set working directory to project directory? (default: TRUE)
+#' @param RSproj Start a RStudio project? (deault: TRUE)
+#' @param git should git be initialized? (also a .gitignore file will be
+#'   created)
+#' @export
 
-newProject <- function(name="new_project", path=NULL, class="ucr", go_there=TRUE, RSproj=TRUE, git=TRUE){
+newProject <- function(name="new_project", path=NULL, meta = FALSE, class="ucr", go_there=TRUE, RSproj=TRUE, git=TRUE){
    wd <- getwd()
    if(is.null(path)) {
       cat(paste0("The new '",name,"' project directory structure will be created\n in the current working directory:\n   ", wd, "\n Press 'x' to abort.\n Press anything else to proceed."))
@@ -56,8 +63,12 @@ newProject <- function(name="new_project", path=NULL, class="ucr", go_there=TRUE
    setwd(file.path(full.path, "calc"))
    dir.create("autoload")
    setwd(full.path)
-
-   cat(create_meta(full.path), file="_META_.r")
+   if(meta){
+      message("[newProject] since proh version 0.2.0, the use of '_META_' file is adviced against.\n")
+      if(readline(promt = "Are you sure? ('y' for yes, anything else to skip)") == "y"){
+         cat(create_meta(full.path), file="_META_.r")
+      }
+   }
    cat(create_rapport(name, class), file="rapport.rnw")
    cat(create_bib(), file="references.bib")
    if(RSproj) cat(create_proj(), file=paste0(name,".rproj"))
@@ -140,10 +151,8 @@ create_rapport <- function(name, class){
 "%%%%%%  This file was created with ",R.version.string," and
 %%%%%%  package proh ",packageVersion('proh')," on ",Sys.Date(),"
 \\documentclass{",class,"}
-%\\usepackage{lscape}
 %\\usepackage[swedish, english]{babel} % swedish % ?
 %\\usepackage[latin1]{inputenc}
-%\\usepackage{subfig}
 %\\newcommand{\\path}{\\texttt}
 %\\newcommand{\\code}{\\texttt}
 \\title{",gsub("_","\\_", name, fixed=TRUE),"\\\\ Version 0.0}   % <--------- MAYBE CHANGE THIS?
@@ -153,14 +162,40 @@ create_rapport <- function(name, class){
 % \\addtolength{\\voffset}{-1.5cm}
 % \\addtolength{\\textheight}{3cm}
 % \\usepackage{attachfile}
+% \\usepackage{subfig}
+% \\usepackage{lscape}
 
 \\begin{document}
 
 <<autoLoad, cache=FALSE, include=FALSE>>=
 library(proh)
 library(ucR)
+file.exists('_META_.r'){
+   message('a _META_.r file exists - adjust accordingly!')
+}
+# KNITR OPTIONS: ---------------------
+opts_chunk$set(
+   cache=TRUE,
+   include=FALSE,
+   echo=FALSE,
+   fig.pos='hbt',
+   fig.width=7,
+   fig.height=5,
+   message=FALSE,
+   error=FALSE,
+   warning=FALSE
+)
+# PACKAGE OPTIONS: --------------------
+opts_knit$set(eval.after=c('fig.cap'))
+# # PROH OPTIONS: -------------------
+# opts_proh$set('attach_table' = FALSE,
+#               'attach_graph' = FALSE,
+#               'graph_dev' = 'pdf')
+
 fetchAll(calc=FALSE, autoload=TRUE)
 @
+
+
 
 \\section{Meta Information}
 This rapport was generated by R \\cite{R} and knitr \\cite{knitr}.
