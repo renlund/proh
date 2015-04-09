@@ -31,7 +31,11 @@ chunks_info <- function(file = "rapport.rnw", all = FALSE){
    inits4 <- ifelse(grepl(pattern = "=", x = inits3), 1:n, gsub(pattern = "'", replacement = "", x = inits3))
    eval_val <- unlist(lapply(X=chunk_val, FUN = function(x) x[grepl(pattern = "^eval=.*$", x = x)][1]))
    eval_arg <- gsub(pattern = "eval=", replacement = "", x = eval_val)
-   gEt <- function(x) if(!is.na(x) & !x %in% c("FALSE", "TRUE")) get(x, envir = .GlobalEnv) else NA
+   gEt <- function(x) if(!is.na(x) & !x %in% c("FALSE", "TRUE")) {
+       tryCatch(get(x, envir = .GlobalEnv), error = function(e) NA)
+   } else {
+       NA
+   }
    eval = ifelse(
       is.na(eval_arg),
       opts_chunk$get("eval"),
@@ -47,7 +51,7 @@ chunks_info <- function(file = "rapport.rnw", all = FALSE){
    )
    code_spann <- as.list(NULL)
    for(i in 1:n){
-      code_spann[[i]] <- if(stopps[i] > starts[i] + 1) (starts[i]+1):(stopps[i]-1) else NULL
+      code_spann[[i]] <- if(stopps[i] > starts[i] + 1) (starts[i]+1):(stopps[i]-1) else NA
    }
    R <- data.frame(
       "name" = inits4,
@@ -161,7 +165,7 @@ doc_struc <- function(file = "rapport.rnw"){
    # short("foo bar")
    # short("foo bar", tol = 5)
    # short(s = "foo bar", extend = "*")
-   r <- c("document:", file, "structure:", "")
+   r <- c("document:", paste0("    ", file), "structure:", "")
    for(k in 1:n){ # k = 6
       if(both$type[k] == "chu"){
          r <- c(r, paste0(paste(rep(set_ind, indent[k]), collapse=""), chu_pre, both$name[k]))

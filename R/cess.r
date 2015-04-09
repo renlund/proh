@@ -24,7 +24,7 @@ cess <- function(chunk = NULL, file = "rapport.rnw"){
       for(k in seq_along(chunk)){
          copy[k] <- which(cinfo$name %in% chunk[k])
       }
-      chunk  <- copy
+      chunk  <- as.numeric(copy)
    }
    for(indx in chunk){ # indx = chunk[1]
       cat("Evaluating chunk ", indx, " ('", cinfo$name[indx], "'):\n", sep = "")
