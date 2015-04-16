@@ -4,13 +4,16 @@
 \alias{cess}
 \title{Run chunks}
 \usage{
-cess(chunk = NULL, file = "rapport.rnw")
+cess(chunk = NULL, file = "rapport.rnw", envir = .GlobalEnv)
 }
 \arguments{
 \item{chunk}{name or number of chunk, if \code{NULL} (default) then the
 first chunk will be executed}
 
 \item{file}{the file which has the chunks, default: 'rapport.rnw'}
+
+\item{envir}{is \code{.GlobalEnv} by default, the environemnt in which to
+evaluate chunks}
 }
 \description{
 Run a chunk in a given document

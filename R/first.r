@@ -2,7 +2,6 @@
 #' @description This function executes the chunk called autoLoad
 #' (as created by \code{newProject})
 #' @author Henrik Renlund
-#' @export
 
 first <- function(){
    message("[proh::first] from proh version 0.2.0, we suggest using proh::cess instead")

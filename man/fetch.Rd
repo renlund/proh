@@ -5,7 +5,7 @@
 \title{Fetch}
 \usage{
 fetch(name, overwrite = TRUE, message = FALSE, autoload = FALSE,
-  formats = c("rdat", "rdata"), env = .GlobalEnv)
+  formats = c("rdata", "rdat"), env = .GlobalEnv)
 }
 \arguments{
 \item{name}{character; the name of a variable. If missing, available objects will be listed}

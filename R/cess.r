@@ -3,10 +3,12 @@
 #' @param chunk name or number of chunk, if \code{NULL} (default) then the
 #' first chunk will be executed
 #' @param file the file which has the chunks, default: 'rapport.rnw'
+#' @param envir is \code{.GlobalEnv} by default, the environemnt in which to
+#' evaluate chunks
 #' @note This will replace \code{proh::first}
 #' @export
 
-cess <- function(chunk = NULL, file = "rapport.rnw"){
+cess <- function(chunk = NULL, file = "rapport.rnw", envir = .GlobalEnv){
    cinfo <- chunks_info(file, all = TRUE)
    if(is.null(chunk)) chunk <- 1
    if(is.numeric(chunk)){
@@ -28,7 +30,7 @@ cess <- function(chunk = NULL, file = "rapport.rnw"){
    }
    for(indx in chunk){ # indx = chunk[1]
       cat("Evaluating chunk ", indx, " ('", cinfo$name[indx], "'):\n", sep = "")
-      eval(parse(text = cinfo$code[indx]))
+      eval(expr = parse(text = cinfo$code[indx]), envir = envir)
       cat("\n")
    }
    invisible(NULL)

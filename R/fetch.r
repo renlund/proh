@@ -9,8 +9,8 @@
 #' @param env the environment to load into. Defaults to the global enviroment.
 #' @export
 
-fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c("rdat", "rdata"), env = .GlobalEnv){
-   types <- paste0("\\.(", paste0(formats,collapse=")|("),")" )
+fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c("rdata", "rdat"), env = .GlobalEnv){
+   types <- paste0("(\\.", paste0(formats,collapse=")|(\\."),")" )
    if(missing(name)){
       if(autoload){
          available <- gsub(types, "",  list.files("calc/autoload/", pattern = types, all.files = TRUE))
