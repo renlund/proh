@@ -14,14 +14,14 @@
 #' @export
 
 chunks_info <- function(file = "rapport.rnw", all = FALSE){
-   if(fileName(file)$extension != ".rnw") warning("[identify_rnw_chunks] this is not an rnw-file")
+   if(fileName(file)$extension != ".rnw") warning("[chunks_info] this is not an rnw-file")
    X <- readLines(con = file)
    starts <- grep(pattern = "^ *<<.*>>=.*$", x = X)
    stopps <- grep(pattern = "^@ *$", x = X)
    n <- length(starts)
-   if(length(stopps) != n) stop(paste("[identify_rnw_chunks] there seems to be", n, "chunk starts and", length(stopps), "stops."))
-   each_n <- stopps[2:n] - starts[1:(n-1)]
-   if(any(each_n<0)) stop(paste("[identify_rnw_chunks] chunk starts and stops in wrong order somewhere"))
+   if(length(stopps) != n) stop(paste("[chunks_info] there seems to be", n, "chunk start(s) and", length(stopps), "stop(s)."))
+   each_n <- if(n==1) stopps - starts else stopps[2:n] - starts[1:(n-1)]
+   if(any(each_n<0)) stop(paste("[chunks_info] chunk starts and stops in wrong order somewhere"))
    inits_raw <- X[starts]
    inits0 <- unlist(lapply(X = strsplit(x = inits_raw, split = "#", fixed = TRUE), FUN = function(x) x[1]))
    inits1 <- gsub(pattern = " |<<|>>=", replacement = "", x = inits0)
@@ -82,7 +82,7 @@ chunks_info <- function(file = "rapport.rnw", all = FALSE){
 #' @export
 
 sections_info <- function(file = "rapport.rnw"){
-   if(fileName(file)$extension != ".rnw") warning("[identify_rnw_chunks] this is not an rnw-file")
+   if(fileName(file)$extension != ".rnw") warning("[sections_info] this is not an rnw-file")
    X <- readLines(con = file)
    # title_row <- grep(pattern = "\\\\title\\{.*\\}", x = X) # not used yet
    sec_hit   <- grep(pattern = "\\\\(sub){0,2}section\\{", x = X)
@@ -165,7 +165,7 @@ doc_struc <- function(file = "rapport.rnw"){
    # short("foo bar")
    # short("foo bar", tol = 5)
    # short(s = "foo bar", extend = "*")
-   r <- c("document:", paste0("    ", file), "structure:", "")
+   r <- c("# document:", paste0("#     ", file), "# structure:", "")
    for(k in 1:n){ # k = 6
       if(both$type[k] == "chu"){
          r <- c(r, paste0(paste(rep(set_ind, indent[k]), collapse=""), chu_pre, both$name[k]))
