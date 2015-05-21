@@ -12,6 +12,9 @@ cap_att(caption, chunk)
 \item{chunk}{the chunk that contains the plot}
 }
 \description{
-Caption that possible makes a caption that attaches a figure
+Caption that possibly makes a caption that attaches a figure
+}
+\note{
+This function needs a bit of work?
 }
 

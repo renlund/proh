@@ -1,8 +1,9 @@
 #' @title Caption for attaching
-#' @description Caption that possible makes a caption that attaches a figure
+#' @description Caption that possibly makes a caption that attaches a figure
 #' @param caption the caption
 #' @param chunk the chunk that contains the plot
 #' @import knitr
+#' @note This function needs a bit of work?
 #' @export
 
 cap_att  <- function(caption, chunk){
