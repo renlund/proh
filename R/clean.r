@@ -24,6 +24,13 @@ clean <- function(){
       "vrb"
    )
    monster <- paste0("(", paste(paste0("(\\", removables, ")"), collapse="|"), ")$")
-   file.remove(list.files(pattern=monster))
+   cat("The following files will be removed\n")
+   cat(NULL, paste0(paste0("   ", monster), sep = "\n"))
+   if(readline(prompt = "'y' to proceed? ") == "y"){
+      file.remove(list.files(pattern=monster))
+      cat("\nFiles erased\n")
+   } else {
+      cat("\nNo files erased\n")
+   }
    invisible(NULL)
 }
