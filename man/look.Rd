@@ -4,13 +4,14 @@
 \alias{look}
 \title{View the pdf}
 \usage{
-look(sumatra = FALSE)
+look(file = "rapport.pdf")
 }
 \arguments{
-\item{sumatra}{not implemented yet, will be FALSE}
+\item{file}{filename (default 'rapport.pdf')}
 }
 \description{
-Open the current pdf version of the rapport
+Open the current pdf version of the rapport (or indeed try to
+open any file, as this is just a wrapper for \code{shell.exec})
 }
 \author{
 Henrik Renlund

@@ -4,27 +4,38 @@
 \alias{tableh}
 \title{Create table with attached info}
 \usage{
-tableh(object, attach_table, label, fun = write.csv, caption, data,
-  fe = "txt", ...)
+tableh(object, attach_table = NULL, label = NULL, file = "",
+  where = "htb", fun = write.csv, caption = NULL, caption.lot = NULL,
+  data = object, fe = "txt", data.file = NULL, table.dir = "tableh",
+  ...)
 }
 \arguments{
-\item{object}{usually a data frame or matrix}
+\item{object}{passed to \code{Hmisc::latex}}
 
 \item{attach_table}{logical; should the table be attached? if missing this
 will be determined by \code{opts_proh$get("attach_table")}}
 
-\item{label}{a label 'tab:<label>' will be set in \code{latex}}
+\item{label}{passed to \code{Hmisc::latex}}
 
-\item{fun}{what function to use to write \code{object} to file
-'table/<label>.txt'.}
+\item{file}{passed to \code{Hmisc::latex}}
 
-\item{caption}{caption for \code{latex}}
+\item{where}{passed to \code{Hmisc::latex}}
+
+\item{fun}{what function to use to write \code{object} to file}
+
+\item{caption}{passed to \code{Hmisc::latex}}
+
+\item{caption.lot}{passed to \code{Hmisc::latex}}
 
 \item{data}{if attach data is something other than object}
 
 \item{fe}{file extension given if data is written to file}
 
-\item{...}{arguments passed to \code{latex}}
+\item{data.file}{name of file 'object' or 'data' is written to}
+
+\item{table.dir}{directory name in which to store 'data.file'}
+
+\item{...}{arguments passed to \code{Hmisc::latex}}
 }
 \description{
 \code{Hmisc::latex} and object, write to file and attach
