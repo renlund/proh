@@ -1,7 +1,6 @@
 # These function creates and handles overall project options
 # and will hopefully be elaborated. The options are stored in
-# an environment created by 'make_milieu' (this is probably
-# the wrong way to do this...)
+# an environment 'milieu'
 
 # @title milieu
 # @description an environment
@@ -47,22 +46,29 @@ proh_set <- function(...){
 restore <- function(){
    assign(x="defaults", value=list(
       attach_graph = FALSE,
+      graph_dev = "pdf",
       attach_table = FALSE,
-      graph_dev = "pdf"
-      #sumatra_path = file.path("C:", "Program Files", "RStudio", "bin", "sumatra")
+      table_fnc = utils::write.csv
    ), envir=milieu)
    assign(x="value", value = names(get(x="defaults", envir=milieu)), envir=milieu)
    invisible(NULL)
 }
 
-#' @title opts (not useful yet)
+#' @title proh options
 #' @description This list tries to mimic the behaviour of opts_chunk from knitr.
-#' Currently two values are maintained with the functions in (the list) opts_proh: \itemize{
-#' \item attach_graph
-#' \item attach_table
+#' Currently these values are maintained with the functions in (the list)
+#' \code{opts_proh}:
+#' \itemize{
+#' \item attach_graph - use \code{figh} in \code{fig.caption}
+#' (in a \code{knitr} chunk), i.e. \code{fig.caption = figh("My Caption")},
+#' this forces \code{figh} to include an attach-statement
+#' pointing to the relevant figure in 'figure/' .
+#' \item graph_dev - graphical extension
+#' \item attach_table - this forces \code{tableh} to also attach its tables
+#' \item table_fnc - this is the function to write the \code{tableh}-table
+#' to file
 #' }
-#' Currently, these values has no effect on anything - but hopefully they will
-#' in the future...
+
 #' @export
 
 opts_proh <- list(

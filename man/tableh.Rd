@@ -5,7 +5,7 @@
 \title{Create table with attached info}
 \usage{
 tableh(object, attach_table = NULL, label = NULL, file = "",
-  where = "htb", fun = write.csv, caption = NULL, caption.lot = NULL,
+  where = "htb", table_fnc = NULL, caption = NULL, caption.lot = NULL,
   data = object, fe = "txt", data.file = NULL, table.dir = "tableh",
   ...)
 }
@@ -21,7 +21,9 @@ will be determined by \code{opts_proh$get("attach_table")}}
 
 \item{where}{passed to \code{Hmisc::latex}}
 
-\item{fun}{what function to use to write \code{object} to file}
+\item{table_fnc}{what function to use to write \code{object} to file.
+If \code{NULL} (default) this will be taken from
+\code{opts_proh$get("table_fnc")}}
 
 \item{caption}{passed to \code{Hmisc::latex}}
 

@@ -6,7 +6,9 @@
 #' @param label passed to \code{Hmisc::latex}
 #' @param file passed to \code{Hmisc::latex}
 #' @param where passed to \code{Hmisc::latex}
-#' @param fun what function to use to write \code{object} to file
+#' @param table_fnc what function to use to write \code{object} to file.
+#' If \code{NULL} (default) this will be taken from
+#' \code{opts_proh$get("table_fnc")}
 #' @param caption passed to \code{Hmisc::latex}
 #' @param caption.lot passed to \code{Hmisc::latex}
 #' @param data if attach data is something other than object
@@ -21,7 +23,7 @@ tableh <- function(object,
                    label = NULL,
                    file = "",
                    where = "htb",
-                   fun = write.csv,
+                   table_fnc = NULL,
                    caption = NULL,
                    caption.lot = NULL,
                    data = object,
@@ -38,6 +40,7 @@ tableh <- function(object,
    if(is.null(caption)) caption <- caption.lot
    if(is.null(caption.lot)) caption.lot <- caption
    if(is.null(label)) label <- paste0("tab:", object_name)
+   if(is.null(table_fnc)) table_fnc <- opts_proh$get("table_fnc")[[1]]
    if(!grepl("^\\.", fe)) fe <- paste0(".", fe)
    if(is.null(attach_table)) attach_table <- opts_proh$get("attach_table")[[1]]
    if(attach_table){
