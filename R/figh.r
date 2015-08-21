@@ -14,13 +14,14 @@ figh <- function(s, attach_graph = NULL, ext = NULL, warn = TRUE){
    if(is.null(attach_graph)) attach_graph <- opts_proh$get("attach_graph")[[1]]
    if(attach_graph){
       lab <- knitr::opts_current$get('label')
+      path <- opts_current$get('fig.path')
       if(is.null(ext)){
          ext <- opts_proh$get("graph_dev")[[1]]
       }
       if(!ext %in% knitr::opts_current$get('dev')){
          if(warn) warning("[proh::fig] the file extension may not exist")
       }
-      paste0(s, " \\attachfile{figure/",lab,"-1.",ext,"}")
+      paste0(s, " \\attachfile{", path, lab,"-1.",ext,"}")
    } else {
       s
    }
