@@ -164,6 +164,7 @@ create_rapport <- function(name, class){
 % \\usepackage{attachfile}
 % \\usepackage{subfig}
 % \\usepackage{lscape}
+\\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,jpeg}
 
 \\begin{document}
 
