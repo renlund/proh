@@ -1,3 +1,0 @@
- * tableh's default behaviour is inconsistent with other commonly used tools (e.g. Hmisc::latex)
-   is this a problem?
-   also, cannot give arbitrary short caption - which IS problematic
