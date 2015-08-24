@@ -3,8 +3,7 @@
 #'  @export
 
 shoWes <- function(){
-   code <- c(
-   "if(require('wesanderson')){
+   if(requireNamespace('wesanderson')){
       df <- wesanderson::namelist
       n <- nrow(df)
       N <- max(df$wesnums)
@@ -16,8 +15,6 @@ shoWes <- function(){
          points(x=3:(3+wn-1), y=rep(k, wn), pch=21, cex=5, bg=wesanderson::wes.palette(n=wn, name=namn))
       }
    } else {
-      message('[shoWes] package:wesanderson is not installed')
-   }"
-   )
-   eval(parse(text = code))
+      message('[proh::shoWes] package:wesanderson is not installed')
+   }
 }

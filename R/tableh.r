@@ -50,13 +50,18 @@ tableh <- function(object,
       fun(data, file=file_path)
       caption <- paste0(caption, " \\attachfile{",file_path,"}")
    }
-   Hmisc::latex(
-      object = object,
-      file = file,
-      label = label,
-      caption = caption,
-      where = where,
-      caption.lot = caption.lot,
-      ...
-   )
+   if(requireNamespace("Hmisc")){
+      Hmisc::latex(
+         object = object,
+         file = file,
+         label = label,
+         caption = caption,
+         where = where,
+         caption.lot = caption.lot,
+         ...
+      )
+   } else {
+      warnings("[proh::tableh] this function requires 'Hmisc' to work properly")
+      knitr::kable(x = object, caption = caption)
+   }
 }

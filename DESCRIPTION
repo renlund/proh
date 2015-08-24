@@ -7,7 +7,10 @@ Description: Tools for working with projects set up according to the arbitrary
     preferences of the author. Directory structure for saving, attaching, etc.
 Depends:
     R (>= 3.1.0),
-    knitr
+    knitr (>= 1.11)
+Suggests:
+    Hmisc,
+    wesanderson
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr

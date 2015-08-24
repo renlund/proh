@@ -7,7 +7,6 @@
 #' @param ext what is the file extension? if \code{NULL} then this parameter will
 #' be taken from \code{opts_proh$get('graph_dev')}
 #' @param warn warn if extension does not seem available?
-#' @importFrom knitr opts_current
 #' @export
 
 figh <- function(s, attach_graph = NULL, ext = NULL, warn = TRUE){
