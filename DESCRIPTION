@@ -5,12 +5,13 @@ Author: Henrik Renlund <henrikrenlund@gmail.com>
 Maintainer: Henrik Renlund <henrikrenlund@gmail.com>
 Description: Tools for working with projects set up according to the arbitrary
     preferences of the author. Directory structure for saving, attaching, etc.
-Depends:
+Depends: 
     R (>= 3.1.0),
     knitr (>= 1.11)
-Suggests:
+Suggests: 
     Hmisc,
-    wesanderson
+    wesanderson,
+    testthat
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr

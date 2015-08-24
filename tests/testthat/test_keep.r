@@ -1,6 +1,6 @@
 context("testing 'keep'")
 
-test_that("'keep' workds", {
+test_that("'keep' works", {
    dir <- paste0("TMP_DIR__", paste( sample(c(letters,LETTERS,0:9), size=2^6, replace = TRUE), collapse=""))
    dir.create(path = dir)
    old_dir <- setwd(dir)
