@@ -47,7 +47,7 @@ tableh <- function(object,
       if(!dir.exists(table.dir)) dir.create(table.dir)
       if(is.null(data.file)) data.file <- paste0(object_name, fe)
       file_path <- file.path(table.dir, data.file)
-      fun(data, file=file_path)
+      table_fnc(data, file=file_path)
       caption <- paste0(caption, " \\attachfile{",file_path,"}")
    }
    if(requireNamespace("Hmisc")){
