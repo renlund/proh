@@ -1,3 +1,5 @@
+%\VignetteIndexEntry{tableh}
+%\VignetteEngine{knitr::knitr}
 \documentclass{article}
 \usepackage{attachfile}
 \begin{document}
