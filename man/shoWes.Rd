@@ -2,14 +2,16 @@
 % Please edit documentation in R/shoWes.r
 \name{shoWes}
 \alias{shoWes}
-\title{Show available Wes Andersson palettes}
+\title{Available wesanderson palettes}
 \usage{
 shoWes()
 }
 \description{
-Show available Wes Andersson palettes
+Show available wesanderson palettes
 }
 \details{
 
+
+Makes a plot visualizing the palettes from the wesanderson package
 }
 

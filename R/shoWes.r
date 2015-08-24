@@ -1,5 +1,6 @@
-#'  @title Show available Wes Andersson palettes
-#'  @description Show available Wes Andersson palettes
+#'  @title Available wesanderson palettes
+#'  @description Show available wesanderson palettes
+#'  @details Makes a plot visualizing the palettes from the wesanderson package
 #'  @export
 
 shoWes <- function(){
