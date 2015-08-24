@@ -65,7 +65,7 @@ newProject <- function(name="new_project", path=NULL, meta = FALSE, class="ucr",
    setwd(full.path)
    if(meta){
       message("[newProject] since proh version 0.2.0, the use of '_META_' file is adviced against.\n")
-      if(readline(promt = "Are you sure? ('y' for yes, anything else to skip)") == "y"){
+      if(readline(prompt = "Are you sure? ('y' for yes, anything else to skip)") == "y"){
          cat(create_meta(full.path), file="_META_.r")
       }
    }
