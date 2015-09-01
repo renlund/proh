@@ -48,7 +48,8 @@ restore <- function(){
       attach_graph = FALSE,
       graph_dev = "pdf",
       attach_table = FALSE,
-      table_fnc = utils::write.csv
+      table_fnc = utils::write.csv,
+      loft = list(figure = list(), table=list())
    ), envir=milieu)
    assign(x="value", value = names(get(x="defaults", envir=milieu)), envir=milieu)
    invisible(NULL)
