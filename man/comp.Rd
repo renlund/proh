@@ -4,13 +4,10 @@
 \alias{comp}
 \title{Compile the rapport}
 \usage{
-comp(input = "rapport.rnw", settings = FALSE, clean = TRUE,
-  look = FALSE, ...)
+comp(input = NULL, clean = TRUE, look = FALSE, ...)
 }
 \arguments{
 \item{input}{should be 'rapport.rnw' (but can be changed)}
-
-\item{settings}{should the settings be read off '_META_.r'?}
 
 \item{clean}{should the LaTeX files be cleaned?}
 

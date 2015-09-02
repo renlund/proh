@@ -5,7 +5,11 @@
 #' @param file filename (default 'rapport.pdf')
 #' @export
 
-look <- function(file = "rapport.pdf"){
+look <- function(file = NULL){
+   if(is.null(file)){
+      opts_proh$check()
+      file <- opts_proh$get("out_file")
+   }
    shell.exec(file)
    invisible(NULL)
 }

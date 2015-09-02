@@ -10,7 +10,8 @@ Depends:
     knitr (>= 1.11)
 Suggests:
     Hmisc,
-    testthat
+    testthat,
+    rmarkdown
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr

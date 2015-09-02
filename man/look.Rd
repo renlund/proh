@@ -4,7 +4,7 @@
 \alias{look}
 \title{View the pdf}
 \usage{
-look(file = "rapport.pdf")
+look(file = NULL)
 }
 \arguments{
 \item{file}{filename (default 'rapport.pdf')}

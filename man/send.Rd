@@ -4,7 +4,7 @@
 \alias{send}
 \title{Mark a rapport with current date}
 \usage{
-send(name = "rapport", minimal = TRUE, graph.filter = NULL,
+send(name = NULL, minimal = TRUE, graph.filter = NULL,
   table.filter = NULL, git = "ask")
 }
 \arguments{

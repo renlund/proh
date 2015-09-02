@@ -1,7 +1,7 @@
 #' @title Mark a rapport with current date
 #' @description Mark a rapport with todays date and put it in the 'sent' folder
 #' @author Henrik Renlund
-#' @param name name of output rapport (will include todays date), defaults 
+#' @param name name of output rapport (will include todays date), defaults
 #' to 'report', but if TRUE the name of the project will be used
 #' @param minimal should ONLY the rapport.pdf be sent? (default: TRUE). If not
 #' the rapport will be 'zipped' into a 'delivery' along with graphs and tables
@@ -11,14 +11,11 @@
 #' to TRUE/FALSE
 #' @export
 
-send <- function(name='rapport', minimal = TRUE, 
+send <- function(name=NULL, minimal = TRUE,
                graph.filter=NULL, table.filter=NULL, git='ask'){
-   if(!is.character(name)){
-      if(is.logical){
-         if(TRUE) name <- rev(strsplit(getwd(),.Platform$file.sep)[[1]])[1]
-      } else {
-         name <- 'rapport'
-      }
+   if(is.null(name)){
+      opts_proh$check()
+      name <- opts_proh$get("out_file")
    }
    today <- gsub('-','',Sys.Date())
    nameD <- paste0(name, '_', today)
@@ -34,7 +31,7 @@ send <- function(name='rapport', minimal = TRUE,
    }
    if(git=='ask'){
       git_branch <- readline("\n Do you want to commit 'rapport.nrw' and create a git branch for this Send?\n (If so 'y'.) ")
-      if(git_branch=='y') 
+      if(git_branch=='y')
          git <- TRUE
       else
          git <- FALSE
@@ -57,17 +54,17 @@ send <- function(name='rapport', minimal = TRUE,
       }
       gitBranch(branch_name)
    }
-   
+
    if(minimal){
-      file.copy( from='rapport.pdf', 
+      file.copy( from='rapport.pdf',
          to=file.path('sent', nameDE) )
-   } else {   
-      graphs <- 
+   } else {
+      graphs <-
          setdiff(
             list.files(path='figure', pattern=graph.filter, recursive=FALSE),
             sub('graf//', '', list.dirs('graf', recursive=FALSE))
             )
-      outs <- 
+      outs <-
          setdiff(
             list.files('table', pattern=table.filter, recursive=FALSE),
             sub('..', '', list.dirs('tabell', recursive=FALSE))
@@ -84,7 +81,7 @@ send <- function(name='rapport', minimal = TRUE,
       file.remove(rappZip)
     }
     if(!git) cat(' *------------------------------------*
- This is a good time to Git your files! 
+ This is a good time to Git your files!
  *------------------------------------*')
    invisible(NULL)
 }
