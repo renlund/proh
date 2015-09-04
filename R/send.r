@@ -15,11 +15,19 @@ send <- function(name=NULL, minimal = TRUE,
                graph.filter=NULL, table.filter=NULL, git='ask'){
    if(is.null(name)){
       opts_proh$check()
-      name <- opts_proh$get("out_file")
+      name <- as.character(opts_proh$get("output_file"))
+   }
+   name_org <- name
+   ext <- NULL
+   if(grepl("\\.", name)){
+      tmp <- strsplit(name, "\\.")[[1]]
+      m <- length(tmp)
+      ext <- paste0(".", tmp[m])
+      name <- paste(tmp[-m], collapse = ".")
    }
    today <- gsub('-','',Sys.Date())
    nameD <- paste0(name, '_', today)
-   FnameDE <- function(nameD) paste0(nameD, '.pdf')
+   FnameDE <- function(nameD) paste0(nameD, ext)
    nameDE <- FnameDE(nameD)
    #dummy <- 0
    while(file.exists(file.path('sent', nameDE))){
@@ -56,8 +64,7 @@ send <- function(name=NULL, minimal = TRUE,
    }
 
    if(minimal){
-      file.copy( from='rapport.pdf',
-         to=file.path('sent', nameDE) )
+      file.copy(from=name_org, to=file.path('sent', nameDE) )
    } else {
       graphs <-
          setdiff(

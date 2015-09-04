@@ -21,7 +21,7 @@ proh_get <- function(name){
       for(k in name){
          L[[k]] <- defaults[[k]]
       }
-      L
+      if(length(L) == 1) unlist(L) else L
    }
 }
 
@@ -48,7 +48,7 @@ proh_restore <- function(){
    assign(x="defaults", value=list(
       main_document = "rapport.rnw",
       output_format = "pdf_document",
-      out_file = NULL,
+      output_file = NULL,
       attach_graph = FALSE,
       graph_dev = "pdf",
       attach_table = FALSE,
@@ -78,24 +78,24 @@ proh_check <- function(){
       proh_set("main_document" = "rapport.rnw")
    }
    output_format <- proh_get("output_format")
-   out_file <- proh_get("out_file")
-   if(length(out_file)!=0){
-      if( (output_format == "pdf_document"  & !grepl("\\.pdf$",  out_file)) |
-          (output_format == "html_document" & !grepl("\\.html$", out_file)) |
-          (output_format == "word_document" & !grepl("\\.docx$", out_file)) ){
-         warning("[proh_check] out_file extension does not match. Set to default.")
-         proh_set("out_file" = NULL)
+   output_file <- proh_get("output_file")
+   if(length(output_file)!=0){
+      if( (output_format == "pdf_document"  & !grepl("\\.pdf$",  output_file)) |
+          (output_format == "html_document" & !grepl("\\.html$", output_file)) |
+          (output_format == "word_document" & !grepl("\\.docx$", output_file)) ){
+         warning("[proh_check] output_file extension does not match. Set to default.")
+         proh_set("output_file" = NULL)
       }
    }
-   if(length(proh_get("out_file"))==0){
+   if(length(proh_get("output_file"))==0){
       if(output_format == "pdf_document") {
-         proh_set("out_file" = sub("\\.r(nw|md)$", ".pdf", proh_get("main_document")))
+         proh_set("output_file" = sub("\\.r(nw|md)$", ".pdf", as.character(proh_get("main_document"))))
       }
       if(output_format == "html_document") {
-         proh_set("out_file" = sub("\\.rmd$", ".html", proh_get("main_document")))
+         proh_set("output_file" = sub("\\.rmd$", ".html", as.character(proh_get("main_document"))))
       }
       if(output_format == "word_document") {
-         proh_set("out_file" = sub("\\.rmd$", ".docx", proh_get("main_document")))
+         proh_set("output_file" = sub("\\.rmd$", ".docx", as.character(proh_get("main_document"))))
       }
    }
 }
@@ -107,7 +107,7 @@ proh_check <- function(){
 #' \itemize{
 #' \item main_document - default: rapport.rnw
 #' \item output_format - default: pdf_document
-#' \item out_file - will be like main_document but appropriate file extension (
+#' \item output_file - will be like main_document but appropriate file extension (
 #' unless set manually)
 #' \item attach_graph - use \code{figh} in \code{fig.caption}
 #' (in a \code{knitr} chunk), i.e. \code{fig.caption = figh("My Caption")},

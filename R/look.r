@@ -8,7 +8,7 @@
 look <- function(file = NULL){
    if(is.null(file)){
       opts_proh$check()
-      file <- opts_proh$get("out_file")
+      file <- opts_proh$get("output_file")
    }
    shell.exec(file)
    invisible(NULL)
