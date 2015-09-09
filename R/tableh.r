@@ -40,9 +40,9 @@ tableh <- function(object,
    if(is.null(caption)) caption <- caption.lot
    if(is.null(caption.lot)) caption.lot <- caption
    if(is.null(label)) label <- paste0("tab:", object_name)
-   if(is.null(table_fnc)) table_fnc <- opts_proh$get("table_fnc")[[1]]
+   if(is.null(table_fnc)) table_fnc <- opts_proh$get("table_fnc")
    if(!grepl("^\\.", fe)) fe <- paste0(".", fe)
-   if(is.null(attach_table)) attach_table <- opts_proh$get("attach_table")[[1]]
+   if(is.null(attach_table)) attach_table <- opts_proh$get("attach_table")
    if(attach_table){
       if(!dir.exists(table.dir)) dir.create(table.dir)
       if(is.null(data.file)) data.file <- paste0(object_name, fe)

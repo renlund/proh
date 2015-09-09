@@ -21,7 +21,7 @@ proh_get <- function(name){
       for(k in name){
          L[[k]] <- defaults[[k]]
       }
-      if(length(L) == 1) unlist(L) else L
+      if(length(L) == 1) L[[1]] else L
    }
 }
 
@@ -78,7 +78,7 @@ proh_check <- function(){
       proh_set("main_document" = "rapport.rnw")
    }
    output_format <- proh_get("output_format")
-   output_file <- proh_get("output_file")
+   output_file <- as.character(proh_get("output_file"))
    if(length(output_file)!=0){
       if( (output_format == "pdf_document"  & !grepl("\\.pdf$",  output_file)) |
           (output_format == "html_document" & !grepl("\\.html$", output_file)) |

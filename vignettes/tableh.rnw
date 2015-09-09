@@ -6,6 +6,7 @@
 
 <<setup, cache = FALSE>>=
 library(proh)
+require(Hmisc)
 m <- table(sample(letters[1:3], 50, T), sample(LETTERS[1:4], 50, T))
 df <- data.frame(x = 1:3, y = c("foo", "bar", "baz"), y = rnorm(3, 10, 1))
 knitr::opts_knit$set(cache = FALSE, echo = TRUE, include = TRUE)
