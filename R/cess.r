@@ -8,7 +8,8 @@
 #' @note This will replace \code{proh::first}
 #' @export
 
-cess <- function(chunk = NULL, file = "rapport.rnw", envir = .GlobalEnv){
+cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv){
+   if(is.null(file)) file = opts_proh$get("main_document")
    cinfo <- chunks_info(file, all = TRUE)
    if(is.null(chunk)) chunk <- 1
    if(is.numeric(chunk)){

@@ -4,7 +4,7 @@
 \alias{chunks_info}
 \title{Chunks info}
 \usage{
-chunks_info(file = "rapport.rnw", all = FALSE)
+chunks_info(file = NULL, all = FALSE)
 }
 \arguments{
 \item{file}{file of interest ( = 'rapport.rnw' by default)}

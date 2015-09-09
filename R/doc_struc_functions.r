@@ -13,7 +13,8 @@
 #' }
 #' @export
 
-chunks_info <- function(file = "rapport.rnw", all = FALSE){
+chunks_info <- function(file = NULL, all = FALSE){
+   if(is.null(file)) file = opts_proh$get("main_document")
    if(fileName(file)$extension != ".rnw") warning("[chunks_info] this is not an rnw-file")
    X <- readLines(con = file)
    starts <- grep(pattern = "^ *<<.*>>=.*$", x = X)
@@ -81,7 +82,8 @@ chunks_info <- function(file = "rapport.rnw", all = FALSE){
 #' }
 #' @export
 
-sections_info <- function(file = "rapport.rnw"){
+sections_info <- function(file = NULL){
+   if(is.null(file)) file = opts_proh$get("main_document")
    if(fileName(file)$extension != ".rnw") warning("[sections_info] this is not an rnw-file")
    X <- readLines(con = file)
    # title_row <- grep(pattern = "\\\\title\\{.*\\}", x = X) # not used yet
@@ -122,7 +124,8 @@ sections_info <- function(file = "rapport.rnw"){
 #' @return A print out
 #' @export
 
-doc_struc <- function(file = "rapport.rnw"){
+doc_struc <- function(file = NULL){
+   if(is.null(file)) file = opts_proh$get("main_document")
    sec <- sections_info(file = file)
    sec$type = factor("sec", levels = c("sec", "chu"))
    chu <- chunks_info(file = file)

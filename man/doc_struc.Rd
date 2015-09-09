@@ -4,7 +4,7 @@
 \alias{doc_struc}
 \title{Document structure}
 \usage{
-doc_struc(file = "rapport.rnw")
+doc_struc(file = NULL)
 }
 \arguments{
 \item{file}{file of interest ( = 'rapport.rnw' by default)}

@@ -4,7 +4,7 @@
 \alias{sections_info}
 \title{Sections info}
 \usage{
-sections_info(file = "rapport.rnw")
+sections_info(file = NULL)
 }
 \arguments{
 \item{file}{file of interest ( = 'rapport.rnw' by default)}
