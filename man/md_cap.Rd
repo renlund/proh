@@ -6,32 +6,37 @@
 \alias{md_tcap}
 \title{Capions in rmarkdown}
 \usage{
-md_cap(label, caption, type = NULL)
+md_cap(caption, label, type = NULL, at.ref = FALSE)
 
-md_tcap(label = NULL, caption = "")
+md_tcap(caption = "", label = NULL, at.ref = FALSE)
 
-md_fcap(label = NULL, caption = "")
+md_fcap(caption = "", label = NULL, at.ref = FALSE)
 }
 \arguments{
-\item{label}{the label you can refer to by @label in the .rmd document. If
-\code{NULL} it will inherit the 'label' from the current chunk}
-
 \item{caption}{the caption}
 
+\item{label}{the label you can refer to in the .rmd document. If \code{NULL}
+it will inherit the 'label' from the current chunk}
+
 \item{type}{"table" or "figure". User do not have to care as you use
-\code{md_tcap} or \code{md_fcap}, which calls \code{md_cap} with
-this argument fixed}
+\code{md_tcap} or \code{md_fcap}, which calls \code{md_cap} with this
+argument fixed}
+
+\item{at.ref}{if \code{TRUE} use pandoc markdown's enumerated list to create
+the references (default \code{FALSE}). This option will most likely be
+removed in the future!}
 }
 \description{
 This function allows enumerated tables and figures in rmarkdown
-  with html or word output
+  with html or word output (and pdf I suppose).
 }
 \details{
 The \code{md_cap} function adds a list element to the \code{loft}
-  list in \code{opts_proh}. These are converted by \code{md_enumerate_labels}
-  to two referrable, numbered list (List of Tables and List of Figures,
-  respectively), which, when created, will have the effect of replacing the
-  @-label with a number. Use \code{md_tcap} for tables and \code{md_fcap}.
+  list in \code{opts_proh}. Use \code{md_tcap} for tables and
+  \code{md_fcap}. (If \code{at.ref} is \code{TRUE} these are converted by
+  \code{md_enumerate_at_ref} to two referrable, numbered list (List of Tables
+  and List of Figures, respectively), which, when created, will have the
+  effect of replacing the @-label with a number.
 }
 \section{Functions}{
 \itemize{
