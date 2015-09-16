@@ -6,10 +6,9 @@
 
 clean <- function(){
    removables <- c(
-      ".tex",
+      #".tex",
       ".toc",
       ".concordance",
-      "concordance.tex",
       ".log",
       ".brf",
       ".bbl",
@@ -21,14 +20,14 @@ clean <- function(){
       ".synctex.gz",
       ".nav",
       ".snm",
-      "vrb"
+      ".vrb"
    )
-   monster <- paste0("(", paste(paste0("(\\", removables, ")"), collapse="|"), ")$")
+   monster <- paste0("(", paste(paste0("(\\", removables, ")"), collapse="|"), "|^concordance.tex)$")
+   files <- list.files(pattern = monster)
    cat("The following files will be removed\n")
-   cat(NULL, paste0(paste0("   ", monster), sep = "\n"))
+   cat(NULL, paste0(paste0("   ", files), sep = "\n"))
    if(readline(prompt = "'y' to proceed? ") == "y"){
-      file.remove(list.files(pattern=monster))
-      cat("\nFiles erased\n")
+      if(all(file.remove(files))) cat("\n\nFiles erased\n")
    } else {
       cat("\nNo files erased\n")
    }
