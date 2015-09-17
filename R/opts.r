@@ -5,7 +5,7 @@
 # @title milieu
 # @description an environment
 
-milieu <- new.env(hash=FALSE, parent=.GlobalEnv)
+milieu <- new.env(parent = getNamespace("proh"))
 
 # @title proh_get
 # @description this function retrieves the proh settings
@@ -52,8 +52,8 @@ proh_restore <- function(){
       attach_graph = FALSE,
       graph_dev = "pdf",
       attach_table = FALSE,
-      table_fnc = utils::write.csv,
-      loft = list(figure = list(), table=list())
+      table_fnc = utils::write.csv
+      #loft = list(figure = list(), table=list())
    ), envir=milieu)
    assign(x="value", value = names(get(x="defaults", envir=milieu)), envir=milieu)
    proh_check()
@@ -117,7 +117,6 @@ proh_check <- function(){
 #' \item attach_table - this forces \code{tableh} to also attach its tables
 #' \item table_fnc - this is the function to write the \code{tableh}-table
 #' to file
-#' \item loft - information for list of figures/tables, created by \code{md_cap}
 #' }
 
 #' @export
