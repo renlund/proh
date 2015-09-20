@@ -31,6 +31,7 @@ tableh <- function(object,
                    data.file = NULL,
                    table.dir = "tableh",
                    ...){
+   message("this function will be removed from package:proh. use attacher:tab_cap + provided knitr chunk hook 'tab.cap' instead.")
    object_name <- as.character(substitute(object))
    tidy_object_name <- gsub("_", "\\_", object_name, fixed = TRUE)
    if(is.null(caption) & is.null(caption.lot)){

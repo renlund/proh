@@ -7,16 +7,16 @@
 \format{\preformatted{List of 4
  $ get    :function (name)  
   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 14 13 26 1 13 1 14 26
-  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x0000000009b95a10> 
+  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x0000000014e94fc0> 
  $ set    :function (...)  
   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 32 13 42 1 13 1 32 42
-  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x0000000009b95a10> 
+  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x0000000014e94fc0> 
  $ restore:function ()  
   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 47 17 61 1 17 1 47 61
-  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x0000000009b95a10> 
+  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x0000000014e94fc0> 
  $ check  :function ()  
   ..- attr(*, "srcref")=Class 'srcref'  atomic [1:8] 66 15 101 1 15 1 66 101
-  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x0000000009b95a10> 
+  .. .. ..- attr(*, "srcfile")=Classes 'srcfilecopy', 'srcfile' <environment: 0x0000000014e94fc0> 
 }}
 \usage{
 opts_proh

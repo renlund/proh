@@ -7,9 +7,12 @@
 #' @param ext what is the file extension? if \code{NULL} then this parameter will
 #' be taken from \code{opts_proh$get('graph_dev')}
 #' @param warn warn if extension does not seem available?
+#' @note You might want to  specify something like
+#'   \\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,jpeg}
 #' @export
 
 figh <- function(s, attach_graph = NULL, ext = NULL, warn = TRUE){
+   message("this function will be removed from package:proh. use attacher:fig_cap instead.")
    if(is.null(attach_graph)) attach_graph <- opts_proh$get("attach_graph")
    if(attach_graph){
       lab <- knitr::opts_current$get('label')

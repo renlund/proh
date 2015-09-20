@@ -21,4 +21,8 @@ be taken from \code{opts_proh$get('graph_dev')}}
 Use this with chunk option \code{fig.cap} to attach a copy
 of the produced graphic in the resulting pdf.
 }
+\note{
+You might want to  specify something like
+  \\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,jpeg}
+}
 
