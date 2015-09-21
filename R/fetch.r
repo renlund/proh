@@ -18,8 +18,25 @@ fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c
          return(invisible(NULL))
       } else {
          available <- gsub(types, "",  list.files("calc/", pattern = types, all.files = TRUE))
-         cat("The project keeps the following:", available, sep="\n    ")
-         return(invisible(NULL))
+         if(length(available) == 0){
+            cat("This project keeps nothing!\n")
+            return(invisible(NULL))
+         } else {
+            cat("The project keeps: \n\n")
+            dummy <- NULL
+            if(file.exists(file.path("calc", ".proh"))){
+               info <- read.csv(file.path("calc", ".proh"))
+               info <- subset(info, object %in% available)
+               print(info, row.names = FALSE)
+               dummy <- info$object
+            }
+            show <- setdiff(available, dummy)
+            if(length(show) > 0){
+               cat("\n...as well as (without information):\n\n")
+               print(data.frame("objects:" = show, check.names = FALSE), row.names = FALSE)
+            }
+            return(invisible(NULL))
+         }
       }
    }
    if(!is.character(name))
@@ -48,3 +65,17 @@ fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c
       }
    }
 }
+
+#' @describeIn fetch
+#' @param ... (possibly unquoted) names of objects
+#' @export
+
+fetch_ <- function(..., overwrite=TRUE, message=FALSE, autoload=FALSE,
+                 formats=c("rdata", "rdat"), env = .GlobalEnv){
+   name <- as.character(eval(substitute(alist(...))))
+   fetch(name, overwrite=overwrite, message=message, autoload=autoload,
+         formats=formats, env = env)
+}
+
+
+

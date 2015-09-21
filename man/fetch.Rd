@@ -2,9 +2,13 @@
 % Please edit documentation in R/fetch.r
 \name{fetch}
 \alias{fetch}
+\alias{fetch_}
 \title{Fetch}
 \usage{
 fetch(name, overwrite = TRUE, message = FALSE, autoload = FALSE,
+  formats = c("rdata", "rdat"), env = .GlobalEnv)
+
+fetch_(..., overwrite = TRUE, message = FALSE, autoload = FALSE,
   formats = c("rdata", "rdat"), env = .GlobalEnv)
 }
 \arguments{
@@ -19,10 +23,16 @@ fetch(name, overwrite = TRUE, message = FALSE, autoload = FALSE,
 \item{formats}{formats to look for. Default \code{c('.rdata', '.rdat')}.}
 
 \item{env}{the environment to load into. Defaults to the global enviroment.}
+
+\item{...}{(possibly unquoted) names of objects}
 }
 \description{
 Load an object from 'calc' directory
 }
+\section{Functions}{
+\itemize{
+\item \code{fetch_}: 
+}}
 \author{
 Henrik Renlund
 }
