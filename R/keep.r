@@ -20,8 +20,10 @@ keep <- function(name, autoload=FALSE){
   }
    for(K in name){
       if(exists(K, envir=.GlobalEnv)){
-         L <- list.files(path = "calc")
-         if(any(grepl(K, L, ignore.case=TRUE)) & !any(grepl(K, L))){
+          L <- list.files(path = "calc")
+          L_ <- gsub("\\.rdata*$", "", L, ignore.case = TRUE)
+          K_ <- paste0("^", K, "$")
+         if(any(grepl(K_, L_, ignore.case=TRUE)) & !any(grepl(K_, L_))){
             if(Sys.info()['sysname'] == "Windows") stop("[proh::keep] Windows does not distinguish between upper- and lower case in filenames and there is a similar file kept in 'calc/'.")
          }
          save(list=K, envir=.GlobalEnv, file=file.path(location, paste0(K, ".rdat")))
@@ -32,14 +34,20 @@ keep <- function(name, autoload=FALSE){
             if(K %in% info$object){
                info <- subset(info, object != K)
             }
+            df_names = if("data.frame" %in% classy){
+               paste0(names(tmp_var), collapse = ",")
+            } else {
+               " "
+            }
+            df_variables <- if(nchar(df_names) > 35) {
+               paste0(substring(df_names, 1, 32), "...")
+            } else {
+               df_names
+            }
             tmp_info <- data.frame(object = K,
                                    saved = as.character(Sys.time()),
                                    class = classy[1],
-                                   df_names = if("data.frame" %in% classy){
-                                      paste0(names(tmp_var), collapse = ",")
-                                   } else {
-                                      " "
-                                   },
+                                   variables = df_variables,
                                    stringsAsFactors = FALSE)
          }
       } else {
@@ -50,7 +58,7 @@ keep <- function(name, autoload=FALSE){
   if(P) write.csv(info, file = .proh, row.names = FALSE)
 }
 
-#' @describeIn keep
+#' @describeIn keep Non-standard evaluation version
 #' @param ... (possibly unquoted) names of objects
 #' @export
 

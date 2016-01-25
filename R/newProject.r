@@ -41,7 +41,12 @@ newProject <- function(name="new_project", path=NULL, meta = FALSE, class="ucr",
       if( readline()=="x" ) {
          setwd(wd)
          return(NULL)
-      }
+     }
+      yr_name <- readline("Provide name for project/git\n (e.g. Anaximandros Janson)     ")
+      yr_mail <-
+          readline("Provide email for project/git\n (e.g. Anaximandros.Janson@foo.bar)     ")
+      if(yr_name == "") yr_name <-  Sys.info()['login']
+      if(yr_mail == "") yr_mail <-  paste0(Sys.info()['login'], "@mail.com")
       path <- wd
    }
    full.path <- file.path(path,name)
@@ -60,6 +65,7 @@ newProject <- function(name="new_project", path=NULL, meta = FALSE, class="ucr",
    setwd(full.path)
    SET <- c("table", "received", "sent", "calc", "figure", "cache")
    for(S in SET) dir.create(S)
+   file.create("calc/.proh")
    setwd(file.path(full.path, "calc"))
    dir.create("autoload")
    setwd(full.path)
@@ -67,9 +73,9 @@ newProject <- function(name="new_project", path=NULL, meta = FALSE, class="ucr",
       message("[newProject] since proh version 0.2.0, the use of '_META_' file is adviced against.\n")
       if(readline(prompt = "Are you sure? ('y' for yes, anything else to skip)") == "y"){
          cat(create_meta(full.path), file="_META_.r")
-      }
+     }
    }
-   cat(create_rapport(name, class), file="rapport.rnw")
+   cat(create_rapport(name, yr_name, yr_mail, class), file="rapport.rnw")
    cat(create_bib(), file="references.bib")
    if(RSproj) cat(create_proj(), file=paste0(name,".rproj"))
 
@@ -79,20 +85,20 @@ newProject <- function(name="new_project", path=NULL, meta = FALSE, class="ucr",
       paste(rep("-", 65),collapse=""), "\n"
    )
    cat(end.text)
-   if(git) create_git()
+   if(git) create_git(yr_name, yr_mail)
    if(go_there) setwd(full.path) else setwd(wd)
    invisible(NULL)
 }
 
 # create_git --------------------
 
-create_git <- function(){
+create_git <- function(yr_name = NULL, yr_mail = NULL){
   cat(create_git_ignore(), file=".gitignore")
   system("git init")
   cat(paste(rep("-", 65),collapse=""), "\n")
-  yr_name <- readline("Provide name for git\n (e.g. Anaximandros Janson)     ")
+  if(is.null(yr_name)) yr_name <- readline("Provide name for git\n (e.g. Anaximandros Janson)     ")
   system(paste0("git config user.name \"",yr_name,"\""))
-  yr_mail <- readline("Provide email for git\n (e.g. Anaximandros.Janson@foo.bar)     ")
+  if(is.null(yr_mail)) yr_mail <- readline("Provide email for git\n (e.g. Anaximandros.Janson@foo.bar)     ")
   system(paste0("git config user.email ",yr_mail))
   system("git add rapport.rnw references.bib")
   system(paste0("git commit -m \"proh initialized project ",gsub("-","",Sys.Date()),"\""))
@@ -131,13 +137,11 @@ opts_knit$set(
 #      width=75 #63
    )
 # PROH OPTIONS: -------------------
-opts_proh$set(
-   'attach_table' = FALSE,
-   'attach_graph' = FALSE,
-   'graph_dev' = 'pdf'
-   )
+#opts_proh$set(
+#   ?
+#   )
 # CREATE PDF : ------------------------
-comp() # knit2pdf(input='rapport.rnw', clean=TRUE)
+cmp() # knit2pdf(input='rapport.rnw', clean=TRUE)
 
 # SEND RAPPORT : ----------------------
 send()
@@ -145,8 +149,10 @@ send()
 }
 
 # RAPPORT TEXT ------------------
-create_rapport <- function(name, class){
-
+create_rapport <- function(name, yr_name = NULL, yr_mail = NULL,
+                           class, meta = FALSE){
+    if(is.null(yr_name)) yr_name <- Sys.info()['login']
+    if(is.null(yr_mail)) yr_mail <- paste0(Sys.info()['login'], "@mail.com")
    paste0(
 "%%%%%%  This file was created with ",R.version.string," and
 %%%%%%  package proh ",packageVersion('proh')," on ",Sys.Date(),"
@@ -155,8 +161,8 @@ create_rapport <- function(name, class){
 %\\usepackage[latin1]{inputenc}
 %\\newcommand{\\path}{\\texttt}
 %\\newcommand{\\code}{\\texttt}
-\\title{",gsub("_","\\_", name, fixed=TRUE),"\\\\ Version 0.0}   % <--------- MAYBE CHANGE THIS?
-\\author{",Sys.info()['login'],"\\\\ \\vspace{0.2cm}\\texttt{",Sys.info()['login'],"@mail.com} }  % <-- MAYBE CHANGE THIS?
+\\title{",gsub("_","\\_", name, fixed=TRUE),"\\\\ Version 0.0}
+\\author{",yr_name,"\\\\ \\vspace{0.2cm}\\texttt{",yr_mail,"} }
 % \\addtolength{\\hoffset}{-1.5cm}
 % \\addtolength{\\textwidth}{3cm}
 % \\addtolength{\\voffset}{-1.5cm}
@@ -164,17 +170,19 @@ create_rapport <- function(name, class){
 % \\usepackage{attachfile}
 % \\usepackage{subfig}
 % \\usepackage{lscape}
-\\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,jpeg}
+% \\usepackage{longtable}
+\\DeclareGraphicsExtensions{.pdf, .eps, .png, .jpg, .jpeg}
 
 \\begin{document}
 
 <<autoLoad, cache=FALSE, include=FALSE>>=
 library(proh)
-library(ucR)
-file.exists('_META_.r'){
+library(ucR)",
+if(meta) "file.exists('_META_.r'){
    message('a _META_.r file exists - adjust accordingly!')
-}
-# KNITR OPTIONS: ---------------------
+}",
+"
+### CHUNK OPTIONS: ---------------------
 opts_chunk$set(
    cache=TRUE,
    include=FALSE,
@@ -186,12 +194,8 @@ opts_chunk$set(
    error=FALSE,
    warning=FALSE
 )
-# PACKAGE OPTIONS: --------------------
-opts_knit$set(eval.after=c('fig.cap'))
-# # PROH OPTIONS: -------------------
-# opts_proh$set('attach_table' = FALSE,
-#               'attach_graph' = FALSE,
-#               'graph_dev' = 'pdf')
+### KNIT OPTIONS: --------------------
+## opts_knit$set(eval.after=c('fig.cap'))
 
 fetchAll(calc=FALSE, autoload=TRUE)
 @
@@ -218,58 +222,50 @@ toLatex(sessionInfo())
 create_bib <- function(){
    paste0(
 "@book{knitr,
- author               = {Xie, Y.},
- journal              = {},
- publisher            = {CRC Press},
- title                = {Dynamic Documents with R and Knitr},
- year                 = {2013}
- }
+  author = {Xie, Y.},
+  journal = {},
+  publisher = {CRC Press},
+  title = {Dynamic Documents with R and Knitr. 2nd edition.},
+  year = {2015}
+}
 
 @Manual{R,
-    title = {R: A Language and Environment for Statistical Computing},
-    author = {{R Core Team}},
-    organization = {R Foundation for Statistical Computing},
-    address = {Vienna, Austria},
-    year = {2014},
-    url = {http://www.R-project.org/},
-  }
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2015},
+  url = {http://www.R-project.org/},
+}
 
 @comment{ ******** BELOW ARE TEMPLATES FOR ARTICLES, BOOKS AND TECHNICAL REPORTS ********
 
 @article{RR83,
- author               = {Rosenbaum, P. R. and Rubin, D. B.},
- journal              = {Biometrika},
- pages                = {41--55},
- title                = {The central role of the propensity score in observational studies},
- volume               = {70},
- year                 = {1983},
- }
-
-@Manual{coxme,
-    title = {coxme: Mixed Effects Cox Models.},
-    author = {Terry Therneau},
-    year = {2012},
-    note = {R package version 2.2-3},
-    url = {http://CRAN.R-project.org/package=coxme},
-  }
+  author = {Rosenbaum, P. R. and Rubin, D. B.},
+  journal = {Biometrika},
+  pages = {41--55},
+  title = {The central role of the propensity score in observational studies},
+  volume = {70},
+  year = {1983}
+}
 
 @book{,
- author               = {},
- journal              = {},
- publisher            = {},
- title                = {},
- year                 = {},
+  author = {},
+  journal = {},
+  publisher = {},
+  title = {},
+  year = {}
  }
 
 @techreport{,
- author               = {},
- type                 = {},
- institution          = {},
- pages                = {},
- title                = {},
- number               = {},
- year                 = {},
- }
+  author = {},
+  type = {},
+  institution = {},
+  pages = {},
+  title = {},
+  number = {},
+  year = {}
+}
 }
 ")
 }

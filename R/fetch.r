@@ -9,9 +9,9 @@
 #' @param env the environment to load into. Defaults to the global enviroment.
 #' @export
 
-fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c("rdata", "rdat"), env = .GlobalEnv){
+fetch <- function(name = NULL, overwrite=FALSE, message=FALSE, autoload=FALSE, formats=c("rdata", "rdat"), env = .GlobalEnv){
    types <- paste0("(\\.", paste0(formats,collapse=")|(\\."),")" )
-   if(missing(name)){
+   if(is.null(name)){
       if(autoload){
          available <- gsub(types, "",  list.files("calc/autoload/", pattern = types, all.files = TRUE))
          cat("The project keeps the following omnipresent(ish):", available, sep="\n    ")
@@ -42,7 +42,7 @@ fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c
    if(!is.character(name))
       stop("[proh::fetch] 'name' should be the names (as a character vector) of variables saved")
    location <- if(autoload) file.path("calc", "autoload") else "calc"
-   Lext <- list.files(location, pattern=types, all.files=TRUE)
+   Lext <- list.files(location, pattern=types, all.files=TRUE, ignore.case = TRUE)
    L <- gsub(types, "", Lext)
    if(length(Lext)==0) stop("[proh::fetch] there are no saves whatsoever")
    for(K in name){
@@ -66,13 +66,14 @@ fetch <- function(name, overwrite=TRUE, message=FALSE, autoload=FALSE, formats=c
    }
 }
 
-#' @describeIn fetch
+#' @describeIn fetch Non-standard evaluation version
 #' @param ... (possibly unquoted) names of objects
 #' @export
 
 fetch_ <- function(..., overwrite=TRUE, message=FALSE, autoload=FALSE,
                  formats=c("rdata", "rdat"), env = .GlobalEnv){
    name <- as.character(eval(substitute(alist(...))))
+   if(length(name) == 0) name <- NULL
    fetch(name, overwrite=overwrite, message=message, autoload=autoload,
          formats=formats, env = env)
 }
