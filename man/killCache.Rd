@@ -4,7 +4,8 @@
 \alias{killCache}
 \title{Kill Cache}
 \usage{
-killCache(pattern = NULL, cache = TRUE, figure = TRUE, table = TRUE)
+killCache(pattern = NULL, cache = TRUE, figure = TRUE, table = TRUE,
+  env = TRUE)
 }
 \arguments{
 \item{pattern}{if not \code{NULL} (default) this can search for cache items to remove}
@@ -14,6 +15,8 @@ killCache(pattern = NULL, cache = TRUE, figure = TRUE, table = TRUE)
 \item{figure}{remove files from sub directory 'figure'? (default: TRUE)}
 
 \item{table}{remove files from sub directory 'table'? (default: TRUE)}
+
+\item{env}{remove ALL objects in the global environment? (default: TRUE)}
 }
 \description{
 Remove the contents of subdirectory 'cache', 'figure' and 'table'.
