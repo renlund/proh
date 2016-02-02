@@ -22,10 +22,6 @@ cmp_rmd(input, twice = FALSE, clean = FALSE, look = FALSE, ...)
 \item{look}{should the pdf be opened after compilation?}
 
 \item{twice}{need two code executions? (e.g. for counters)}
-
-\item{clean}{should the LaTeX files be cleaned?}
-
-\item{look}{should the pdf be opened after compilation?}
 }
 \description{
 Compile the rapport

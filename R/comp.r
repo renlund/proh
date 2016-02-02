@@ -2,8 +2,6 @@
 #' @description Compile the rapport
 #' @author Henrik Renlund
 #' @param input should be 'rapport.rnw' (but can be changed)
-#' @param clean should the LaTeX files be cleaned?
-#' @param look should the pdf be opened after compilation?
 #' @param ... arguments to be passed on
 #' @import knitr
 #' @import rmarkdown
@@ -57,7 +55,7 @@ cmp_rmd <- function(input, twice = FALSE, clean = FALSE, look = FALSE, ...){
    if(twice){
       md <- sub("\\.rmd$", "\\.md$", )
       if(md == input) stop("failed to make md file")
-      knitr::knit(input = input, output = md, envir = .Globalenv)
+      knitr::knit(input = input, output = md, envir = .GlobalEnv)
    }
    rmarkdown::render(input = input,
                      output_format = opts_proh$get("output_format"),

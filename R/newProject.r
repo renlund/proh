@@ -319,15 +319,17 @@ StripTrailingWhitespace: Yes
 }
 
 #' @title Impose project structure
-#' @description Impose project structure in existing directory, files and directories created by \code{newProject} will be
+#' @description Impose project structure in existing directory, files and
+#'   directories created by \code{newProject} will be
 #' @author Henrik Renlund
-#'  @param path Path to project directory (else current)
-#'  @param class Class of document in 'rapport.rnw' (default: 'ucr')
-#'  @param go_there Set working directory to project directory? (default: TRUE)
-#'  @param RSproj Start a RStudio project? (deault: TRUE)
-#'  @param git should git be initialized? (also a .gitignore file will be created)
-#'  @seealso \code{proh::newProject}
-#'  @export
+#' @param path Path to project directory (else current)
+#' @param class Class of document in 'rapport.rnw' (default: 'ucr')
+#' @param go_there Set working directory to project directory? (default: TRUE)
+#' @param RSproj Start a RStudio project? (deault: TRUE)
+#' @param git should git be initialized? (also a .gitignore file will be
+#'   created)
+#' @seealso \code{proh::newProject}
+#' @export
 
 imposeProject <- function(path=NULL, class="ucr", go_there=TRUE, RSproj=TRUE, git=TRUE){
   wd <- getwd()
