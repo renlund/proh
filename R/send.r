@@ -7,12 +7,12 @@
 #' the rapport will be 'zipped' into a 'delivery' along with graphs and tables
 #' @param graph.filter filter for which graphs to include in 'delivery'
 #' @param table.filter filter for which graphs to include in 'delivery'
-#' @param git will ask if a little git:ing is to be done, but this can also be
-#' to TRUE/FALSE
+#' @param git will not ask if a little git:ing is to be done, but this can also be
+#' set to 'ask'
 #' @export
 
 send <- function(name=NULL, minimal = TRUE,
-               graph.filter=NULL, table.filter=NULL, git='ask'){
+               graph.filter=NULL, table.filter=NULL, git=FALSE){
    if(is.null(name)){
       opts_proh$check()
       name <- as.character(opts_proh$get("output_file"))
@@ -89,6 +89,6 @@ send <- function(name=NULL, minimal = TRUE,
     }
     if(!git) cat(' *------------------------------------*
  This is a good time to Git your files!
- *------------------------------------*')
+ *------------------------------------*\n')
    invisible(NULL)
 }

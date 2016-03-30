@@ -5,7 +5,7 @@
 \title{Mark a rapport with current date}
 \usage{
 send(name = NULL, minimal = TRUE, graph.filter = NULL,
-  table.filter = NULL, git = "ask")
+  table.filter = NULL, git = FALSE)
 }
 \arguments{
 \item{name}{name of output rapport (will include todays date), defaults
@@ -18,8 +18,8 @@ the rapport will be 'zipped' into a 'delivery' along with graphs and tables}
 
 \item{table.filter}{filter for which graphs to include in 'delivery'}
 
-\item{git}{will ask if a little git:ing is to be done, but this can also be
-to TRUE/FALSE}
+\item{git}{will not ask if a little git:ing is to be done, but this can also be
+set to 'ask'}
 }
 \description{
 Mark a rapport with todays date and put it in the 'sent' folder
