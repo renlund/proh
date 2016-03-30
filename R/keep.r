@@ -30,7 +30,12 @@ keep <- function(name, autoload=FALSE){
          #save(tmp_var, file=file.path(location, paste0(K, ".rdat")))
          tmp_var <- get(K, envir=.GlobalEnv)
          if(P){
-            classy = class(tmp_var)
+            classy = class(tmp_var)[1]
+            df_class <- if(nchar(classy) > 13) {
+               paste0(substring(classy, 1, 10), "...")
+            } else {
+               classy
+            }
             if(K %in% info$object){
                info <- subset(info, object != K)
             }
@@ -46,7 +51,7 @@ keep <- function(name, autoload=FALSE){
             }
             tmp_info <- data.frame(object = K,
                                    saved = as.character(Sys.time()),
-                                   class = classy[1],
+                                   class = df_class,
                                    variables = df_variables,
                                    stringsAsFactors = FALSE)
          }
