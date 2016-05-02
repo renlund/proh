@@ -32,9 +32,10 @@
 #' @param RSproj Start a RStudio project? (deault: TRUE)
 #' @param git should git be initialized? (also a .gitignore file will be
 #'   created)
+#' @param org should an org file be created?
 #' @export
 
-newProject <- function(name="new_project", path=NULL, meta = FALSE, class="ucr", go_there=TRUE, RSproj=TRUE, git=TRUE){
+newProject <- function(name="new_project", path=NULL, meta = FALSE, class="ucr", go_there=TRUE, RSproj=TRUE, git=TRUE, org = TRUE){
    wd <- getwd()
    if(is.null(path)) {
       cat(paste0("The new '",name,"' project directory structure will be created\n in the current working directory:\n   ", wd, "\n Press 'x' to abort.\n Press anything else to proceed."))
@@ -85,6 +86,8 @@ newProject <- function(name="new_project", path=NULL, meta = FALSE, class="ucr",
       paste(rep("-", 65),collapse=""), "\n"
    )
    cat(end.text)
+   if(org) cat(create_org(name, yr_name, yr_mail),
+               file = paste0(namn, "-org.org"))
    if(git) create_git(yr_name, yr_mail)
    if(go_there) setwd(full.path) else setwd(wd)
    invisible(NULL)
@@ -103,6 +106,37 @@ create_git <- function(yr_name = NULL, yr_mail = NULL){
   system("git add rapport.rnw references.bib")
   system(paste0("git commit -m \"proh initialized project ",gsub("-","",Sys.Date()),"\""))
   cat(paste(rep("-", 65),collapse=""), " Done! \n")
+}
+
+# create_org --------------------
+
+create_org <- function(name = NULL, yr_name = NULL, yr_mail = NULL){
+    paste0(
+"#+TITLE: ", name,"
+#+AUTHOR: ", yr_name, "
+#+EMAIL: ", yr_mail, "
+#+STARTUP: overview
+#+STARTUP: hidestars
+
+This is an org mode file, to be used with emacs. See: [[http://orgmode.org/][org mode link]].
+
+* DONE initialize project '", name,"'
+  CLOSED: [", Sys.Date(),"]
+* TODO start working on project '", name, "'
+  SCHEDULED: <", Sys.Date()+1,">
+
+* header 1
+  some text
+** header 2a
+   more text
+*** header 3a
+    yet more
+*** header 3b
+    again, more
+** header 2b
+   the last text
+"
+)
 }
 
 # META TEXT ---------------------

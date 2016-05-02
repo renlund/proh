@@ -5,7 +5,8 @@
 \title{Create new project}
 \usage{
 newProject(name = "new_project", path = NULL, meta = FALSE,
-  class = "ucr", go_there = TRUE, RSproj = TRUE, git = TRUE)
+  class = "ucr", go_there = TRUE, RSproj = TRUE, git = TRUE,
+  org = TRUE)
 }
 \arguments{
 \item{name}{Name of the project}
@@ -22,6 +23,8 @@ newProject(name = "new_project", path = NULL, meta = FALSE,
 
 \item{git}{should git be initialized? (also a .gitignore file will be
 created)}
+
+\item{org}{should an org file be created?}
 }
 \description{
 This function sets up a project directory structure along with
