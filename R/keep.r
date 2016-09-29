@@ -39,7 +39,8 @@ keep <- function(name, autoload=FALSE){
             if(K %in% info$object){
                info <- subset(info, object != K)
             }
-            df_names = if("data.frame" %in% classy){
+            ## df_names = if("data.frame" %in% classy){
+            df_names = if("names" %in% names(attributes(tmp_var))){
                paste0(names(tmp_var), collapse = ",")
             } else {
                " "

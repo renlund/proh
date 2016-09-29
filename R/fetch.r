@@ -9,7 +9,8 @@
 #' @param env the environment to load into. Defaults to the global enviroment.
 #' @export
 
-fetch <- function(name = NULL, overwrite=FALSE, message=FALSE, autoload=FALSE, formats=c("rdata", "rdat"), env = .GlobalEnv){
+fetch <- function(name = NULL, overwrite=FALSE, message=FALSE, autoload=FALSE,
+   formats=c("rdata", "rdat", "Rdata", "Rdat"), env = .GlobalEnv){
    types <- paste0("(\\.", paste0(formats,collapse=")|(\\."),")" )
    if(is.null(name)){
       if(autoload){

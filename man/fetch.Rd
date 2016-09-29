@@ -6,7 +6,7 @@
 \title{Fetch}
 \usage{
 fetch(name = NULL, overwrite = FALSE, message = FALSE, autoload = FALSE,
-  formats = c("rdata", "rdat"), env = .GlobalEnv)
+  formats = c("rdata", "rdat", "Rdata", "Rdat"), env = .GlobalEnv)
 
 fetch_(..., overwrite = TRUE, message = FALSE, autoload = FALSE,
   formats = c("rdata", "rdat"), env = .GlobalEnv)

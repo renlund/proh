@@ -87,7 +87,7 @@ newProject <- function(name="new_project", path=NULL, meta = FALSE, class="ucr",
    )
    cat(end.text)
    if(org) cat(create_org(name, yr_name, yr_mail),
-               file = paste0(namn, "-org.org"))
+               file = paste0(name, "-org.org"))
    if(git) create_git(yr_name, yr_mail)
    if(go_there) setwd(full.path) else setwd(wd)
    invisible(NULL)
@@ -115,26 +115,17 @@ create_org <- function(name = NULL, yr_name = NULL, yr_mail = NULL){
 "#+TITLE: ", name,"
 #+AUTHOR: ", yr_name, "
 #+EMAIL: ", yr_mail, "
-#+STARTUP: overview
+#+STARTUP: contents
 #+STARTUP: hidestars
 
 This is an org mode file, to be used with emacs. See: [[http://orgmode.org/][org mode link]].
+You might want to edit .emacs to include this file in the org-agenda-files variable.
 
-* DONE initialize project '", name,"'
+* ", name," action list
+** DONE initialize project '", name,"'
   CLOSED: [", Sys.Date(),"]
-* TODO start working on project '", name, "'
+** TODO start working on project '", name, "'
   SCHEDULED: <", Sys.Date()+1,">
-
-* header 1
-  some text
-** header 2a
-   more text
-*** header 3a
-    yet more
-*** header 3b
-    again, more
-** header 2b
-   the last text
 "
 )
 }
