@@ -7,10 +7,9 @@
 #' @param message do you want an explanatory message?
 #' @param formats formats to look for. Default \code{c('.rdata', '.rdat')}.
 #' @export
-
-fetchAll <- function(calc=TRUE, autoload=TRUE, overwrite=TRUE, message=FALSE, formats=c("rdat", "rdata")){
-  types <- paste0("\\.(", paste0(formats,collapse=")|("),")" ) 
-  if(calc){ 
+fetch_all <- function(calc=TRUE, autoload=TRUE, overwrite=TRUE, message=FALSE, formats=c("rdat", "rdata")){
+  types <- paste0("\\.(", paste0(formats,collapse=")|("),")" )
+  if(calc){
     tmp1 <- list.files(path='calc', recursive=FALSE, pattern=types, all.files=TRUE)
     tmp2 <- gsub(types, "", tmp1)
     for(name in tmp2) fetch(name, overwrite=overwrite, message=message, autoload=FALSE, formats=formats)
@@ -21,4 +20,12 @@ fetchAll <- function(calc=TRUE, autoload=TRUE, overwrite=TRUE, message=FALSE, fo
     for(name in tmp2) fetch(name, overwrite=overwrite, message=message, autoload=TRUE, formats=formats)
   }
   invisible(NULL)
+}
+
+#' @describeIn fetch_all An alias
+#' @export
+fetchAll <- function(calc=TRUE, autoload=TRUE, overwrite=TRUE, message=FALSE, formats=c("rdat", "rdata")){
+    message("from proh 0.3 we recommend using 'fetch_all' instead")
+    fetch_all(calc = calc, autoload = autoload, overwrite = overwrite,
+              message = message, formats = formats)
 }

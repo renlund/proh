@@ -5,7 +5,7 @@
 #' @export
 
 local_install <- function(path){
-   install.packages(
+   utils::install.packages(
       pkgs=path,
       repos=NULL,
       type="source"

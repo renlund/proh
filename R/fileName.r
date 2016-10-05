@@ -6,8 +6,7 @@
 #' some_names <- c("foo.txt", "foo.bar.r", ".emacs", "DESCRIPTION")
 #' fileName(some_names)
 #' @export
-
-fileName <- function(filename){
+file_name <- function(filename){
    ext <- rep(NA_character_, length(filename))
    main <- ext
    for(k in seq_along(filename)){
@@ -18,8 +17,16 @@ fileName <- function(filename){
    }
    R <- data.frame(
       name = main,
-      extension = ext
+      extension = ext,
+      stringsAsFactors = FALSE
    )
    rownames(R) <- filename
    R
+}
+
+#' @describeIn file_name An alias
+#' @export
+fileName <- function(filename){
+    message("from proh 0.3 we recommend using 'file_name' instead")
+    file_name(filename)
 }

@@ -13,7 +13,7 @@ keep <- function(name, autoload=FALSE){
   P <- file.exists(.proh)
   if(P){
      if(length(readLines(con = .proh, n = 1)) != 0) {
-        info <- read.csv(.proh)
+        info <- utils::read.csv(.proh)
      } else {
         info <- NULL
      }

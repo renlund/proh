@@ -17,14 +17,11 @@ Currently these values are maintained with the functions in (the list)
 \item output_format - default: pdf_document
 \item output_file - will be like main_document but appropriate file extension (
 unless set manually)
-\item attach_graph - use \code{figh} in \code{fig.caption}
-(in a \code{knitr} chunk), i.e. \code{fig.caption = figh("My Caption")},
-this forces \code{figh} to include an attach-statement
-pointing to the relevant figure in 'figure/' .
-\item graph_dev - graphical extension
-\item attach_table - this forces \code{tableh} to also attach its tables
-\item table_fnc - this is the function to write the \code{tableh}-table
-to file
+\item version a version number as character, e.g. "Version 1". This will
+    appear on the LaTeX version of the rapport
+\item version_latex this is the string that will determine how the version
+    number appears in the title (in LaTeX produced pdf:s) and will be set
+    automatically
 }
 }
 \keyword{datasets}

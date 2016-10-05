@@ -2,36 +2,35 @@
 #' @description Compile the rapport
 #' @author Henrik Renlund
 #' @param input should be 'rapport.rnw' (but can be changed)
+#' @param cess run proh::cess to get (possible) defaults in first chunk?
 #' @param ... arguments to be passed on
 #' @import knitr
 #' @import rmarkdown
 #' @export
-
-cmp <- function(input=NULL, ...){
-   if(is.null(input)){
-      opts_proh$check()
-      input <- opts_proh$get("main_document")
-   }
-   if(grepl("\\.(R|r)nw$", input)){
-#       knitr::knit2pdf(input = input, output = opts_proh$get("output_file"),
-#                       clean=clean, envir=.GlobalEnv, ...)
-      cmp_rnw(input = input, ...)
-   } else if(grepl("\\.(R|r)md$", input)){
-#       opts_proh$check()
-#       out_form <- opts_proh$get("output_format")
-#       rmarkdown::render(input = input,
-#                         output_format = out_form,
-#                         output_file = opts_proh$get("output_file"),
-#                         envir = .GlobalEnv)
-      cmp_rmd(input = input, ...)
-   }
+cmp <- function(input=NULL, cess = TRUE, ...){
+    if(cess){
+        tryCatch(cess(), error = function(e){
+            if(file.exists(".Rprofile")) source(".Rprofile")
+            tryCatch(cess(), error = function(e){
+                stop("FAILED to evaluate first chunk\nPerhaps you need to point to a file...")
+            })
+        })
+    }
+    if(is.null(input)){
+        opts_proh$check()
+        input <- opts_proh$get("main_document")
+    }
+    if(grepl("\\.(R|r)nw$", input)){
+        cmp_rnw(input = input, ...)
+    } else if(grepl("\\.(R|r)md$", input)){
+        cmp_rmd(input = input, ...)
+    }
 }
 
 #' @describeIn cmp Compile rnw files
 #' @param clean should the LaTeX files be cleaned?
 #' @param look should the pdf be opened after compilation?
 #' @export
-
 cmp_rnw <- function(input, clean = TRUE, look = FALSE, ...){
    opts_proh$check()
    ut <- sub("\\.pdf$", "\\.tex", opts_proh$get("output_file"))
@@ -49,7 +48,6 @@ cmp_rnw <- function(input, clean = TRUE, look = FALSE, ...){
 #' @describeIn cmp Compile rmd files
 #' @param twice need two code executions? (e.g. for counters)
 #' @export
-
 cmp_rmd <- function(input, twice = FALSE, clean = FALSE, look = FALSE, ...){
    opts_proh$check()
    if(twice){

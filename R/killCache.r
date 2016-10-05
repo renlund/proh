@@ -8,8 +8,7 @@
 #' @param table remove files from sub directory 'table'? (default: TRUE)
 #' @param env remove ALL objects in the global environment? (default: TRUE)
 #' @export
-
-killCache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE, env = TRUE){
+kill_cache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE, env = TRUE){
    if(env) rm(list = ls(envir = .GlobalEnv, all.names = TRUE), envir = .GlobalEnv)
    if(!is.null(pattern)){
       da_flies <- list.files(path = 'cache',  pattern = pattern, full.names=TRUE)
@@ -45,4 +44,13 @@ killCache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE, env = T
       if(table)  file.remove(list.files('table',  full.names=TRUE))
    }
    invisible(NULL)
+}
+
+#' @describeIn kill_cache An alias
+#' @export
+killCache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE,
+                      env = TRUE){
+    message("from proh 0.3 we recommend using 'kill_cache' instead")
+    kill_cache(pattern=pattern, cache=cache, figure=figure, table=table,
+                      env = env)
 }

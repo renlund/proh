@@ -4,7 +4,7 @@
 \alias{cess}
 \title{Run chunks}
 \usage{
-cess(chunk = NULL, file = NULL, envir = .GlobalEnv)
+cess(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = TRUE)
 }
 \arguments{
 \item{chunk}{name or number of chunk, if \code{NULL} (default) then the
@@ -14,6 +14,8 @@ first chunk will be executed}
 
 \item{envir}{is \code{.GlobalEnv} by default, the environemnt in which to
 evaluate chunks}
+
+\item{profile}{source .Rprofile if it exists?}
 }
 \description{
 Run a chunk in a given document

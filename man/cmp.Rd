@@ -6,7 +6,7 @@
 \alias{cmp_rnw}
 \title{Compile the rapport}
 \usage{
-cmp(input = NULL, ...)
+cmp(input = NULL, cess = TRUE, ...)
 
 cmp_rnw(input, clean = TRUE, look = FALSE, ...)
 
@@ -14,6 +14,8 @@ cmp_rmd(input, twice = FALSE, clean = FALSE, look = FALSE, ...)
 }
 \arguments{
 \item{input}{should be 'rapport.rnw' (but can be changed)}
+
+\item{cess}{run proh::cess to get (possible) defaults in first chunk?}
 
 \item{...}{arguments to be passed on}
 

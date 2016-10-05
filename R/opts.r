@@ -21,7 +21,7 @@ proh_get <- function(name){
       for(k in name){
          L[[k]] <- defaults[[k]]
       }
-      if(length(L) == 1) L[[1]] else L
+      if(length(L) == 1) L[[1]] else if(length(L) == 0) NULL else L
    }
 }
 
@@ -29,7 +29,7 @@ proh_get <- function(name){
 # @description this function sets the proh settings
 # @param ... the names and values you want set, e.g. \code{"add_graph"=TRUE}
 
-proh_set <- function(...){
+proh_set <- function(..., check = TRUE){
    if(length(ls(envir=milieu))==0) proh_restore()
    dots <- list(...)
    value <- get("value", milieu)
@@ -37,7 +37,7 @@ proh_set <- function(...){
    current <- proh_get()
    for(k in names(dots)) current[[k]] <- dots[[k]]
    assign(x="defaults", value=current, envir=milieu)
-   proh_check()
+   if(check) proh_check()
    invisible(NULL)
 }
 
@@ -49,11 +49,8 @@ proh_restore <- function(){
       main_document = "rapport.rnw",
       output_format = "pdf_document",
       output_file = NULL,
-      attach_graph = FALSE,
-      graph_dev = "pdf",
-      attach_table = FALSE,
-      table_fnc = utils::write.csv
-      #loft = list(figure = list(), table=list())
+      version = NULL,
+      version_latex = NULL
    ), envir=milieu)
    assign(x="value", value = names(get(x="defaults", envir=milieu)), envir=milieu)
    proh_check()
@@ -75,21 +72,21 @@ proh_check <- function(){
    }
    if(!grepl("\\.r(nw|md)$", proh_get("main_document"))){
       warning("[proh_check] main_document should be rmd or rnw")
-      proh_set("main_document" = "rapport.rnw")
+      proh_set("main_document" = paste0(fileName(proh_get("main_document"))$name, ".rnw"))
    }
    output_format <- proh_get("output_format")
-   output_file <- as.character(proh_get("output_file"))
-   if(length(output_file)!=0){
+   output_file   <- proh_get("output_file")
+   if(!is.null(output_file)){
       if( (output_format == "pdf_document"  & !grepl("\\.pdf$",  output_file)) |
           (output_format == "html_document" & !grepl("\\.html$", output_file)) |
           (output_format == "word_document" & !grepl("\\.docx$", output_file)) ){
          warning("[proh_check] output_file extension does not match. Set to default.")
          proh_set("output_file" = NULL)
       }
-   }
-   if(length(proh_get("output_file"))==0){
+   } else {
       if(output_format == "pdf_document") {
-         proh_set("output_file" = sub("\\.r(nw|md)$", ".pdf", as.character(proh_get("main_document"))))
+          proh_set("output_file" = sub("\\.r(nw|md)$", ".pdf",
+                                       as.character(proh_get("main_document"))))
       }
       if(output_format == "html_document") {
          proh_set("output_file" = sub("\\.rmd$", ".html", as.character(proh_get("main_document"))))
@@ -97,6 +94,13 @@ proh_check <- function(){
       if(output_format == "word_document") {
          proh_set("output_file" = sub("\\.rmd$", ".docx", as.character(proh_get("main_document"))))
       }
+   }
+   version <- proh_get("version")
+   version_latex <- proh_get("latex_version")
+   if(!is.null(version_latex)) if(version_latex == "") version_latex <- NULL
+   if(is.null(version_latex)){
+       vl <- if(is.null(version)) "" else  paste0("\\\\ ", version)
+       proh_set("version_latex" = vl, check = FALSE)
    }
 }
 
@@ -109,18 +113,13 @@ proh_check <- function(){
 #' \item output_format - default: pdf_document
 #' \item output_file - will be like main_document but appropriate file extension (
 #' unless set manually)
-#' \item attach_graph - use \code{figh} in \code{fig.caption}
-#' (in a \code{knitr} chunk), i.e. \code{fig.caption = figh("My Caption")},
-#' this forces \code{figh} to include an attach-statement
-#' pointing to the relevant figure in 'figure/' .
-#' \item graph_dev - graphical extension
-#' \item attach_table - this forces \code{tableh} to also attach its tables
-#' \item table_fnc - this is the function to write the \code{tableh}-table
-#' to file
+#' \item version a version number as character, e.g. "Version 1". This will
+#'     appear on the LaTeX version of the rapport
+#' \item version_latex this is the string that will determine how the version
+#'     number appears in the title (in LaTeX produced pdf:s) and will be set
+#'     automatically
 #' }
-
 #' @export
-
 opts_proh <- list(
    "get" = proh_get,
    "set" = proh_set,

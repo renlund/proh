@@ -11,11 +11,9 @@
 #'    \item eval.arg: (if \code{all = TRUE}) if there is an argument specified for \code{eval}
 #'    \item code:  (if \code{all = TRUE}) the code in the chunk
 #' }
-#' @export
-
 chunks_info <- function(file = NULL, all = FALSE){
    if(is.null(file)) file = opts_proh$get("main_document")
-   if(fileName(file)$extension != ".rnw") warning("[chunks_info] this is not an rnw-file")
+   if(file_name(file)$extension != ".rnw") warning("[chunks_info] this is not an rnw-file")
    X <- readLines(con = file)
    starts <- grep(pattern = "^ *<<.*>>=.*$", x = X)
    stopps <- grep(pattern = "^@ *$", x = X)
@@ -80,11 +78,9 @@ chunks_info <- function(file = NULL, all = FALSE){
 #'    \item sub: number of 'sub', i.e. 0 for section, 1 for subsection,
 #'    and 2 for subsubsection
 #' }
-#' @export
-
 sections_info <- function(file = NULL){
    if(is.null(file)) file = opts_proh$get("main_document")
-   if(fileName(file)$extension != ".rnw") warning("[sections_info] this is not an rnw-file")
+   if(file_name(file)$extension != ".rnw") warning("[sections_info] this is not an rnw-file")
    X <- readLines(con = file)
    # title_row <- grep(pattern = "\\\\title\\{.*\\}", x = X) # not used yet
    sec_hit   <- grep(pattern = "\\\\(sub){0,2}section\\{", x = X)
@@ -123,7 +119,6 @@ sections_info <- function(file = NULL){
 #' @param file file of interest ( = 'rapport.rnw' by default)
 #' @return A print out
 #' @export
-
 doc_struc <- function(file = NULL){
    if(is.null(file)) file = opts_proh$get("main_document")
    sec <- sections_info(file = file)
@@ -165,9 +160,6 @@ doc_struc <- function(file = NULL){
       }
       s
    }
-   # short("foo bar")
-   # short("foo bar", tol = 5)
-   # short(s = "foo bar", extend = "*")
    r <- c("# document:", paste0("#     ", file), "# structure:", "")
    for(k in 1:n){ # k = 6
       if(both$type[k] == "chu"){

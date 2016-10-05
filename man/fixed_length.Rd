@@ -27,7 +27,7 @@ make nchar have the same value for all elements of x
 \examples{
 fixed_length(x = c("A", "ABC"))
 fixed_length(x = c("A", "ABC"), 2, fill = "_")
-fixed_length(x = c("A", "ABC"), fill = ".", right = F)
+fixed_length(x = c("A", "ABC"), fill = ".", right = FALSE)
 fixed_length(8:12, fill = "0")
 }
 \author{

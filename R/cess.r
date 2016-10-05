@@ -5,10 +5,15 @@
 #' @param file the file which has the chunks, default: 'rapport.rnw'
 #' @param envir is \code{.GlobalEnv} by default, the environemnt in which to
 #' evaluate chunks
+#' @param profile source .Rprofile if it exists?
 #' @note This will replace \code{proh::first}
 #' @export
-
-cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv){
+cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = TRUE){
+    if(profile){
+        if(file.exists(".Rprofile")){
+            source(".Rprofile")
+        }
+    }
    if(is.null(file)) file = opts_proh$get("main_document")
    cinfo <- chunks_info(file, all = TRUE)
    if(is.null(chunk)) chunk <- 1

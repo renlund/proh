@@ -10,13 +10,17 @@
 #' @param git will not ask if a little git:ing is to be done, but this can also be
 #' set to 'ask'
 #' @export
-
 send <- function(name=NULL, minimal = TRUE,
                graph.filter=NULL, table.filter=NULL, git=FALSE){
    if(is.null(name)){
       opts_proh$check()
       name <- as.character(opts_proh$get("output_file"))
    }
+   version <- if(is.null(v <- proh_get("version"))){
+                  ""
+              } else {
+                  paste0("--", gsub(" ", "-", v, fixed = TRUE))
+              }
    name_org <- name
    ext <- NULL
    if(grepl("\\.", name)){
@@ -25,8 +29,8 @@ send <- function(name=NULL, minimal = TRUE,
       ext <- paste0(".", tmp[m])
       name <- paste(tmp[-m], collapse = ".")
    }
-   today <- gsub('-','',Sys.Date())
-   nameD <- paste0(name, '_', today)
+   today <- gsub('-', '', Sys.Date())
+   nameD <- paste0(name, version, '--', today)
    FnameDE <- function(nameD) paste0(nameD, ext)
    nameDE <- FnameDE(nameD)
    #dummy <- 0
@@ -81,7 +85,7 @@ send <- function(name=NULL, minimal = TRUE,
       outZip  <- file.path('table', outs)
       rappZip <- file.path(nameDE)
       file.copy(from='rapport.pdf', to=rappZip)
-      zip(
+      utils::zip(
          zipfile=sentZip,
          files=c(grafZip, outZip, rappZip)
       )
