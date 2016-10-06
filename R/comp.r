@@ -8,17 +8,17 @@
 #' @import rmarkdown
 #' @export
 cmp <- function(input=NULL, cess = TRUE, ...){
-    if(grepl("\\.(R|r)nw$", input)){
-        if(is.null(input)){
-            opts_proh$check()
-            input <- opts_proh$get("source_file")
-        } else {
-            if(cess){
-                tryCatch(cess(profile = TRUE), error = function(e){
-                    stop("FAILED to evaluate first chunk\nPerhaps you need to point to a file...")
-                })
-            }
+    if(is.null(input)){
+        opts_proh$check()
+        input <- opts_proh$get("source_file")
+    } else {
+        if(cess){
+            tryCatch(cess(profile = TRUE), error = function(e){
+                stop("FAILED to evaluate first chunk\nPerhaps you need to point to a file...")
+            })
         }
+    }
+    if(grepl("\\.(R|r)nw$", input)){
         cmp_rnw(input = input, ...)
     } else if(grepl("\\.(R|r)md$", input)){
         stop("methods for non-Rnw files not implemented")
