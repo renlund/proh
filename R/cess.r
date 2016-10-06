@@ -14,7 +14,7 @@ cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = TRUE){
             source(".Rprofile")
         }
     }
-   if(is.null(file)) file = opts_proh$get("main_document")
+   if(is.null(file)) file = opts_proh$get("source_file")
    cinfo <- chunks_info(file, all = TRUE)
    if(is.null(chunk)) chunk <- 1
    if(is.numeric(chunk)){

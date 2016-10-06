@@ -43,8 +43,7 @@ proh_set <- function(..., check = TRUE){
 # @description this function restores the default proh settings
 proh_restore <- function(check = FALSE){
    assign(x="defaults", value=list(
-      main_document = "rapport.rnw",
-      ## output_format = "pdf_document",
+      source_file = "rapport.rnw",
       output_file = NULL,
       version = NULL,
       version_latex = NULL
@@ -57,14 +56,14 @@ proh_restore <- function(check = FALSE){
 # @title proh_check
 # @description some checks of the proh options
 proh_check <- function(){
-    main_doc <- proh_get("main_document")
+    main_doc <- proh_get("source_file")
     if(!file.exists(main_doc)){
         foo <- paste0(rep("~", options("width")$width), collapse = "")
         warning(paste0("\n", foo,
                        "\nSource document set to ", main_doc,
                        " which I can't find in the current directory.\n",
                        "Perhaps use an .Rprofile with:\n",
-                       "opts_proh$set('main_document' = <correct-file>)\n",
+                       "opts_proh$set('source_file' = <correct-file>)\n",
                        foo))
     }
     out_file <- proh_get("output_file")
@@ -90,9 +89,8 @@ proh_check <- function(){
 #' Currently these values are maintained with the functions in (the list)
 #' \code{opts_proh}:
 #' \itemize{
-#' \item main_document - default: rapport.rnw
-#' \item output_format - default: pdf_document
-#' \item output_file - will be like main_document but appropriate file extension (
+#' \item source_file - default: rapport.rnw
+#' \item output_file - will be like source_file but appropriate file extension (
 #' unless set manually)
 #' \item version a version number as character, e.g. "Version 1". This will
 #'     appear on the LaTeX version of the rapport

@@ -11,7 +11,7 @@ cmp <- function(input=NULL, cess = TRUE, ...){
     if(grepl("\\.(R|r)nw$", input)){
         if(is.null(input)){
             opts_proh$check()
-            input <- opts_proh$get("main_document")
+            input <- opts_proh$get("source_file")
         } else {
             if(cess){
                 tryCatch(cess(profile = TRUE), error = function(e){

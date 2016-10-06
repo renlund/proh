@@ -26,8 +26,8 @@ fetch <- function(name = NULL, overwrite=FALSE, message=FALSE, autoload=FALSE,
             cat("The project keeps: \n\n")
             dummy <- NULL
             if(file.exists(file.path("calc", ".proh"))){
-               info <- read.csv(file.path("calc", ".proh"))
-               info <- subset(info, object %in% available)
+               info <- utils::read.csv(file.path("calc", ".proh"))
+               info <- subset(info, info$object %in% available)
                print(info, row.names = FALSE)
                dummy <- info$object
             }

@@ -3,27 +3,38 @@
 #'   some files
 #' @author Henrik Renlund
 #' @details This function sets up a folder with subfolders \itemize{
-#'   \item{cache: this is only used by knitr} \item{calc: this is for storage of
-#'   .rdat files} \item{calc/autoload: this is for storage of inline values.
+#' \item{cache: this is only used by knitr}
+#' \item{calc: this is for storage of
+#'   .rdat files}
+#' \item{calc/autoload: this is for storage of inline values.
 #'   Typically this folder will automatically be loaded in a first (uncached)
-#'   chunk of the rapport file by \code{fetch_all}.} \item{figure: for plots
-#'   (also used by knitr)} \item{recieved: typically this is were I put files
-#'   given by clients} \item{sent: this is were I store things sent to client.
+#'   chunk of the rapport file by \code{fetch_all}.}
+#' \item{figure: for plots
+#'   (also used by knitr)}
+#' \item{recieved: typically this is were I put files
+#'   given by clients}
+#' \item{sent: this is were I store things sent to client.
 #'   The function \code{send} will attach the current date to the pdf version of
 #'   the rapport and put it in this directory. Optionally, \code{send} can zip
 #'   the rapport along with the graphs and tables from their respective
-#'   directory} \item{table: for (human readable) tabulated data} } and creates,
-#'   optionally, the files \itemize{ \item{'rapport.rnw': the rapport file, can
+#'   directory}
+#' \item{table: for (human readable) tabulated data}
+#' }
+#' and creates, optionally, the files
+#' \itemize{
+#' \item{'rapport.rnw': the rapport file, can
 #'   be changed to suit your needs, but is designed to have a first uncached
 #'   chunk (by default called 'autoLoad') that executes \code{fetch_all()}}
-#'   \item{'_META_.r': this WAS a file for the global options which can be read
-#'   by comp... nowadays I think it is better to include these options in a
-#'   first uncached chunk} \item{'references.bib': a template for bibTeX
-#'   references} \item{a .rsproj file with the project name: this is an RStudio
+#' \item{.Rprofile which will load and point proh to the source file}
+#' \item{'references.bib': a template for bibTeX
+#'   references}
+#' \item{a .rsproj file with the project name: this is an RStudio
 #'   project file, by starting this file RStudio will set the working directory
 #'   and remember what documents you were looking at. There are settings to be
-#'   made that can be project specific} \item{.gitignore: a file that git uses
-#'   to tell which files to ignore} }
+#'   made that can be project specific}
+#' \item{.gitignore: a file that git uses
+#'   to tell which files to ignore}
+#' }
 #' @param name Name of the project
 #' @param path Path to project directory (else current)
 #' @param class Class of document in 'rapport.rnw' (default: 'ucr')
@@ -34,11 +45,7 @@
 #' @param org should an org file be created?
 #' @export
 new_project <- function(name="new_project", path=NULL, class="ucr",
-                       go_there=TRUE, RSproj=TRUE, git=TRUE, org = FALSE, ext = "rnw"){
-    if(!ext %in% c("rnw", "rmd")){
-        warning("'ext' should be 'rnw' or 'rmd'. Will be set to 'rnw'")
-        ext <- "rnw"
-    }
+                       go_there=TRUE, RSproj=TRUE, git=TRUE, org = FALSE){
     install_directory <- if(is.null(path)) getwd() else path
     cat(paste0("The new '", name, "' project directory structure will be created\n under directory:\n   ", install_directory, "\n Press 'x' to abort.\n Press anything else to proceed."))
     if( readline()=="x" ) {
@@ -71,18 +78,13 @@ new_project <- function(name="new_project", path=NULL, class="ucr",
     dir.create("autoload")
     setwd(full.path)
     rapport_name <- gsub(" ", "-", name, fixed = TRUE)
-    source_file <- paste0(rapport_name, ".", ext)
-    output_file <- paste0(rapport_name, ".", if(ext == "rnw") "pdf" else "html")
-                       ## ??
-    if(ext == "rnw"){
-        cat(create_rnw_rapport(name = name, yr_name = yr_name,
-                               yr_mail = yr_mail, class = class,
-                               main_document = source_file,
-                               output_file = output_file),
-            file=source_file)
-    } else {
-        stop("rmd rapport not implemented yet")
-    }
+    source_file <- paste0(rapport_name, ".rnw")
+    output_file <- paste0(rapport_name, ".pdf")
+    cat(create_rnw_rapport(name = name, yr_name = yr_name,
+                           yr_mail = yr_mail, class = class,
+                           source_file = source_file,
+                           output_file = output_file),
+        file=source_file)
     cat(create_bib(), file="references.bib")
     if(RSproj) cat(create_proj(), file=paste0(rapport_name,".rproj"))
     end.text <- paste0(
@@ -94,7 +96,7 @@ new_project <- function(name="new_project", path=NULL, class="ucr",
     if(org) cat(create_org(name, yr_name, yr_mail),
                 file = paste0(name, "-org.org"))
     if(git) create_git(yr_name, yr_mail, source_file)
-    if(go_there) setwd(full.path) else setwd(wd)
+    if(go_there) setwd(full.path) else setwd(full.path)
     cat(create_rprofile(source_file, output_file),
         file = ".Rprofile")
     invisible(NULL)
@@ -102,7 +104,7 @@ new_project <- function(name="new_project", path=NULL, class="ucr",
 
 ## create_git --------------------
 
-create_git <- function(yr_name = NULL, yr_mail = NULL, main_document){
+create_git <- function(yr_name = NULL, yr_mail = NULL, source_file){
   cat(create_git_ignore(), file=".gitignore")
   system("git init")
   cat(paste(rep("-", 65),collapse=""), "\n")
@@ -110,7 +112,7 @@ create_git <- function(yr_name = NULL, yr_mail = NULL, main_document){
   system(paste0("git config user.name \"",yr_name,"\""))
   if(is.null(yr_mail)) yr_mail <- readline("Provide email for git\n (e.g. Anaximandros.Janson@foo.bar)     ")
   system(paste0("git config user.email ",yr_mail))
-  system(paste0("git add ", main_document, " references.bib"))
+  system(paste0("git add ", source_file, " references.bib"))
   system(paste0("git commit -m \"proh initialized project ",gsub("-","",Sys.Date()),"\""))
   cat(paste(rep("-", 65),collapse=""), " Done! \n")
 }
@@ -138,7 +140,7 @@ You might want to edit .emacs to include this file in the org-agenda-files varia
 
 ## RAPPORT TEXT ------------------
 create_rnw_rapport <- function(name, yr_name = NULL, yr_mail = NULL, class,
-                               main_document, output_file){
+                               source_file, output_file){
     if(is.null(yr_name)) yr_name <- Sys.info()['login']
     if(is.null(yr_mail)) yr_mail <- paste0(Sys.info()['login'], "@mail.com")
    paste0(
@@ -195,7 +197,7 @@ opts_knit$set(eval.after=c('fig.cap'))
 
 ### PROH OPTIONS: ------------------------------------------
 opts_proh$set(
-    main_document = '", main_document,"',
+    source_file = '", source_file,"',
     output_file = '", output_file,"',
     version = 'Version 0.01'
 )
@@ -328,14 +330,14 @@ StripTrailingWhitespace: Yes
 }
 
 ## Rprofile -------------------
-create_rprofile <- function(main_document, output_file){
+create_rprofile <- function(source_file, output_file){
 paste0(
 "tryCatch(
     exp = {
-        library(proh)
+        require(knitr)
+        require(proh)
         opts_proh$set(
-            main_document = '", main_document,"',
-            output_file = '", output_file,"'
+            source_file = '", source_file,"'
         )
     },
     error = function(e) warning('package proh not installed')
@@ -348,12 +350,10 @@ paste0(
 #' @describeIn new_project An alias
 #' @export
 newProject <- function(name="new_project", path=NULL, class="ucr",
-                       go_there=TRUE, RSproj=TRUE, git=TRUE, org = TRUE,
-                       ext ="rnw"){
+                       go_there=TRUE, RSproj=TRUE, git=TRUE, org = TRUE){
     message("from proh 0.3 we recommend using 'new_project' instead")
     new_project(name=name, path=path, class=class,
-                       go_there=go_there, RSproj=RSproj, git=git, org = org,
-                       ext =ext)
+                       go_there=go_there, RSproj=RSproj, git=git, org = org)
 
 }
 

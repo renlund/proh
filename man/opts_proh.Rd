@@ -13,9 +13,8 @@ This list tries to mimic the behaviour of opts_chunk from knitr.
 Currently these values are maintained with the functions in (the list)
 \code{opts_proh}:
 \itemize{
-\item main_document - default: rapport.rnw
-\item output_format - default: pdf_document
-\item output_file - will be like main_document but appropriate file extension (
+\item source_file - default: rapport.rnw
+\item output_file - will be like source_file but appropriate file extension (
 unless set manually)
 \item version a version number as character, e.g. "Version 1". This will
     appear on the LaTeX version of the rapport

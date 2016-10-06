@@ -37,7 +37,7 @@ keep <- function(name, autoload=FALSE){
                classy
             }
             if(K %in% info$object){
-               info <- subset(info, object != K)
+               info <- subset(info, info$object != K)
             }
             ## df_names = if("data.frame" %in% classy){
             df_names = if("names" %in% names(attributes(tmp_var))){
@@ -61,7 +61,7 @@ keep <- function(name, autoload=FALSE){
       }
       if(P) info <- rbind(info, tmp_info)
    }
-  if(P) write.csv(info, file = .proh, row.names = FALSE)
+  if(P) utils::write.csv(info, file = .proh, row.names = FALSE)
 }
 
 #' @describeIn keep Non-standard evaluation version

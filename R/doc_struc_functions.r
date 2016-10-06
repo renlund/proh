@@ -12,7 +12,7 @@
 #'    \item code:  (if \code{all = TRUE}) the code in the chunk
 #' }
 chunks_info <- function(file = NULL, all = FALSE){
-   if(is.null(file)) file = opts_proh$get("main_document")
+   if(is.null(file)) file = opts_proh$get("source_file")
    if(file_name(file)$extension != ".rnw") warning("[chunks_info] this is not an rnw-file")
    X <- readLines(con = file)
    starts <- grep(pattern = "^ *<<.*>>=.*$", x = X)
@@ -79,7 +79,7 @@ chunks_info <- function(file = NULL, all = FALSE){
 #'    and 2 for subsubsection
 #' }
 sections_info <- function(file = NULL){
-   if(is.null(file)) file = opts_proh$get("main_document")
+   if(is.null(file)) file = opts_proh$get("source_file")
    if(file_name(file)$extension != ".rnw") warning("[sections_info] this is not an rnw-file")
    X <- readLines(con = file)
    # title_row <- grep(pattern = "\\\\title\\{.*\\}", x = X) # not used yet
@@ -120,7 +120,7 @@ sections_info <- function(file = NULL){
 #' @return A print out
 #' @export
 doc_struc <- function(file = NULL){
-   if(is.null(file)) file = opts_proh$get("main_document")
+   if(is.null(file)) file = opts_proh$get("source_file")
    sec <- sections_info(file = file)
    sec$type = factor("sec", levels = c("sec", "chu"))
    chu <- chunks_info(file = file)

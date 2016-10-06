@@ -6,11 +6,10 @@
 \title{Create new project}
 \usage{
 new_project(name = "new_project", path = NULL, class = "ucr",
-  go_there = TRUE, RSproj = TRUE, git = TRUE, org = FALSE,
-  ext = "rnw")
+  go_there = TRUE, RSproj = TRUE, git = TRUE, org = FALSE)
 
 newProject(name = "new_project", path = NULL, class = "ucr",
-  go_there = TRUE, RSproj = TRUE, git = TRUE, org = TRUE, ext = "rnw")
+  go_there = TRUE, RSproj = TRUE, git = TRUE, org = TRUE)
 }
 \arguments{
 \item{name}{Name of the project}
@@ -34,27 +33,38 @@ This function sets up a project directory structure along with
 }
 \details{
 This function sets up a folder with subfolders \itemize{
-  \item{cache: this is only used by knitr} \item{calc: this is for storage of
-  .rdat files} \item{calc/autoload: this is for storage of inline values.
+\item{cache: this is only used by knitr}
+\item{calc: this is for storage of
+  .rdat files}
+\item{calc/autoload: this is for storage of inline values.
   Typically this folder will automatically be loaded in a first (uncached)
-  chunk of the rapport file by \code{fetch_all}.} \item{figure: for plots
-  (also used by knitr)} \item{recieved: typically this is were I put files
-  given by clients} \item{sent: this is were I store things sent to client.
+  chunk of the rapport file by \code{fetch_all}.}
+\item{figure: for plots
+  (also used by knitr)}
+\item{recieved: typically this is were I put files
+  given by clients}
+\item{sent: this is were I store things sent to client.
   The function \code{send} will attach the current date to the pdf version of
   the rapport and put it in this directory. Optionally, \code{send} can zip
   the rapport along with the graphs and tables from their respective
-  directory} \item{table: for (human readable) tabulated data} } and creates,
-  optionally, the files \itemize{ \item{'rapport.rnw': the rapport file, can
+  directory}
+\item{table: for (human readable) tabulated data}
+}
+and creates, optionally, the files
+\itemize{
+\item{'rapport.rnw': the rapport file, can
   be changed to suit your needs, but is designed to have a first uncached
   chunk (by default called 'autoLoad') that executes \code{fetch_all()}}
-  \item{'_META_.r': this WAS a file for the global options which can be read
-  by comp... nowadays I think it is better to include these options in a
-  first uncached chunk} \item{'references.bib': a template for bibTeX
-  references} \item{a .rsproj file with the project name: this is an RStudio
+\item{.Rprofile which will load and point proh to the source file}
+\item{'references.bib': a template for bibTeX
+  references}
+\item{a .rsproj file with the project name: this is an RStudio
   project file, by starting this file RStudio will set the working directory
   and remember what documents you were looking at. There are settings to be
-  made that can be project specific} \item{.gitignore: a file that git uses
-  to tell which files to ignore} }
+  made that can be project specific}
+\item{.gitignore: a file that git uses
+  to tell which files to ignore}
+}
 }
 \section{Functions}{
 \itemize{
