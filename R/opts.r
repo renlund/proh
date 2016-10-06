@@ -10,9 +10,8 @@ milieu <- new.env(parent = getNamespace("proh"))
 # @title proh_get
 # @description this function retrieves the proh settings
 # @param name name of proh setting variable
-
 proh_get <- function(name){
-   if(length(ls(envir=milieu))==0) proh_restore()
+   if(length(ls(envir=milieu))==0) proh_restore(check = FALSE)
    defaults <- get("defaults", envir=milieu)
    if (missing(name))
       defaults
@@ -28,7 +27,6 @@ proh_get <- function(name){
 # @title proh_set
 # @description this function sets the proh settings
 # @param ... the names and values you want set, e.g. \code{"add_graph"=TRUE}
-
 proh_set <- function(..., check = TRUE){
    if(length(ls(envir=milieu))==0) proh_restore()
    dots <- list(...)
@@ -43,65 +41,48 @@ proh_set <- function(..., check = TRUE){
 
 # @title proh_restore
 # @description this function restores the default proh settings
-
-proh_restore <- function(){
+proh_restore <- function(check = FALSE){
    assign(x="defaults", value=list(
       main_document = "rapport.rnw",
-      output_format = "pdf_document",
+      ## output_format = "pdf_document",
       output_file = NULL,
       version = NULL,
       version_latex = NULL
    ), envir=milieu)
    assign(x="value", value = names(get(x="defaults", envir=milieu)), envir=milieu)
-   proh_check()
+   if(check) proh_check()
    invisible(NULL)
 }
 
 # @title proh_check
 # @description some checks of the proh options
-
 proh_check <- function(){
-   formats <- c("pdf", "html", "word")
-   if(!proh_get("output_format") %in% sprintf("%s_document", formats)){
-      warning("[proh_check]: output_format is set to pdf_document")
-      proh_set("output_format" = "pdf_document")
-   }
-   if(grepl("\\.rnw$", proh_get("main_document")) & proh_get("output_format") != "pdf_document"){
-      warning("[proh_check]: output_format is set to pdf_document as the main_document format is rnw")
-      proh_set("output_format" = "pdf_document")
-   }
-   if(!grepl("\\.r(nw|md)$", proh_get("main_document"))){
-      warning("[proh_check] main_document should be rmd or rnw")
-      proh_set("main_document" = paste0(fileName(proh_get("main_document"))$name, ".rnw"))
-   }
-   output_format <- proh_get("output_format")
-   output_file   <- proh_get("output_file")
-   if(!is.null(output_file)){
-      if( (output_format == "pdf_document"  & !grepl("\\.pdf$",  output_file)) |
-          (output_format == "html_document" & !grepl("\\.html$", output_file)) |
-          (output_format == "word_document" & !grepl("\\.docx$", output_file)) ){
-         warning("[proh_check] output_file extension does not match. Set to default.")
-         proh_set("output_file" = NULL)
-      }
-   } else {
-      if(output_format == "pdf_document") {
-          proh_set("output_file" = sub("\\.r(nw|md)$", ".pdf",
-                                       as.character(proh_get("main_document"))))
-      }
-      if(output_format == "html_document") {
-         proh_set("output_file" = sub("\\.rmd$", ".html", as.character(proh_get("main_document"))))
-      }
-      if(output_format == "word_document") {
-         proh_set("output_file" = sub("\\.rmd$", ".docx", as.character(proh_get("main_document"))))
-      }
-   }
-   version <- proh_get("version")
-   version_latex <- proh_get("latex_version")
-   if(!is.null(version_latex)) if(version_latex == "") version_latex <- NULL
-   if(is.null(version_latex)){
-       vl <- if(is.null(version)) "" else  paste0("\\\\ ", version)
-       proh_set("version_latex" = vl, check = FALSE)
-   }
+    main_doc <- proh_get("main_document")
+    if(!file.exists(main_doc)){
+        foo <- paste0(rep("~", options("width")$width), collapse = "")
+        warning(paste0("\n", foo,
+                       "\nSource document set to ", main_doc,
+                       " which I can't find in the current directory.\n",
+                       "Perhaps use an .Rprofile with:\n",
+                       "opts_proh$set('main_document' = <correct-file>)\n",
+                       foo))
+    }
+    out_file <- proh_get("output_file")
+    name <- file_name(main_doc)$name
+    ext <- file_name(main_doc)$extension
+    if(!ext %in% c(".rnw", ".Rnw")){
+        stop("source document should be an rnw file")
+    }
+    if(is.null(out_file)) {
+        proh_set("output_file" = paste0(name, ".pdf"), check = FALSE)
+    }
+    version <- proh_get("version")
+    version_latex <- proh_get("latex_version")
+    if(!is.null(version_latex)) if(version_latex == "") version_latex <- NULL
+    if(is.null(version_latex)){
+        vl <- if(is.null(version)) "" else  paste0("\\\\ ", version)
+        proh_set("version_latex" = vl, check = FALSE)
+    }
 }
 
 #' @title proh options

@@ -2,18 +2,15 @@
 % Please edit documentation in R/comp.r
 \name{cmp}
 \alias{cmp}
-\alias{cmp_rmd}
 \alias{cmp_rnw}
 \title{Compile the rapport}
 \usage{
 cmp(input = NULL, cess = TRUE, ...)
 
 cmp_rnw(input, clean = TRUE, look = FALSE, ...)
-
-cmp_rmd(input, twice = FALSE, clean = FALSE, look = FALSE, ...)
 }
 \arguments{
-\item{input}{should be 'rapport.rnw' (but can be changed)}
+\item{input}{file to be compiled}
 
 \item{cess}{run proh::cess to get (possible) defaults in first chunk?}
 
@@ -22,8 +19,6 @@ cmp_rmd(input, twice = FALSE, clean = FALSE, look = FALSE, ...)
 \item{clean}{should the LaTeX files be cleaned?}
 
 \item{look}{should the pdf be opened after compilation?}
-
-\item{twice}{need two code executions? (e.g. for counters)}
 }
 \description{
 Compile the rapport
@@ -31,8 +26,6 @@ Compile the rapport
 \section{Functions}{
 \itemize{
 \item \code{cmp_rnw}: Compile rnw files
-
-\item \code{cmp_rmd}: Compile rmd files
 }}
 \author{
 Henrik Renlund
