@@ -6,5 +6,6 @@
 ^.git$
 .gitignore
 .Rhistory
-2DO.txt
+
+
 

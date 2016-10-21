@@ -74,7 +74,7 @@ new_project <- function(name="new_project", path=NULL, class="ucr",
     setwd(full.path)
     SET <- c("table", "received", "sent", "calc", "figure", "cache")
     for(S in SET) dir.create(S)
-    file.create("calc/.proh")
+    ## file.create("calc/.proh")
     setwd(file.path(full.path, "calc"))
     dir.create("autoload")
     setwd(full.path)
@@ -342,7 +342,7 @@ StripTrailingWhitespace: Yes
 ## Rprofile -------------------
 create_rprofile <- function(source_file){
 paste0(
-"tmp <- paste0(rep('¤', options('width')$width-2), collapse = '')
+"tmp <- paste0(rep('+', options('width')$width-2), collapse = '')
 cat(paste0('\n', tmp, '\n     R started in a proh-directory with an .rprofile file.\n',
            '     This will set a source_file in the proh options and also try\n',
            '     to load the .rprofile (if it exists) in the home directory.\n',
