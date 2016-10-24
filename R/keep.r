@@ -115,9 +115,20 @@ extract_meta_info <- function(x){
     )
 }
 
-get_meta_info <- function(){
+whatsaved <- function(){
+    L <- list.files(path = "calc", pattern = "\\.rdata*$")
+    x <- gsub("\\.rdata*$", "", L, ignore.case = TRUE)
+    return(x)
+}
+
+get_meta_info <- function(saved_only = TRUE){
     meta <- get_meta()
     R <- as.data.frame(NULL)
+    namn <- names(meta)
+    if(saved_only){
+        saves <- whatsaved()
+        namn <- namn[namn %in% saves]
+    }
     for(N in names(meta)){
         R <- rbind(R, extract_meta_info(meta[[N]]))
     }
@@ -129,12 +140,6 @@ get_meta_info <- function(){
         cat("")
     }
     invisible(NULL)
-}
-
-whatsaved <- function(){
-    L <- list.files(path = "calc", pattern = "\\.rdata*$")
-    x <- gsub("\\.rdata*$", "", L, ignore.case = TRUE)
-    return(x)
 }
 
 saved_info <- function(exclude_meta = TRUE){

@@ -5,7 +5,7 @@
 \alias{new_project}
 \title{Create new project}
 \usage{
-new_project(name = "new_project", path = NULL, class = "ucr",
+new_project(name = "new_project", path = NULL, class = "ucr", dm = TRUE,
   go_there = TRUE, RSproj = TRUE, git = TRUE, org = FALSE)
 
 newProject(name = "new_project", path = NULL, class = "ucr",
@@ -17,6 +17,8 @@ newProject(name = "new_project", path = NULL, class = "ucr",
 \item{path}{Path to project directory (else current)}
 
 \item{class}{Class of document in 'rapport.rnw' (default: 'ucr')}
+
+\item{dm}{should a data manegement file be created? (default: TRUE)}
 
 \item{go_there}{Set working directory to project directory? (default: TRUE)}
 
