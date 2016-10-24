@@ -108,10 +108,10 @@ extract_meta_info <- function(x){
     w0 <- options("width")$width
     w <- if(w0<41) Inf else w0
     data.frame(
-        object = cut_string(x$name, 10),
+        object = cut_string(x$name, 15),
         saved = gsub("-", "", substr(x$when, 3, 16), fixed = TRUE),
         class = cut_string(paste0(x$class, collapse = ","), 14),
-        names = cut_string(paste0(x$names, collapse = ","), w - (10 + 3 + 13 + 3 + 14 + 3))
+        names = cut_string(paste0(x$names, collapse = ","), w - (15 + 3 + 13 + 3 + 14 + 3))
     )
 }
 
