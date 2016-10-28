@@ -6,7 +6,7 @@
 \title{Kill Cache}
 \usage{
 kill_cache(pattern = NULL, cache = TRUE, figure = TRUE, table = TRUE,
-  env = TRUE)
+  env = NULL)
 
 killCache(pattern = NULL, cache = TRUE, figure = TRUE, table = TRUE,
   env = TRUE)
@@ -20,7 +20,8 @@ killCache(pattern = NULL, cache = TRUE, figure = TRUE, table = TRUE,
 
 \item{table}{remove files from sub directory 'table'? (default: TRUE)}
 
-\item{env}{remove ALL objects in the global environment? (default: TRUE)}
+\item{env}{remove ALL objects in the global environment? (default: TRUE if no
+pattern given)}
 }
 \description{
 Remove the contents of subdirectory 'cache', 'figure' and 'table'.

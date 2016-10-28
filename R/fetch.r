@@ -13,7 +13,7 @@ fetch <- function(name = NULL, overwrite=FALSE, message=FALSE, autoload=FALSE,
                   formats=c("rdata", "rdat", "Rdata", "Rdat"), env = .GlobalEnv){
     types <- paste0("(\\.", paste0(formats,collapse=")|(\\."),")" )
     if(is.null(name)){
-        get_meta_info()
+        get_meta_info(saved_only = TRUE)
         saved_info()
         return(invisible(NULL))
     }

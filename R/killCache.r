@@ -6,9 +6,13 @@
 #' @param cache remove files from sub directory 'cache'? (default: TRUE)
 #' @param figure remove files from sub directory 'figure'? (default: TRUE)
 #' @param table remove files from sub directory 'table'? (default: TRUE)
-#' @param env remove ALL objects in the global environment? (default: TRUE)
+#' @param env remove ALL objects in the global environment? (default: TRUE if no
+#'     pattern given)
 #' @export
-kill_cache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE, env = TRUE){
+kill_cache <- function(pattern=NULL, cache=TRUE, figure=TRUE, table=TRUE, env = NULL){
+    if(is.null(env)){
+        env <- if(is.null(pattern)) FALSE else TRUE
+    }
    if(env) rm(list = ls(envir = .GlobalEnv, all.names = TRUE), envir = .GlobalEnv)
    if(!is.null(pattern)){
       da_flies <- list.files(path = 'cache',  pattern = pattern, full.names=TRUE)
