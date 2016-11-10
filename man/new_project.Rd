@@ -6,7 +6,8 @@
 \title{Create new project}
 \usage{
 new_project(name = "new_project", path = NULL, class = "ucr", dm = TRUE,
-  go_there = TRUE, RSproj = TRUE, git = TRUE, org = FALSE)
+  checkpoint = TRUE, go_there = TRUE, RSproj = TRUE, git = TRUE,
+  org = FALSE)
 
 newProject(name = "new_project", path = NULL, class = "ucr",
   go_there = TRUE, RSproj = TRUE, git = TRUE, org = TRUE)
@@ -18,7 +19,9 @@ newProject(name = "new_project", path = NULL, class = "ucr",
 
 \item{class}{Class of document in 'rapport.rnw' (default: 'ucr')}
 
-\item{dm}{should a data manegement file be created? (default: TRUE)}
+\item{dm}{should a data management file be created? (default: TRUE)}
+
+\item{checkpoint}{should checkpoint be used?}
 
 \item{go_there}{Set working directory to project directory? (default: TRUE)}
 

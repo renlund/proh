@@ -38,14 +38,16 @@
 #' @param name Name of the project
 #' @param path Path to project directory (else current)
 #' @param class Class of document in 'rapport.rnw' (default: 'ucr')
-#' @param dm should a data manegement file be created? (default: TRUE)
+#' @param dm should a data management file be created? (default: TRUE)
+#' @param checkpoint should checkpoint be used?
 #' @param go_there Set working directory to project directory? (default: TRUE)
 #' @param RSproj Start a RStudio project? (deault: TRUE)
 #' @param git should git be initialized? (also a .gitignore file will be
 #'   created)
 #' @param org should an org file be created?
 #' @export
-new_project <- function(name="new_project", path=NULL, class="ucr", dm = TRUE,
+new_project <- function(name="new_project", path=NULL, class="ucr",
+                        dm = TRUE, checkpoint = TRUE,
                         go_there=TRUE, RSproj=TRUE, git=TRUE, org = FALSE){
     wd <- getwd()
     install_directory <- if(is.null(path)) wd else path
@@ -98,6 +100,8 @@ new_project <- function(name="new_project", path=NULL, class="ucr", dm = TRUE,
         paste(rep("-", 65),collapse=""), "\n"
     )
     cat(end.text)
+    cat(create_rprofile(source_file, checkpoint = checkpoint),
+        file = ".Rprofile")
     if(org) cat(create_org(name, yr_name, yr_mail),
                 file = paste0(name, "-org.org"))
     if(git) create_git(yr_name, yr_mail, source_file)
@@ -107,8 +111,7 @@ new_project <- function(name="new_project", path=NULL, class="ucr", dm = TRUE,
     } else {
         setwd(wd)
     }
-    cat(create_rprofile(source_file),
-        file = ".Rprofile")
+
     invisible(NULL)
 }
 
@@ -173,21 +176,17 @@ create_rnw_rapport <- function(name, yr_name = NULL, yr_mail = NULL, class,
 
 <<'SETUP', cache=FALSE, include=FALSE>>=
 ### PACKAGES: ----------------------------------------------
+if(FALSE){
+    library(knitr)
+    library(devtools)
+    devtools::install_github('renlund/proh', ref = ?)
+    ## get latest ref-number from:
+    ##      https://github.com/renlund/proh/commit/master
+}
 library(proh)
-## library(ucR)
-## library(dataman)
-## library(descripteur)
-
-## library(dplyr)
-## library(tidyr)
-## library(ggplot2)
-
-## library(Hmisc)
-## library(rms)
-## library(data.table)
-## library(survival)
-## library(coxme)
-## library(optmatch)
+## ucR, descripteur, dataman, miscmatch, attacher
+## dplyr, tidyr, ggplot2
+## Hmisc, rms, data.table, survival, coxme, optmatch
 
 ### CHUNK OPTIONS: -----------------------------------------
 opts_chunk$set(
@@ -207,7 +206,7 @@ opts_knit$set(eval.after=c('fig.cap'))
 
 ### PROH OPTIONS: ------------------------------------------
 opts_proh$set(
-    source_file = '", source_file,"',
+    source_file = '", source_file,"', ## also in .rprofile
     output_file = '", output_file,"',
     version = 'Version 0.01'
 )
@@ -428,14 +427,12 @@ StripTrailingWhitespace: Yes
 }
 
 ## Rprofile -------------------
-create_rprofile <- function(source_file){
+create_rprofile <- function(source_file, checkpoint){
 paste0(
 "tmp <- paste0(rep('+', options('width')$width-3), collapse = '')
-cat(paste0('\n ', tmp, '\n     R started in a proh-directory with an .rprofile file.\n',
-           '     This will set a source_file in the proh options and also try\n',
-           '     to load the .rprofile (if it exists) in the home directory.\n ',
-           tmp, '\n'))
-rm(tmp)
+cat(paste0('\n ', tmp, '\n   R started in a proh-directory with an .rprofile file.\n',
+           '   This will set a source_file in the proh options and also try\n',
+           '   to load the .rprofile (if it exists) in the home directory.\n '))
 if(file.exists(file.path('~', '.rprofile'))){
     source(file.path('~', '.rprofile'))
 } else {
@@ -451,6 +448,27 @@ tryCatch(
     },
     error = function(e) warning('package proh not installed')
 )
+",
+if(checkpoint){
+paste0(
+"cat('   It will also load knitr and activate checkpoint with snapshot\n',
+'   date ", as.character(Sys.Date()), "\n')
+tryCatch(
+    exp = {
+        require(knitr)
+        require(checkpoint)
+    },
+    error = function(e) warning('package checkpoint not installed')
+)
+.checkpoint_startup <- checkpoint::checkpoint(
+    snapshotDate = '", as.character(Sys.Date()),"',
+    use.knitr = TRUE,
+    scan.rnw.with.knitr = TRUE
+)
+")
+} else "",
+"cat(tmp, '\n')
+rm(tmp)
 "
 )
 }
