@@ -154,11 +154,11 @@ new_project <- function(name="new_project", path=NULL, class="ucr",
             unloadNamespace("rmarkdown")
         }
         paket <- c("devtools", "knitr", "rmarkdown")
-        install.packages(pkgs = paket, ## lib = cp_path,
-                         repos = paste0("https://mran.microsoft.com/snapshot/",
-                                        checkpoint.date),
-                         dependencies = c("Depends", "Imports"),
-                         verbose = TRUE, type = "binary")
+        utils::install.packages(pkgs = paket, ## lib = cp_path,
+                                repos = paste0("https://mran.microsoft.com/snapshot/",
+                                               checkpoint.date),
+                                dependencies = c("Depends", "Imports"),
+                                verbose = TRUE, type = "binary")
         devtools::install_github("renlund/proh", reload = FALSE, force = TRUE) ## , lib = cp_path)
         .libPaths(old_lib)
         ##options(repos = old_repos)
@@ -515,8 +515,10 @@ paste0(
 ##     },
 ##     error = function(e) warning('package checkpoint not installed')
 ## )
+require(checkpoint)
 .checkpoint_startup <- checkpoint::checkpoint(
     snapshotDate = '", cp.date,"',
+    R.version = '", as.character(getRversion()), "',
     use.knitr = TRUE,
     scan.rnw.with.knitr = TRUE
 )
