@@ -6,8 +6,8 @@
 \title{Create new project}
 \usage{
 new_project(name = "new_project", path = NULL, class = "ucr", dm = TRUE,
-  checkpoint = TRUE, go_there = TRUE, RSproj = TRUE, git = TRUE,
-  org = FALSE)
+  RSproj = TRUE, git = TRUE, checkpoint = TRUE, checkpoint.date = NULL,
+  go_there = FALSE, org = FALSE)
 
 newProject(name = "new_project", path = NULL, class = "ucr",
   go_there = TRUE, RSproj = TRUE, git = TRUE, org = TRUE)
@@ -21,14 +21,16 @@ newProject(name = "new_project", path = NULL, class = "ucr",
 
 \item{dm}{should a data management file be created? (default: TRUE)}
 
-\item{checkpoint}{should checkpoint be used?}
-
-\item{go_there}{Set working directory to project directory? (default: TRUE)}
-
 \item{RSproj}{Start a RStudio project? (deault: TRUE)}
 
 \item{git}{should git be initialized? (also a .gitignore file will be
 created)}
+
+\item{checkpoint}{should checkpoint be used?}
+
+\item{checkpoint.date}{date for checkpoint}
+
+\item{go_there}{Set working directory to project directory? (default: FALSE)}
 
 \item{org}{should an org file be created?}
 }

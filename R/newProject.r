@@ -39,22 +39,37 @@
 #' @param path Path to project directory (else current)
 #' @param class Class of document in 'rapport.rnw' (default: 'ucr')
 #' @param dm should a data management file be created? (default: TRUE)
-#' @param checkpoint should checkpoint be used?
-#' @param go_there Set working directory to project directory? (default: TRUE)
 #' @param RSproj Start a RStudio project? (deault: TRUE)
 #' @param git should git be initialized? (also a .gitignore file will be
 #'   created)
+#' @param checkpoint should checkpoint be used?
+#' @param checkpoint.date date for checkpoint
+#' @param go_there Set working directory to project directory? (default: FALSE)
 #' @param org should an org file be created?
 #' @export
 new_project <- function(name="new_project", path=NULL, class="ucr",
-                        dm = TRUE, checkpoint = TRUE,
-                        go_there=TRUE, RSproj=TRUE, git=TRUE, org = FALSE){
+                        dm = TRUE, RSproj=TRUE, git=TRUE,
+                        checkpoint = TRUE, checkpoint.date = NULL,
+                        go_there=FALSE, org = FALSE){
     wd <- getwd()
+    if(is.null(checkpoint.date)){
+        checkpoint.date <- as.character(Sys.Date())
+    } else {
+        cp_date <- as.Date(checkpoint.date)
+        if(cp_date > Sys.Date()) stop("bad date")
+    }
+    if(checkpoint){
+        cat("You want to use checkpoint, right? If you are not currently\n",
+            "using the R version that you want for this project, stop and\n",
+            "run this function with the version you want (it will be much\n",
+            "easier)\n Press 'x' to abort.\n Press anything else to proceed.")
+        if(readline() == "x") return(invisible(NULL))
+    }
     install_directory <- if(is.null(path)) wd else path
     cat(paste0("The new '", name, "' project directory structure will be created\n under directory:\n   ", install_directory, "\n Press 'x' to abort.\n Press anything else to proceed."))
     if( readline()=="x" ) {
-        setwd(install_directory)
-        return(NULL)
+        ## setwd(install_directory) ## why was this here?
+        return(invisible(NULL))
     }
     yr_name <- readline("Provide name for project/git\n (e.g. Anaximandros Janson)     ")
     yr_mail <-
@@ -100,8 +115,56 @@ new_project <- function(name="new_project", path=NULL, class="ucr",
         paste(rep("-", 65),collapse=""), "\n"
     )
     cat(end.text)
-    cat(create_rprofile(source_file, checkpoint = checkpoint),
+    cat(create_rprofile(source_file, checkpoint = checkpoint,
+                        cp.date = checkpoint.date),
         file = ".Rprofile")
+    if(checkpoint){
+        cp_path <- file.path("~", ".checkpoint", checkpoint.date,
+                  "lib", R.version$platform,
+                  base::getRversion())
+        dir.create(cp_path, recursive = TRUE, showWarnings = FALSE)
+        ## old_repos <- getOption("repos")
+        ## checkpoint::setSnapshot(checkpoint.date)
+        old_lib <- .libPaths()
+        .libPaths(cp_path)
+        laddad <- function(s){
+            tryCatch(
+                expr = isNamespaceLoaded(s),
+                error = function(e) FALSE
+            )
+        }
+        proh_loaded <- laddad("proh")
+        knitr_loaded <- laddad("knitr")
+        devt_loaded <- laddad("devtools")
+        rmark_loaded <- laddad("rmarkdown")
+        if(proh_loaded){
+            ## warning("proh is loaded, will be unloaded")
+            unloadNamespace("proh")
+        }
+        if(knitr_loaded){
+            ## warning("knitr is loaded, will be unloaded")
+            unloadNamespace("knitr")
+        }
+        if(devt_loaded){
+            ## warning("devtools is loaded, will be unloaded")
+            unloadNamespace("devtools")
+        }
+        if(rmark_loaded){
+            ## warning("rmarkdown is loaded, will be unloaded")
+            unloadNamespace("rmarkdown")
+        }
+        paket <- c("devtools", "knitr", "rmarkdown")
+        install.packages(pkgs = paket, ## lib = cp_path,
+                         repos = paste0("https://mran.microsoft.com/snapshot/",
+                                        checkpoint.date),
+                         dependencies = c("Depends", "Imports"),
+                         verbose = TRUE, type = "binary")
+        devtools::install_github("renlund/proh", reload = FALSE, force = TRUE) ## , lib = cp_path)
+        .libPaths(old_lib)
+        ##options(repos = old_repos)
+        ## install basic packages into checkpoint
+
+    }
     if(org) cat(create_org(name, yr_name, yr_mail),
                 file = paste0(name, "-org.org"))
     if(git) create_git(yr_name, yr_mail, source_file)
@@ -179,7 +242,7 @@ create_rnw_rapport <- function(name, yr_name = NULL, yr_mail = NULL, class,
 if(FALSE){
     library(knitr)
     library(devtools)
-    devtools::install_github('renlund/proh', ref = ?)
+    devtools::install_github('renlund/proh') ## , ref = ?)
     ## get latest ref-number from:
     ##      https://github.com/renlund/proh/commit/master
 }
@@ -427,20 +490,41 @@ StripTrailingWhitespace: Yes
 }
 
 ## Rprofile -------------------
-create_rprofile <- function(source_file, checkpoint){
+create_rprofile <- function(source_file, checkpoint, cp.date){
 paste0(
-"tmp <- paste0(rep('+', options('width')$width-3), collapse = '')
-cat(paste0('\n ', tmp, '\n   R started in a proh-directory with an .rprofile file.\n',
-           '   This will set a source_file in the proh options and also try\n',
-           '   to load the .rprofile (if it exists) in the home directory.\n '))
-if(file.exists(file.path('~', '.rprofile'))){
+"if(file.exists(file.path('~', '.rprofile'))){
     source(file.path('~', '.rprofile'))
 } else {
-    cat('\n ... no .rprofile found in the home directory\n')
+    cat('\n ## There is no .rprofile found in the home directory\n')
 }
+tmp <- paste0(rep('+', options('width')$width-3), collapse = '')
+cat(paste0('\n ', tmp, '\n   R started in a proh-directory with an .rprofile file.\n',
+           '   This will set a source_file in the proh options and also try\n',
+           '   to load the .rprofile (if it exists) in the home directory.\n',
+           '   It will also load knitr and activate checkpoint with snapshot\n',
+           '   date ", cp.date, "\n'))
+",
+if(checkpoint){
+paste0(
+"
+## tryCatch(
+##     exp = {
+##         require(knitr)
+##         require(stringr)
+##         require(checkpoint)
+##     },
+##     error = function(e) warning('package checkpoint not installed')
+## )
+.checkpoint_startup <- checkpoint::checkpoint(
+    snapshotDate = '", cp.date,"',
+    use.knitr = TRUE,
+    scan.rnw.with.knitr = TRUE
+)
 tryCatch(
     exp = {
-        require(knitr)
+        ## if(!require(devtools)) install.packages('devtools')
+        ## if(!require(knitr)) install.packages('knitr')
+        ## if(!require(proh)) install_github('renlund/proh')
         require(proh)
         opts_proh$set(
             source_file = '", source_file,"'
@@ -448,26 +532,9 @@ tryCatch(
     },
     error = function(e) warning('package proh not installed')
 )
-",
-if(checkpoint){
-paste0(
-"cat('   It will also load knitr and activate checkpoint with snapshot\n',
-'   date ", as.character(Sys.Date()), "\n')
-tryCatch(
-    exp = {
-        require(knitr)
-        require(checkpoint)
-    },
-    error = function(e) warning('package checkpoint not installed')
-)
-.checkpoint_startup <- checkpoint::checkpoint(
-    snapshotDate = '", as.character(Sys.Date()),"',
-    use.knitr = TRUE,
-    scan.rnw.with.knitr = TRUE
-)
 ")
 } else "",
-"cat(tmp, '\n')
+"cat('\n', tmp, '\n')
 rm(tmp)
 "
 )
@@ -547,3 +614,11 @@ newProject <- function(name="new_project", path=NULL, class="ucr",
 ##   invisible(NULL)
 ## }
 
+if(FALSE){
+    cp_loc <-  "~/"
+    ssd <- "2016-11-10"
+    rP <- file.path(cp_loc, ".checkpoint")
+    sP <- file.path(rP, ssd)
+    file.path(sP, "lib", R.version$platform,
+              base::getRversion())
+}
