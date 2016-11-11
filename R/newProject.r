@@ -522,6 +522,7 @@ require(checkpoint)
     use.knitr = TRUE,
     scan.rnw.with.knitr = TRUE
 )
+checkpoint::setSnapshot('", cp.date,"')
 tryCatch(
     exp = {
         ## if(!require(devtools)) install.packages('devtools')
@@ -543,15 +544,14 @@ rm(tmp)
 }
 
 
-#' @describeIn new_project An alias
-#' @export
-newProject <- function(name="new_project", path=NULL, class="ucr",
-                       go_there=TRUE, RSproj=TRUE, git=TRUE, org = TRUE){
-    message("from proh 0.3 we recommend using 'new_project' instead")
-    new_project(name=name, path=path, class=class,
-                       go_there=go_there, RSproj=RSproj, git=git, org = org)
-
-}
+## #' @describeIn new_project An alias
+## #' @export
+## newProject <- function(name="new_project", path=NULL, class="ucr",
+##                        go_there=TRUE, RSproj=TRUE, git=TRUE, org = TRUE){
+##     message("from proh 0.3 we recommend using 'new_project' instead")
+##     new_project(name=name, path=path, class=class,
+##                        go_there=go_there, RSproj=RSproj, git=git, org = org)
+## }
 
 # - # @title Impose project structure
 # - # @description Impose project structure in existing directory, files and
@@ -615,12 +615,3 @@ newProject <- function(name="new_project", path=NULL, class="ucr",
 ##   if(go_there) setwd(path) else setwd(wd)
 ##   invisible(NULL)
 ## }
-
-if(FALSE){
-    cp_loc <-  "~/"
-    ssd <- "2016-11-10"
-    rP <- file.path(cp_loc, ".checkpoint")
-    sP <- file.path(rP, ssd)
-    file.path(sP, "lib", R.version$platform,
-              base::getRversion())
-}

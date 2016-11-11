@@ -4,7 +4,7 @@
 \alias{cess}
 \title{Run chunks}
 \usage{
-cess(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = TRUE)
+cess(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE)
 }
 \arguments{
 \item{chunk}{name or number of chunk, if \code{NULL} (default) then the

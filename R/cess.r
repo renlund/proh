@@ -8,7 +8,7 @@
 #' @param profile source .Rprofile if it exists?
 #' @note This will replace \code{proh::first}
 #' @export
-cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = TRUE){
+cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE){
     if(profile){
         if(file.exists(".Rprofile")){
             source(".Rprofile")
