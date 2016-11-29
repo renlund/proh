@@ -13,8 +13,8 @@ cmp <- function(input=NULL, cess = TRUE, ...){
         input <- opts_proh$get("source_file")
     } else {
         if(cess){
-            tryCatch(cess(profile = TRUE), error = function(e){
-                stop("FAILED to evaluate first chunk\nPerhaps you need to point to a file...")
+            tryCatch(cess(), error = function(e){
+                stop("FAILED to evaluate first chunk\n")
             })
         }
     }
