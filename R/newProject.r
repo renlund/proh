@@ -153,7 +153,7 @@ new_project <- function(name="new_project", path=NULL, class="ucr",
             ## warning("rmarkdown is loaded, will be unloaded")
             unloadNamespace("rmarkdown")
         }
-        paket <- c("devtools", "knitr", "rmarkdown")
+        paket <- c("devtools", "knitr", "rmarkdown", "Hmisc", "coin", "broom", "dplyr")
         utils::install.packages(pkgs = paket, ## lib = cp_path,
                                 repos = paste0("https://mran.microsoft.com/snapshot/",
                                                checkpoint.date),
