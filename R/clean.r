@@ -20,7 +20,9 @@ clean <- function(){
       "\\.synctex.gz",
       "\\.nav",
       "\\.snm",
-      "\\.vrb"
+      "\\.vrb",
+      "\\.fls",
+      "\\.fdb_latexmk"
    )
    monster <- paste0("(", paste(paste0("(", removables, ")"), collapse="|"), ")$")
    files <- list.files(pattern = monster)
