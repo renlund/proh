@@ -1,6 +1,6 @@
 #' @title Chunks info
 #' @description Get information about chunks in a rnw file
-#' @param file file of interest ( = 'rapport.rnw' by default)
+#' @param file file of interest ( = \code{source_file} by default)
 #' @param all if TRUE some extra chunk info will be given
 #' @return A data frame with variables
 #' \itemize{
@@ -11,6 +11,7 @@
 #'    \item eval.arg: (if \code{all = TRUE}) if there is an argument specified for \code{eval}
 #'    \item code:  (if \code{all = TRUE}) the code in the chunk
 #' }
+#' @export
 chunks_info <- function(file = NULL, all = FALSE){
    if(is.null(file)) file = opts_proh$get("source_file")
    if(file_name(file)$extension != ".rnw") warning("[chunks_info] this is not an rnw-file")
@@ -27,7 +28,9 @@ chunks_info <- function(file = NULL, all = FALSE){
    inits2 <- gsub(pattern = "\"", replacement="'", x=inits1, fixed=TRUE)
    chunk_val <- strsplit(x = inits2, split = ",", fixed = TRUE)
    inits3 <- unlist(lapply(X = chunk_val, FUN = function(x) x[1]))
-   inits4 <- ifelse(grepl(pattern = "=", x = inits3), 1:n, gsub(pattern = "'", replacement = "", x = inits3))
+   inits4 <- ifelse(grepl(pattern = "=", x = inits3),
+                    sprintf("<chunk %d: unnamed>", 1:n),
+                    gsub(pattern = "'", replacement = "", x = inits3))
    eval_val <- unlist(lapply(X=chunk_val, FUN = function(x) x[grepl(pattern = "^eval=.*$", x = x)][1]))
    eval_arg <- gsub(pattern = "eval=", replacement = "", x = eval_val)
    gEt <- function(x) if(!is.na(x) & !x %in% c("FALSE", "TRUE")) {
@@ -70,7 +73,7 @@ chunks_info <- function(file = NULL, all = FALSE){
 
 #' @title Sections info
 #' @description Get information about sections in a rnw file
-#' @param file file of interest ( = 'rapport.rnw' by default)
+#' @param file file of interest ( = \code{source_file} by default)
 #' @return A data frame with variables
 #' \itemize{
 #'    \item name: name of section
@@ -78,6 +81,7 @@ chunks_info <- function(file = NULL, all = FALSE){
 #'    \item sub: number of 'sub', i.e. 0 for section, 1 for subsection,
 #'    and 2 for subsubsection
 #' }
+#' @export
 sections_info <- function(file = NULL){
    if(is.null(file)) file = opts_proh$get("source_file")
    if(file_name(file)$extension != ".rnw") warning("[sections_info] this is not an rnw-file")
@@ -85,14 +89,12 @@ sections_info <- function(file = NULL){
    # title_row <- grep(pattern = "\\\\title\\{.*\\}", x = X) # not used yet
    sec_hit   <- grep(pattern = "\\\\(sub){0,2}section\\{", x = X)
    n_hit <- length(sec_hit)
-
    sec_title_raw <- strsplit(x = X[sec_hit], split = "section\\{")
    if(max(unlist(lapply(X = sec_title_raw, FUN = length))) > 2){
       warning("[sections_info]\nThere should only be one \\((sub)^k)section (k=0,1,2) per line.")
    }
    sec_title1 <- lapply(X = sec_title_raw, FUN = function(x) x[[2]])
    sec_title2 <- unlist(lapply(X = sec_title1, FUN = function(x) unlist(strsplit(x = x[[1]], split = "}"))[1]))
-
    subs <- rep(NA_integer_, n_hit)
    look <- lapply(X = sec_title_raw, FUN = function(x) unlist(strsplit(x = x[1], split = "\\\\" )))
    for(k in seq_along(sec_hit)){ # k = 2
@@ -116,7 +118,7 @@ sections_info <- function(file = NULL){
 
 #' @title Document structure
 #' @description Get information about the structure in a rnw file
-#' @param file file of interest ( = 'rapport.rnw' by default)
+#' @param file file of interest ( = \code{source_file} by default)
 #' @return A print out
 #' @export
 doc_struc <- function(file = NULL){
@@ -134,7 +136,6 @@ doc_struc <- function(file = NULL){
    }
    tmp <- merge(sec, chu, by = c("name", "row", "type"), all = T)
    both <- tmp[order(tmp$row), c("type", "name", "row", "sub")]
-
    indent <- rep(NA_integer_, n)
    dummy <- 0
    for(k in 1:n){
@@ -148,7 +149,6 @@ doc_struc <- function(file = NULL){
    sec_mark  <- paste(rep("=", width), collapse = "")
    sub_mark <- paste0(set_ind, paste(rep("-", width - nchar(set_ind)), collapse = ""))
    sub2_ext <- "- "
-
    short <- function(s, tol = width-10, extend = NULL, discount = 2*nchar(set_ind)){
       s <- as.character(s)
       s <- if(nchar(s)>tol) paste(substr(x = s, start = 1, stop = tol-3), "...") else s
@@ -160,7 +160,9 @@ doc_struc <- function(file = NULL){
       }
       s
    }
-   r <- c("# document:", paste0("#     ", file), "# structure:", "")
+   r <- c("## document:", paste0("##     ", file),
+          "## structure (* chunks; section ===; subsection ---; subsubsection - -):",
+          "")
    for(k in 1:n){ # k = 6
       if(both$type[k] == "chu"){
          r <- c(r, paste0(paste(rep(set_ind, indent[k]), collapse=""), chu_pre, both$name[k]))
@@ -175,6 +177,13 @@ doc_struc <- function(file = NULL){
       }
    }
    cat(r, sep = "\n")
+}
+
+#' @describeIn doc_struc this function has 'dm_source_file' as default file
+#' @export
+doc_struc_dm <- function(file = NULL){
+    if(is.null(file)) file = opts_proh$get("dm_source_file")
+    doc_struc(file = file)
 }
 
 ##################################

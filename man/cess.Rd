@@ -2,9 +2,12 @@
 % Please edit documentation in R/cess.r
 \name{cess}
 \alias{cess}
+\alias{cess_dm}
 \title{Run chunks}
 \usage{
 cess(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE)
+
+cess_dm(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE)
 }
 \arguments{
 \item{chunk}{name or number of chunk, if \code{NULL} (default) then the
@@ -20,6 +23,10 @@ evaluate chunks}
 \description{
 Run a chunk in a given document
 }
+\section{Functions}{
+\itemize{
+\item \code{cess_dm}: this function has 'dm_source_file' as it's default file
+}}
 \note{
 This will replace \code{proh::first}
 }

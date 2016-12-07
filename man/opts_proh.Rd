@@ -19,8 +19,9 @@ unless set manually)
 \item version a version number as character, e.g. "Version 1". This will
     appear on the LaTeX version of the rapport
 \item version_latex this is the string that will determine how the version
-    number appears in the title (in LaTeX produced pdf:s) and will be set
+    number appears in the title (in LaTeX produced pdf:s) and will be added
     automatically
+\item all above options also exists in a version with prefix \code{dm_}
 }
 }
 \keyword{datasets}

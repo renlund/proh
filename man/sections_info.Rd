@@ -7,7 +7,7 @@
 sections_info(file = NULL)
 }
 \arguments{
-\item{file}{file of interest ( = 'rapport.rnw' by default)}
+\item{file}{file of interest ( = \code{source_file} by default)}
 }
 \value{
 A data frame with variables

@@ -2,9 +2,12 @@
 % Please edit documentation in R/look.r
 \name{look}
 \alias{look}
+\alias{look_dm}
 \title{View the pdf}
 \usage{
 look(file = NULL)
+
+look_dm(file = NULL)
 }
 \arguments{
 \item{file}{filename (default 'rapport.pdf')}
@@ -13,6 +16,10 @@ look(file = NULL)
 Open the current pdf version of the rapport (or indeed try to
 open any file, as this is just a wrapper for \code{shell.exec})
 }
+\section{Functions}{
+\itemize{
+\item \code{look_dm}: this function has 'dm_output_file' as default file
+}}
 \author{
 Henrik Renlund
 }

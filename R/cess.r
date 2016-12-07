@@ -42,6 +42,19 @@ cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE)
    invisible(NULL)
 }
 
+#' @describeIn cess this function has 'dm_source_file' as it's default file
+#' @export
+cess_dm <- function(chunk = NULL, file = NULL, envir = .GlobalEnv,
+                    profile = FALSE){
+    if(profile){
+        if(file.exists(".Rprofile")){
+            source(".Rprofile")
+        }
+    }
+    if(is.null(file)) file = opts_proh$get("dm_source_file")
+    cess(chunk = chunk, file = file, envir = envir, profile = FALSE)
+}
+
 if(FALSE){
    file <- "C:/R/P_package/proh/ignorera_detta/chunk_tester.rnw"
    cess(file=file)

@@ -2,12 +2,15 @@
 % Please edit documentation in R/doc_struc_functions.r
 \name{doc_struc}
 \alias{doc_struc}
+\alias{doc_struc_dm}
 \title{Document structure}
 \usage{
 doc_struc(file = NULL)
+
+doc_struc_dm(file = NULL)
 }
 \arguments{
-\item{file}{file of interest ( = 'rapport.rnw' by default)}
+\item{file}{file of interest ( = \code{source_file} by default)}
 }
 \value{
 A print out
@@ -15,4 +18,8 @@ A print out
 \description{
 Get information about the structure in a rnw file
 }
+\section{Functions}{
+\itemize{
+\item \code{doc_struc_dm}: this function has 'dm_source_file' as default file
+}}
 

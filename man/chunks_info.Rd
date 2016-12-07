@@ -7,7 +7,7 @@
 chunks_info(file = NULL, all = FALSE)
 }
 \arguments{
-\item{file}{file of interest ( = 'rapport.rnw' by default)}
+\item{file}{file of interest ( = \code{source_file} by default)}
 
 \item{all}{if TRUE some extra chunk info will be given}
 }
