@@ -13,7 +13,7 @@ cess_dm(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE)
 \item{chunk}{name or number of chunk, if \code{NULL} (default) then the
 first chunk will be executed}
 
-\item{file}{the file which has the chunks, default: 'rapport.rnw'}
+\item{file}{the file which has the chunks, default 'source_file'}
 
 \item{envir}{is \code{.GlobalEnv} by default, the environemnt in which to
 evaluate chunks}

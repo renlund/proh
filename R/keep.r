@@ -121,6 +121,8 @@ whatsaved <- function(){
     return(x)
 }
 
+# - #' @param saved_only logic
+# - #' @import knitr
 get_meta_info <- function(saved_only = TRUE){
     meta <- get_meta()
     R <- as.data.frame(NULL)
@@ -135,7 +137,7 @@ get_meta_info <- function(saved_only = TRUE){
     if(!is.null(R)){
         cat(paste0("\n## This project has documented information on:",
                   " #################################"))
-        print(kable(R, format = "pandoc"))
+        print(knitr::kable(R, format = "pandoc"))
     } else {
         cat("")
     }
@@ -165,7 +167,7 @@ saved_info <- function(exclude_meta = TRUE){
         cat(paste0("\n## This project has",
                    if(exclude_meta) " (undocumented)" else "",
                    " saves: ######################################"))
-        print(kable(R, format = "pandoc"))
+        print(knitr::kable(R, format = "pandoc"))
     } else {
         cat("")
     }

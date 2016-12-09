@@ -2,6 +2,7 @@
 #' @description Get information about chunks in a rnw file
 #' @param file file of interest ( = \code{source_file} by default)
 #' @param all if TRUE some extra chunk info will be given
+#' @import knitr
 #' @return A data frame with variables
 #' \itemize{
 #'    \item name: name of chunk (if any)
@@ -40,7 +41,7 @@ chunks_info <- function(file = NULL, all = FALSE){
    }
    eval = ifelse(
       is.na(eval_arg),
-      opts_chunk$get("eval"),
+      knitr::opts_chunk$get("eval"),
       ifelse(
          eval_arg == "TRUE",
          TRUE,

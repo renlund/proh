@@ -98,15 +98,21 @@ new_project <- function(name="new_project", path=NULL, class="ucr",
     setwd(full.path)
     rapport_name <- gsub(" ", "-", name, fixed = TRUE)
     source_file <- paste0(rapport_name, ".rnw")
+    dm_source_file <- if(dm) paste0("DM--", rapport_name, ".rnw") else NULL
     output_file <- paste0(rapport_name, ".pdf")
-    cat(create_rnw_rapport(name = name, yr_name = yr_name,
-                           yr_mail = yr_mail, class = class,
-                           source_file = source_file,
-                           output_file = output_file),
+    dm_output_file <- if(dm) paste0("DM--", rapport_name, ".pdf") else NULL
+    cat(create_rnw(name = name, yr_name = yr_name,
+                   yr_mail = yr_mail, class = class,
+                   source_file = source_file,
+                   output_file = output_file, DM = FALSE,
+                   checkpoint = checkpoint),
         file=source_file)
-    if(dm) cat(create_rnw_dm(name = name, yr_name = yr_name,
-                           yr_mail = yr_mail, class = class),
-        file=paste0(rapport_name, "--data-management.rnw"))
+    if(dm) cat(create_rnw(name = name, yr_name = yr_name,
+                          yr_mail = yr_mail, class = class,
+                          source_file = dm_source_file,
+                          output_file = dm_output_file, DM = TRUE,
+                          checkpoint = checkpoint),
+               file=dm_source_file)
     cat(create_bib(), file="references.bib")
     if(RSproj) cat(create_proj(), file=paste0(rapport_name,".rproj"))
     end.text <- paste0(
@@ -115,7 +121,7 @@ new_project <- function(name="new_project", path=NULL, class="ucr",
         paste(rep("-", 65),collapse=""), "\n"
     )
     cat(end.text)
-    cat(create_rprofile(source_file, checkpoint = checkpoint,
+    cat(create_rprofile(source_file, dm_source_file, checkpoint = checkpoint,
                         cp.date = checkpoint.date),
         file = ".Rprofile")
     if(checkpoint){
@@ -215,15 +221,17 @@ You might want to edit .emacs to include this file in the org-agenda-files varia
 }
 
 ## RAPPORT TEXT ------------------
-create_rnw_rapport <- function(name, yr_name = NULL, yr_mail = NULL, class,
-                               source_file, output_file){
+create_rnw <- function(name, yr_name = NULL, yr_mail = NULL, class,
+                       source_file, output_file, DM = FALSE,
+                       checkpoint = FALSE){
     if(is.null(yr_name)) yr_name <- Sys.info()['login']
     if(is.null(yr_mail)) yr_mail <- paste0(Sys.info()['login'], "@mail.com")
+    pre_text <- if(DM) "Data management for " else ""
    paste0(
 "%%%%%%  This file was created with ", R.version.string," and
 %%%%%%  package proh ", utils::packageVersion('proh')," on ",Sys.Date(),"
 \\documentclass{",class,"}
-%\\usepackage[swedish, english]{babel} % swedish % ?
+%\\usepackage[swedish, english]{babel}
 %\\usepackage[latin1]{inputenc}
 %\\newcommand{\\path}{\\texttt}
 %\\newcommand{\\code}{\\texttt}
@@ -231,22 +239,22 @@ create_rnw_rapport <- function(name, yr_name = NULL, yr_mail = NULL, class,
 % \\addtolength{\\textwidth}{3cm}
 % \\addtolength{\\voffset}{-1.5cm}
 % \\addtolength{\\textheight}{3cm}
-% \\usepackage{attachfile}
-% \\usepackage{subfig}
-% \\usepackage{lscape}
-% \\usepackage{longtable}
+\\usepackage{attachfile}
+\\usepackage{subfig}
+\\usepackage{lscape}
+\\usepackage{longtable}
 \\DeclareGraphicsExtensions{.pdf, .eps, .png, .jpg, .jpeg}
 
-<<'SETUP', cache=FALSE, include=FALSE>>=
+<<'", if(DM) "DM-", "SETUP', cache=FALSE, include=FALSE>>=
 ### PACKAGES: ----------------------------------------------
-if(FALSE){
+", if(checkpoint) "if(FALSE){
     library(knitr)
     library(devtools)
     devtools::install_github('renlund/proh') ## , ref = ?)
     ## get latest ref-number from:
     ##      https://github.com/renlund/proh/commit/master
-}
-library(proh)
+}\n",
+"library(proh)
 ## ucR, descripteur, dataman, miscmatch, attacher
 ## dplyr, tidyr, ggplot2
 ## Hmisc, rms, data.table, survival, coxme, optmatch
@@ -269,16 +277,16 @@ opts_knit$set(eval.after=c('fig.cap'))
 
 ### PROH OPTIONS: ------------------------------------------
 opts_proh$set(
-    source_file = '", source_file,"', ## also in .rprofile
-    output_file = '", output_file,"',
-    version = 'Version 0.01'
+    ", if(DM) "dm_", "source_file = '", source_file,"', ## also in .rprofile
+    ", if(DM) "dm_", "output_file = '", output_file,"',
+    ", if(DM) "dm_", "version = 'Version 0.01'
 )
 
 ### LOAD/SET PARAMETERS: -----------------------------------
 fetch_all(calc=FALSE, autoload=TRUE) ## loads 'calc/autoload'
 @
 
-\\title{",gsub("_","\\_", name, fixed=TRUE),"\\Sexpr{proh:::proh_get('version_latex')}}
+\\title{",pre_text, gsub("_","\\_", name, fixed=TRUE),"\\Sexpr{proh:::proh_get('dm_version_latex')}}
 \\author{",yr_name,"\\\\ \\vspace{0.2cm}\\texttt{",yr_mail,"} }
 
 \\begin{document}
@@ -291,7 +299,7 @@ fetch_all(calc=FALSE, autoload=TRUE) ## loads 'calc/autoload'
 This rapport was generated by R \\cite{R} and knitr \\cite{knitr}.
 
 Information about the R session:
-<<meta_information, cache=FALSE, echo=FALSE, results='asis', include = TRUE>>=
+<<'", if(DM) "DM-", "META', cache=FALSE, echo=FALSE, results='asis', include = TRUE>>=
 toLatex(sessionInfo())
 @
 
@@ -301,91 +309,6 @@ toLatex(sessionInfo())
 \\end{document}
 ")
 }
-
-## DATA MANAGEMENT FILE TEXT ------------------
-create_rnw_dm <- function(name, yr_name = NULL, yr_mail = NULL, class){
-    if(is.null(yr_name)) yr_name <- Sys.info()['login']
-    if(is.null(yr_mail)) yr_mail <- paste0(Sys.info()['login'], "@mail.com")
-   paste0(
-"%%%%%%  This file was created with ", R.version.string," and
-%%%%%%  package proh ", utils::packageVersion('proh')," on ",Sys.Date(),"
-\\documentclass{",class,"}
-%\\usepackage[swedish, english]{babel} % swedish % ?
-%\\usepackage[latin1]{inputenc}
-%\\newcommand{\\path}{\\texttt}
-%\\newcommand{\\code}{\\texttt}
-% \\addtolength{\\hoffset}{-1.5cm}
-% \\addtolength{\\textwidth}{3cm}
-% \\addtolength{\\voffset}{-1.5cm}
-% \\addtolength{\\textheight}{3cm}
-% \\usepackage{attachfile}
-% \\usepackage{subfig}
-% \\usepackage{lscape}
-% \\usepackage{longtable}
-\\DeclareGraphicsExtensions{.pdf, .eps, .png, .jpg, .jpeg}
-
-<<'SETUP', cache=FALSE, include=FALSE>>=
-### PACKAGES: ----------------------------------------------
-library(proh)
-## library(ucR)
-## library(dataman)
-## library(descripteur)
-
-## library(dplyr)
-## library(tidyr)
-## library(ggplot2)
-
-## library(Hmisc)
-## library(rms)
-## library(data.table)
-## library(survival)
-## library(coxme)
-## library(optmatch)
-
-### CHUNK OPTIONS: -----------------------------------------
-opts_chunk$set(
-    cache=TRUE,
-    include=FALSE,
-    echo=FALSE,
-    fig.pos='hbt',
-    fig.width=7,
-    fig.height=5,
-    message=FALSE,
-    error=FALSE,
-    warning=FALSE
-)
-
-### KNIT OPTIONS: ------------------------------------------
-opts_knit$set(eval.after=c('fig.cap'))
-
-### LOAD/SET PARAMETERS: -----------------------------------
-fetch_all(calc=FALSE, autoload=TRUE) ## loads 'calc/autoload'
-@
-
-\\title{Data Management for ",gsub("_","\\_", name, fixed=TRUE),"}
-\\author{",yr_name,"\\\\ \\vspace{0.2cm}\\texttt{",yr_mail,"} }
-
-\\begin{document}
-
-%\\tableofcontents
-%\\listoftables
-%\\listoffigures
-
-\\section{Meta Information}
-This rapport was generated by R \\cite{R} and knitr \\cite{knitr}.
-
-Information about the R session:
-<<meta_information, cache=FALSE, echo=FALSE, results='asis', include = TRUE>>=
-toLatex(sessionInfo())
-@
-
-\\bibliography{references}
-\\bibliographystyle{plain}
-
-\\end{document}
-")
-}
-
 
 ## BIB TEXT ----------------------
 create_bib <- function(){
@@ -442,30 +365,43 @@ create_bib <- function(){
 
 ## IGNORE TEXT -------------------
 create_git_ignore <- function(){
-   paste0(
-".Rproj.user
-*.Rhistory
-*.RData
-*.tex
-*.toc
-*.concordance
-*.log
-*.brf
-*.bbl
-*.blg
-*.lof
-*.lot
-*.out
-*.aux
-.gitignore
-*~
-cache/*
-figure/*
-sent/*
-table/*
-calc/*
+    paste0(
+"
+*
+!.Rprofile
+!*.rproj
+!*.bib
+!*.org
+!*.txt
+!*.r
+!*.rnw
 ")
 }
+
+## ## old list below worked by exclusion, new list above works more with inclusion
+## ".Rproj.user
+## *.Rhistory
+## *.RData
+## *.tex
+## *.toc
+## *.concordance
+## *.log
+## *.brf
+## *.bbl
+## *.blg
+## *.lof
+## *.lot
+## *.out
+## *.aux
+## .gitignore
+## *~
+## *.pdf
+## cache/*
+## figure/*
+## sent/*
+## table/*
+## calc/*
+## "
 
 ## PROJ TEXT ---------------------
 create_proj <- function(){
@@ -490,31 +426,26 @@ StripTrailingWhitespace: Yes
 }
 
 ## Rprofile -------------------
-create_rprofile <- function(source_file, checkpoint, cp.date){
+create_rprofile <- function(source_file, dm_source_file, checkpoint, cp.date){
+    DM <- !is.null(dm_source_file)
+    s_file_text <- if(DM) paste0(",\n            dm_source_file = '", dm_source_file,"'") else ""
 paste0(
 "if(file.exists(file.path('~', '.rprofile'))){
     source(file.path('~', '.rprofile'))
 } else {
-    cat('\n ## There is no .rprofile found in the home directory\n')
+    cat('\\n ## There is no .rprofile found in the home directory\\n')
 }
 tmp <- paste0(rep('+', options('width')$width-3), collapse = '')
-cat(paste0('\n ', tmp, '\n   R started in a proh-directory with an .rprofile file.\n',
-           '   This will set a source_file in the proh options and also try\n',
-           '   to load the .rprofile (if it exists) in the home directory.\n',
-           '   It will also load knitr and activate checkpoint with snapshot\n',
-           '   date ", cp.date, "\n'))
+cat(paste0('\\n ', tmp, '\\n   R started in a proh-directory with an .rprofile file.\\n',
+           '   This will set a source_file in the proh options and also try\\n',
+           '   to load the .rprofile (if it exists) in the home directory.\\n'))
 ",
 if(checkpoint){
 paste0(
 "
-## tryCatch(
-##     exp = {
-##         require(knitr)
-##         require(stringr)
-##         require(checkpoint)
-##     },
-##     error = function(e) warning('package checkpoint not installed')
-## )
+cat(paste0('   It will also load knitr and activate checkpoint with snapshot\\n',
+           '   date ", cp.date, "\\n'))
+
 require(checkpoint)
 .checkpoint_startup <- checkpoint::checkpoint(
     snapshotDate = '", cp.date,"',
@@ -523,95 +454,116 @@ require(checkpoint)
     scan.rnw.with.knitr = TRUE
 )
 checkpoint::setSnapshot('", cp.date,"')
-tryCatch(
+")
+} else "",
+"tryCatch(
     exp = {
-        ## if(!require(devtools)) install.packages('devtools')
-        ## if(!require(knitr)) install.packages('knitr')
-        ## if(!require(proh)) install_github('renlund/proh')
         require(proh)
         opts_proh$set(
-            source_file = '", source_file,"'
+            source_file = '", source_file,"'",s_file_text,"
         )
     },
     error = function(e) warning('package proh not installed')
 )
-")
-} else "",
-"cat('\n', tmp, '\n')
+cat('\\n', tmp, '\\n')
 rm(tmp)
 "
 )
 }
 
 
-## #' @describeIn new_project An alias
-## #' @export
-## newProject <- function(name="new_project", path=NULL, class="ucr",
-##                        go_there=TRUE, RSproj=TRUE, git=TRUE, org = TRUE){
-##     message("from proh 0.3 we recommend using 'new_project' instead")
-##     new_project(name=name, path=path, class=class,
-##                        go_there=go_there, RSproj=RSproj, git=git, org = org)
-## }
+###############################################################################
 
-# - # @title Impose project structure
-# - # @description Impose project structure in existing directory, files and
-# - #   directories created by \code{newProject} will be
-# - # @author Henrik Renlund
-# - # @param path Path to project directory (else current)
-# - # @param class Class of document in 'rapport.rnw' (default: 'ucr')
-# - # @param go_there Set working directory to project directory? (default: TRUE)
-# - # @param RSproj Start a RStudio project? (deault: TRUE)
-# - # @param git should git be initialized? (also a .gitignore file will be
-# - #   created)
-# - # @seealso \code{proh::newProject}
-# - # @export
-## imposeProject <- function(path=NULL, class="ucr", go_there=TRUE, RSproj=TRUE, git=TRUE){
-##   wd <- getwd()
-##   if(is.null(path)) path <- wd
-##   tryCatch(
-##     expr=setwd(path),
-##     error = function(e) stop("[proh::imposeProject] there seems to be no such directory")
-##   )
-##   name <- rev(strsplit(getwd(),.Platform$file.sep)[[1]])[1]
-##   cat(paste0("A project directory structure will be imposed among\n   ",paste0(list.files(), collapse="\n   "),"\nin the directory:\n   ", wd, "\n Press 'x' to abort.\n Press anything else to proceed."))
-##   if( readline()=="x" ) {
-##     setwd(wd)
-##     return(NULL)
-##   }
 
-##   SET <- c("table", "received", "sent", "calc", "figure", "cache")
-##   for(S in SET) {
-##     if(!file.exists(S)) {
-##       dir.create(S)
-##       cat(paste0("created directory '", S, "'\n"))
-##     }
-##   }
-##   setwd(file.path(path, "calc"))
-##   if(!file.exists("autoload")) {
-##     dir.create("autoload")
-##     cat("created directory 'calc/autoload'\n")
-##   }
-##   setwd(path)
-##   if(!file.exists("rapport.rnw")) {
-##     cat(create_rnw_rapport(name, class), file="rapport.rnw")
-##     cat("created file 'rapport.rnw'\n")
-##   }
-##   if(!file.exists("references.bib")) {
-##     cat(create_bib(), file="references.bib")
-##     cat("created file 'references.bib'\n")
-##   }
-##   if(!file.exists(paste0(name,".rproj"))) {
-##     if(RSproj) {
-##       cat(create_proj(), file=paste0(name,".rproj"))
-##       cat("created Rstudio project file\n")
-##     }
-##   }
+## ## DATA MANAGEMENT FILE TEXT ------------------
+## create_rnw_dm <- function(name, yr_name = NULL, yr_mail = NULL, class,
+##                           dm_source_file, dm_output_file){
+##     if(is.null(yr_name)) yr_name <- Sys.info()['login']
+##     if(is.null(yr_mail)) yr_mail <- paste0(Sys.info()['login'], "@mail.com")
+##    paste0(
+## "%%%%%%  This file was created with ", R.version.string," and
+## %%%%%%  package proh ", utils::packageVersion('proh')," on ",Sys.Date(),"
+## \\documentclass{",class,"}
+## %\\usepackage[swedish, english]{babel} % swedish % ?
+## %\\usepackage[latin1]{inputenc}
+## %\\newcommand{\\path}{\\texttt}
+## %\\newcommand{\\code}{\\texttt}
+## % \\addtolength{\\hoffset}{-1.5cm}
+## % \\addtolength{\\textwidth}{3cm}
+## % \\addtolength{\\voffset}{-1.5cm}
+## % \\addtolength{\\textheight}{3cm}
+## % \\usepackage{attachfile}
+## % \\usepackage{subfig}
+## % \\usepackage{lscape}
+## % \\usepackage{longtable}
+## \\DeclareGraphicsExtensions{.pdf, .eps, .png, .jpg, .jpeg}
 
-##   cat( paste(rep("-", 65),collapse="") )
+## <<'SETUP', cache=FALSE, include=FALSE>>=
+## ### PACKAGES: ----------------------------------------------
+## library(proh)
+## ## library(ucR)
+## ## library(dataman)
+## ## library(descripteur)
 
-##   if(!file.exists(".git")) {
-##     if(git) create_git()
-##   }
-##   if(go_there) setwd(path) else setwd(wd)
-##   invisible(NULL)
+## ## library(dplyr)
+## ## library(tidyr)
+## ## library(ggplot2)
+
+## ## library(Hmisc)
+## ## library(rms)
+## ## library(data.table)
+## ## library(survival)
+## ## library(coxme)
+## ## library(optmatch)
+
+## ### CHUNK OPTIONS: -----------------------------------------
+## opts_chunk$set(
+##     cache=TRUE,
+##     include=FALSE,
+##     echo=FALSE,
+##     fig.pos='hbt',
+##     fig.width=7,
+##     fig.height=5,
+##     message=FALSE,
+##     error=FALSE,
+##     warning=FALSE
+## )
+
+## ### KNIT OPTIONS: ------------------------------------------
+## opts_knit$set(eval.after=c('fig.cap'))
+
+## ### PROH OPTIONS: ------------------------------------------
+## opts_proh$set(
+##     dm_source_file = '", dm_source_file,"', ## also in .rprofile
+##     dm_output_file = '", dm_output_file,"',
+##     dm_version = 'Version 0.01'
+## )
+
+## ### LOAD/SET PARAMETERS: -----------------------------------
+## fetch_all(calc=FALSE, autoload=TRUE) ## loads 'calc/autoload'
+## @
+
+## \\title{Data management for ",gsub("_","\\_", name, fixed=TRUE),
+## "\\Sexpr{proh:::proh_get('dm_version_latex')}}
+## \\author{",yr_name,"\\\\ \\vspace{0.2cm}\\texttt{",yr_mail,"} }
+
+## \\begin{document}
+
+## %\\tableofcontents
+## %\\listoftables
+## %\\listoffigures
+
+## \\section{Meta Information}
+## This rapport was generated by R \\cite{R} and knitr \\cite{knitr}.
+
+## Information about the R session:
+## <<meta_information, cache=FALSE, echo=FALSE, results='asis', include = TRUE>>=
+## toLatex(sessionInfo())
+## @
+
+## \\bibliography{references}
+## \\bibliographystyle{plain}
+
+## \\end{document}
+## ")
 ## }

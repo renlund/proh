@@ -2,7 +2,7 @@
 #' @description Run a chunk in a given document
 #' @param chunk name or number of chunk, if \code{NULL} (default) then the
 #' first chunk will be executed
-#' @param file the file which has the chunks, default: 'rapport.rnw'
+#' @param file the file which has the chunks, default 'source_file'
 #' @param envir is \code{.GlobalEnv} by default, the environemnt in which to
 #' evaluate chunks
 #' @param profile source .Rprofile if it exists?

@@ -1,64 +1,53 @@
-#' @title Compile the rapport
-#' @description Compile the rapport
-#' @author Henrik Renlund
-#' @param input file to be compiled
-#' @param cess run proh::cess to get (possible) defaults in first chunk?
-#' @param ... arguments to be passed on
-#' @import knitr
-#' @import rmarkdown
-#' @export
-cmp <- function(input=NULL, cess = TRUE, ...){
-    if(is.null(input)){
-        opts_proh$check()
-        input <- opts_proh$get("source_file")
-    } else {
-        if(cess){
-            tryCatch(cess(), error = function(e){
-                stop("FAILED to evaluate first chunk\n")
-            })
-        }
-    }
-    if(grepl("\\.(R|r)nw$", input)){
-        cmp_rnw(input = input, ...)
-    } else if(grepl("\\.(R|r)md$", input)){
+##' Compile rnw files
+##'
+##' Wrapper for \code{knitr::knit2pdf}
+##' @param input file to compile
+##' @param output output tex file
+##' @param clean should the LaTeX files be cleaned?
+##' @param ... arguments passed to \code{\link[knitr]{knit2pdf}}
+##' @export
+##' @importFrom knitr knit2pdf
+cmp_rnw <- function(input, output, clean = TRUE, ...){
+    if(!grepl("\\.(R|r)nw$", input)){
         stop("methods for non-Rnw files not implemented")
-        ## cmp_rmd(input = input, ...)
     }
+    ut <- sub("\\.pdf$", "\\.tex", output)
+    knitr::knit2pdf(
+        input  = input,
+        output = ut,
+        clean  = clean,
+        envir  = .GlobalEnv,
+        ...
+    )
+    invisible(NULL)
 }
 
-#' @describeIn cmp Compile rnw files
-#' @param clean should the LaTeX files be cleaned?
-#' @param look should the pdf be opened after compilation?
-#' @export
-cmp_rnw <- function(input, clean = TRUE, look = FALSE, ...){
-   opts_proh$check()
-   ut <- sub("\\.pdf$", "\\.tex", opts_proh$get("output_file"))
-   knitr::knit2pdf(
-      input  = input,
-      output = ut,
-      clean  = clean,
-      envir  = .GlobalEnv,
-      ...
-   )
-   if(look) look(file = opts_proh$get("output_file"))
-   invisible(NULL)
+##' @describeIn cmp_rnw apply to 'source_file'
+##' @param cess run \code{proh::cess} to get (possible) defaults in first chunk?
+##' @export
+cmp <- function(cess = TRUE, ...){
+    if(cess){
+        tryCatch(cess(), error = function(e){
+            stop("FAILED to evaluate first chunk\n")
+        })
+    }
+    opts_proh$check()
+    input <- opts_proh$get("source_file")
+    output <- opts_proh$get("output_file")
+    cmp_rnw(input = input, output = output, ...)
 }
 
-# - # @describeIn cmp Compile rmd files
-# - # @param twice need two code executions? (e.g. for counters)
-# - # @export
-## cmp_rmd <- function(input, twice = FALSE, clean = FALSE, look = FALSE, ...){
-##    opts_proh$check()
-##    if(twice){
-##       md <- sub("\\.rmd$", "\\.md$", )
-##       if(md == input) stop("failed to make md file")
-##       knitr::knit(input = input, output = md, envir = .GlobalEnv)
-##    }
-##    rmarkdown::render(input = input,
-##                      output_format = opts_proh$get("output_format"),
-##                      output_file   = opts_proh$get("output_file"),
-##                      clean = clean,
-##                      envir = .GlobalEnv)
-##    if(look) look(file = opts_proh$get("output_file"))
-##    invisible(NULL)
-## }
+##' @describeIn cmp_rnw apply to 'dm_source_file'
+##' @export
+cmp_dm <- function(cess = TRUE, ...){
+    if(cess){
+        tryCatch(cess_dm(), error = function(e){
+            stop("FAILED to evaluate first chunk\n")
+        })
+    }
+    opts_proh$check()
+    input <- opts_proh$get("dm_source_file")
+    output <- opts_proh$get("dm_output_file")
+    cmp_rnw(input = input, output = output, ...)
+}
+
