@@ -6,9 +6,11 @@
 #' @param envir is \code{.GlobalEnv} by default, the environemnt in which to
 #' evaluate chunks
 #' @param profile source .Rprofile if it exists?
+#' @param verbose if TRUE, may print some slightly unneccessary messages
 #' @note This will replace \code{proh::first}
 #' @export
-cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE){
+cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE,
+                 verbose = TRUE){
     if(profile){
         if(file.exists(".Rprofile")){
             source(".Rprofile")
@@ -35,9 +37,9 @@ cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE)
       chunk  <- as.numeric(copy)
    }
    for(indx in chunk){ # indx = chunk[1]
-      cat("Evaluating chunk ", indx, " ('", cinfo$name[indx], "'):\n", sep = "")
+      if(verbose) cat("Evaluating chunk ", indx, " ('", cinfo$name[indx], "'):\n", sep = "")
       eval(expr = parse(text = cinfo$code[indx]), envir = envir)
-      cat("\n")
+      if(verbose) cat("\n")
    }
    invisible(NULL)
 }

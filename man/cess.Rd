@@ -5,7 +5,8 @@
 \alias{cess_dm}
 \title{Run chunks}
 \usage{
-cess(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE)
+cess(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE,
+  verbose = TRUE)
 
 cess_dm(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE)
 }
@@ -19,6 +20,8 @@ first chunk will be executed}
 evaluate chunks}
 
 \item{profile}{source .Rprofile if it exists?}
+
+\item{verbose}{if TRUE, may print some slightly unneccessary messages}
 }
 \description{
 Run a chunk in a given document
@@ -27,7 +30,7 @@ Run a chunk in a given document
 \itemize{
 \item \code{cess_dm}: this function has 'dm_source_file' as it's default file
 }}
+
 \note{
 This will replace \code{proh::first}
 }
-
