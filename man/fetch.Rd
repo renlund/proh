@@ -33,7 +33,7 @@ Load an object from 'calc' directory
 \itemize{
 \item \code{fetch_}: Non-standard evaluation version
 }}
+
 \author{
 Henrik Renlund
 }
-

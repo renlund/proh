@@ -20,4 +20,3 @@ Make ostensibly (in LaTeX tables) non-unique rownames by adding random
 df <- data.frame(x = 1:100)
 rownames(df) <- urnames(df, rep("A", 100))
 }
-

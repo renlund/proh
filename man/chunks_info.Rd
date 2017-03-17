@@ -25,4 +25,3 @@ A data frame with variables
 \description{
 Get information about chunks in a rnw file
 }
-

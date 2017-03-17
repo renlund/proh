@@ -15,4 +15,3 @@ Sometimes LaTeX leaves a mess...
 \author{
 Henrik Renlund
 }
-

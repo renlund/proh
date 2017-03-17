@@ -12,4 +12,3 @@ Load all files in 'calc/autoload'.
 \author{
 Henrik Renlund
 }
-

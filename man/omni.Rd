@@ -26,7 +26,7 @@ automatically loaded in the first chunk of the rapport.
 \itemize{
 \item \code{omni_}: Non-standard evaluation version
 }}
+
 \author{
 Henrik Renlund
 }
-

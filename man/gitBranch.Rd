@@ -15,4 +15,3 @@ Create git branch. This function is mainly a helper for \code{send}.
 \author{
 Henrik Renlund
 }
-

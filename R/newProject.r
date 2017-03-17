@@ -286,7 +286,9 @@ opts_proh$set(
 fetch_all(calc=FALSE, autoload=TRUE) ## loads 'calc/autoload'
 @
 
-\\title{",pre_text, gsub("_","\\_", name, fixed=TRUE),"\\Sexpr{proh:::proh_get('dm_version_latex')}}
+\\title{",pre_text, gsub("_","\\_", name, fixed=TRUE),
+"\\Sexpr{proh:::proh_get('",
+if(DM) "dm_", "version_latex')}}
 \\author{",yr_name,"\\\\ \\vspace{0.2cm}\\texttt{",yr_mail,"} }
 
 \\begin{document}

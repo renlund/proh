@@ -21,4 +21,3 @@ A data frame with variables
 \description{
 Get information about sections in a rnw file
 }
-

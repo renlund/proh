@@ -20,7 +20,7 @@ open any file, as this is just a wrapper for \code{shell.exec})
 \itemize{
 \item \code{look_dm}: this function has 'dm_output_file' as default file
 }}
+
 \author{
 Henrik Renlund
 }
-

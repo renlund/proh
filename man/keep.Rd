@@ -23,7 +23,7 @@ Save an object to 'calc' folder
 \itemize{
 \item \code{keep_}: Non-standard evaluation version
 }}
+
 \author{
 Henrik Renlund
 }
-

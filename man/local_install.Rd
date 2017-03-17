@@ -13,4 +13,3 @@ local_install(path)
 ...because I can NEVER remember what parameter choice I need
 to make to make \code{install.packages} work...
 }
-

@@ -61,24 +61,30 @@ proh_restore <- function(check = FALSE){
 ## @description some checks of the proh options
 proh_check <- function(){
     main_doc <- proh_get("source_file")
-    if(!file.exists(main_doc)){
-        foo <- paste0(rep("~", options("width")$width), collapse = "")
-        warning(paste0("\n", foo,
-                       "\nSource document set to ", main_doc,
-                       " which I can't find in the current directory.\n",
-                       "Perhaps use an .Rprofile with:\n",
-                       "opts_proh$set('source_file' = <correct-file>)\n",
-                       foo))
+    if(!is.null(main_doc)){
+        if(!file.exists(main_doc)){
+            foo <- paste0(rep("~", options("width")$width), collapse = "")
+            warning(paste0("\n", foo,
+                           "\nSource document set to ", main_doc,
+                           " which I can't find in the current directory.\n",
+                           "Perhaps use an .Rprofile with:\n",
+                           "opts_proh$set('source_file' = <correct-file>)\n",
+                           foo))
+        }
+    } else {
+        warning("no main document/source file set")
     }
     dm_doc <- proh_get("dm_source_file")
-    if(!file.exists(dm_doc)){
-        foo <- paste0(rep("~", options("width")$width), collapse = "")
-        warning(paste0("\n", foo,
-                       "\nDM document set to ", dm_doc,
-                       " which I can't find in the current directory.\n",
-                       "Perhaps use an .Rprofile with:\n",
-                       "opts_proh$set('dm_source_file' = <correct-file>)\n",
-                       foo))
+    if(!is.null(dm_doc)){
+        if(!file.exists(dm_doc)){
+            foo <- paste0(rep("~", options("width")$width), collapse = "")
+            warning(paste0("\n", foo,
+                           "\nDM document set to ", dm_doc,
+                           " which I can't find in the current directory.\n",
+                           "Perhaps use an .Rprofile with:\n",
+                           "opts_proh$set('dm_source_file' = <correct-file>)\n",
+                           foo))
+        }
     }
     out_file <- proh_get("output_file")
     dm_out_file <- proh_get("output_file")

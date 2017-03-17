@@ -13,4 +13,3 @@ things. Note; these are tailored after the idiosyncratic preferences of the
 author. If for some strange reason you are interested, read the documentation
 for \code{newProject} to get some idea.
 }
-

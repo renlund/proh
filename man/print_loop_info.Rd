@@ -27,4 +27,3 @@ for(i in 1:n){
    print_loop_info(i, n, len = 20, "       ", " <yeah>")
 }; rm(i, n)
 }
-
