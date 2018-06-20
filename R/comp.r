@@ -3,11 +3,11 @@
 ##' Wrapper for \code{knitr::knit2pdf}
 ##' @param input file to compile
 ##' @param output output tex file
-##' @param clean should the LaTeX files be cleaned?
 ##' @param ... arguments passed to \code{\link[knitr]{knit2pdf}}
+##' @param clean should the LaTeX files be cleaned?
 ##' @export
 ##' @importFrom knitr knit2pdf
-cmp_rnw <- function(input, output, clean = TRUE, ...){
+cmp_rnw <- function(input, output, ...){
     if(!grepl("\\.(R|r)nw$", input)){
         stop("methods for non-Rnw files not implemented")
     }
@@ -15,7 +15,6 @@ cmp_rnw <- function(input, output, clean = TRUE, ...){
     knitr::knit2pdf(
         input  = input,
         output = ut,
-        clean  = clean,
         envir  = .GlobalEnv,
         ...
     )
@@ -50,4 +49,3 @@ cmp_dm <- function(cess = TRUE, ...){
     output <- opts_proh$get("dm_output_file")
     cmp_rnw(input = input, output = output, ...)
 }
-

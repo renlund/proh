@@ -6,7 +6,7 @@
 \alias{cmp_dm}
 \title{Compile rnw files}
 \usage{
-cmp_rnw(input, output, clean = TRUE, ...)
+cmp_rnw(input, output, ...)
 
 cmp(cess = TRUE, ...)
 
@@ -17,11 +17,11 @@ cmp_dm(cess = TRUE, ...)
 
 \item{output}{output tex file}
 
-\item{clean}{should the LaTeX files be cleaned?}
-
 \item{...}{arguments passed to \code{\link[knitr]{knit2pdf}}}
 
 \item{cess}{run \code{proh::cess} to get (possible) defaults in first chunk?}
+
+\item{clean}{should the LaTeX files be cleaned?}
 }
 \description{
 Wrapper for \code{knitr::knit2pdf}
