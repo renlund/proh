@@ -17,8 +17,8 @@ keep <- function(name, autoload=FALSE){
             K_ <- paste0("^", K, "$")
             if(any(grepl(K_, L_, ignore.case=TRUE)) & !any(grepl(K_, L_))){
                 if(Sys.info()['sysname'] == "Windows"){
-                    stop(paste0("[proh::keep] Windows does not distinguish between upper-",,
-                                " and lower case in filenames and there is a similar file",,
+                    stop(paste0("[proh::keep] Windows does not distinguish between upper-",
+                                " and lower case in filenames and there is a similar file",
                                 " kept in 'calc/'."))
                 }
             }
