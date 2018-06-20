@@ -32,8 +32,12 @@ chunks_info <- function(file = NULL, all = FALSE){
    inits4 <- ifelse(grepl(pattern = "=", x = inits3),
                     sprintf("<chunk %d: unnamed>", 1:n),
                     gsub(pattern = "'", replacement = "", x = inits3))
-   eval_val <- unlist(lapply(X=chunk_val, FUN = function(x) x[grepl(pattern = "^eval=.*$", x = x)][1]))
+   eval_val <- unlist(lapply(X=chunk_val,
+                             FUN = function(x) x[grepl(pattern = "^eval=.*$", x = x)][1]))
    eval_arg <- gsub(pattern = "eval=", replacement = "", x = eval_val)
+   ## child_val <- unlist(lapply(X=chunk_val,
+   ##                            FUN = function(x) x[grepl(pattern = "^child=.*$", x = x)][1]))
+   ## child_arg <- gsub(pattern = "eval=", replacement = "", x = child_val)
    gEt <- function(x) if(!is.na(x) & !x %in% c("FALSE", "TRUE")) {
        tryCatch(get(x, envir = .GlobalEnv), error = function(e) NA)
    } else {
