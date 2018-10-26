@@ -4,7 +4,6 @@
 ##' @param input file to compile
 ##' @param output output tex file
 ##' @param ... arguments passed to \code{\link[knitr]{knit2pdf}}
-##' @param clean should the LaTeX files be cleaned?
 ##' @export
 ##' @importFrom knitr knit2pdf
 cmp_rnw <- function(input, output, ...){

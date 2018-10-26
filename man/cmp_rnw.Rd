@@ -20,8 +20,6 @@ cmp_dm(cess = TRUE, ...)
 \item{...}{arguments passed to \code{\link[knitr]{knit2pdf}}}
 
 \item{cess}{run \code{proh::cess} to get (possible) defaults in first chunk?}
-
-\item{clean}{should the LaTeX files be cleaned?}
 }
 \description{
 Wrapper for \code{knitr::knit2pdf}
