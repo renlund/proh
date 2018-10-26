@@ -50,6 +50,11 @@ send_function <- function(output_file, version, source_file, git){
     if(!git) cat(paste0(" *-----------------------------------------*",
                         "  This is a good time to commit your files!",
                         " *-----------------------------------------*\n"))
+    cat("\n\n                      'Some people update\n",
+        "                     the version number\n",
+        "                     already at this point\n",
+        "                     in time.'\n",
+        "                             ~ Unknown Sage\n")
     invisible(NULL)
 }
 
