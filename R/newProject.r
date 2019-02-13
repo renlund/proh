@@ -239,6 +239,7 @@ create_rnw <- function(name, yr_name = NULL, yr_mail = NULL, class,
 % \\addtolength{\\textwidth}{3cm}
 % \\addtolength{\\voffset}{-1.5cm}
 % \\addtolength{\\textheight}{3cm}
+% \\usepackage[table]{xcolor}
 \\usepackage{attachfile}
 \\usepackage{subfig}
 \\usepackage{lscape}
@@ -254,10 +255,21 @@ create_rnw <- function(name, yr_name = NULL, yr_mail = NULL, class,
     ## get latest ref-number from:
     ##      https://github.com/renlund/proh/commit/master
 }\n",
-"library(proh)
-## ucR, descripteur, dataman, miscmatch, attacher
-## dplyr, tidyr, ggplot2
-## Hmisc, rms, data.table, survival, coxme, optmatch
+"library(proh)        # https://github.com/renlund/proh
+## library(dm)          # https://github.com/renlund/dm
+## library(descripteur) # https://github.com/renlund/descripteur
+
+## library(dplyr)
+## library(ggplot2)
+## library(tidyr)
+## library(haven)
+
+## library(Hmisc)
+## library(rms)
+## library(data.table)
+## library(survival)
+## library(optmatch)
+## library(lme4)
 
 ### CHUNK OPTIONS: -----------------------------------------
 opts_chunk$set(
