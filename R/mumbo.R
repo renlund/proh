@@ -12,7 +12,7 @@ mumbo <- function(n, m = 2, try.unique = TRUE){
     R <- rep(NA_character_, n)
     dummy <- 1
     threshold <- if(try.unique) 100 else 0
-    while(any(duplicated(R)) & dummy < threshold){
+    while ((all(is.na(R)) | any(duplicated(R))) & dummy < threshold) {
         for(k in 1:n){
             R[k] <- paste(
                 sample(set1, size = m, replace = TRUE), ##m > length(set1)),
@@ -55,7 +55,3 @@ if(FALSE){
     rownames(df) <- urnames(df, rep("A", 100))
     df
 }
-
-
-
-

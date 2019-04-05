@@ -4,9 +4,9 @@
 \alias{new_project}
 \title{Create new project}
 \usage{
-new_project(name = "new_project", path = NULL, class = "ucr", dm = TRUE,
-  RSproj = TRUE, git = TRUE, checkpoint = TRUE, checkpoint.date = NULL,
-  go_there = FALSE, org = FALSE)
+new_project(name = "new_project", path = NULL, class = "ucr",
+  dm = TRUE, RSproj = TRUE, git = TRUE, checkpoint = TRUE,
+  checkpoint.date = NULL, go_there = FALSE, org = FALSE)
 }
 \arguments{
 \item{name}{Name of the project}
