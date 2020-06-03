@@ -5,11 +5,21 @@
 \alias{killCache}
 \title{Kill Cache}
 \usage{
-kill_cache(pattern = NULL, cache = TRUE, figure = TRUE,
-  table = TRUE, env = NULL)
+kill_cache(
+  pattern = NULL,
+  cache = TRUE,
+  figure = TRUE,
+  table = TRUE,
+  env = NULL
+)
 
-killCache(pattern = NULL, cache = TRUE, figure = TRUE,
-  table = TRUE, env = TRUE)
+killCache(
+  pattern = NULL,
+  cache = TRUE,
+  figure = TRUE,
+  table = TRUE,
+  env = TRUE
+)
 }
 \arguments{
 \item{pattern}{if not \code{NULL} (default) this can search for cache items to remove}

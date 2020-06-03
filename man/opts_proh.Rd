@@ -4,7 +4,9 @@
 \name{opts_proh}
 \alias{opts_proh}
 \title{proh options}
-\format{An object of class \code{list} of length 4.}
+\format{
+An object of class \code{list} of length 4.
+}
 \usage{
 opts_proh
 }

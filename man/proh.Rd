@@ -3,7 +3,6 @@
 \docType{package}
 \name{proh}
 \alias{proh}
-\alias{proh-package}
 \title{proh: pro(ject) h(enrik style)}
 \description{
 This is a package for working with projects - which here means creating a

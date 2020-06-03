@@ -5,11 +5,21 @@
 \alias{cess_dm}
 \title{Run chunks}
 \usage{
-cess(chunk = NULL, file = NULL, envir = .GlobalEnv,
-  profile = FALSE, verbose = TRUE)
+cess(
+  chunk = NULL,
+  file = NULL,
+  envir = .GlobalEnv,
+  profile = FALSE,
+  verbose = TRUE
+)
 
-cess_dm(chunk = NULL, file = NULL, envir = .GlobalEnv,
-  profile = FALSE)
+cess_dm(
+  chunk = NULL,
+  file = NULL,
+  envir = .GlobalEnv,
+  profile = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{chunk}{name or number of chunk, if \code{NULL} (default) then the

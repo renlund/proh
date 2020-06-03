@@ -5,11 +5,21 @@
 \alias{fetchAll}
 \title{Load all saves}
 \usage{
-fetch_all(calc = TRUE, autoload = TRUE, overwrite = TRUE,
-  message = FALSE, formats = c("rdat", "rdata"))
+fetch_all(
+  calc = TRUE,
+  autoload = TRUE,
+  overwrite = TRUE,
+  message = FALSE,
+  formats = c("rdat", "rdata")
+)
 
-fetchAll(calc = TRUE, autoload = TRUE, overwrite = TRUE,
-  message = FALSE, formats = c("rdat", "rdata"))
+fetchAll(
+  calc = TRUE,
+  autoload = TRUE,
+  overwrite = TRUE,
+  message = FALSE,
+  formats = c("rdat", "rdata")
+)
 }
 \arguments{
 \item{calc}{should contents of directory 'calc' be loaded?}
