@@ -47,14 +47,15 @@ cess <- function(chunk = NULL, file = NULL, envir = .GlobalEnv, profile = FALSE,
 #' @describeIn cess this function has 'dm_source_file' as it's default file
 #' @export
 cess_dm <- function(chunk = NULL, file = NULL, envir = .GlobalEnv,
-                    profile = FALSE){
+                    profile = FALSE, verbose = TRUE){
     if(profile){
         if(file.exists(".Rprofile")){
             source(".Rprofile")
         }
     }
     if(is.null(file)) file = opts_proh$get("dm_source_file")
-    cess(chunk = chunk, file = file, envir = envir, profile = FALSE)
+    cess(chunk = chunk, file = file, envir = envir,
+         profile = profile, verbose = verbose)
 }
 
 if(FALSE){
