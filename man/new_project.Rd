@@ -50,21 +50,21 @@ This function sets up a folder with subfolders \itemize{
   .rdat files}
 \item{calc/autoload: this is for storage of inline values.
   Typically this folder will automatically be loaded in a first (uncached)
-  chunk of the rapport file by \code{fetch_all}.}
+  chunk of the report file by \code{fetch_all}.}
 \item{figure: for plots
   (also used by knitr)}
 \item{recieved: typically this is were I put files
   given by clients}
 \item{sent: this is were I store things sent to client.
   The function \code{send} will attach the current date to the pdf version of
-  the rapport and put it in this directory. Optionally, \code{send} can zip
-  the rapport along with the graphs and tables from their respective
+  the report and put it in this directory. Optionally, \code{send} can zip
+  the report along with the graphs and tables from their respective
   directory}
 \item{table: for (human readable) tabulated data}
 }
 and creates, optionally, the files
 \itemize{
-\item{'rapport.rnw': the rapport file, can
+\item{'rapport.rnw': the report file, can
   be changed to suit your needs, but is designed to have a first uncached
   chunk (by default called 'autoLoad') that executes \code{fetch_all()}}
 \item{.Rprofile which will load and point proh to the source file}
