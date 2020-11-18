@@ -131,7 +131,7 @@ get_meta_info <- function(saved_only = TRUE){
         saves <- whatsaved()
         namn <- namn[namn %in% saves]
     }
-    for(N in names(meta)){
+    for(N in namn){
         R <- rbind(R, extract_meta_info(meta[[N]]))
     }
     if(!is.null(R)){
