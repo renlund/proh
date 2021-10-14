@@ -260,7 +260,7 @@ create_rnw <- function(name, yr_name = NULL, yr_mail = NULL, class,
 ## library(descripteur) # https://github.com/renlund/descripteur
 
 ## library(dplyr)
-## library(ggplot2)
+## library(ggplot2); theme_set(theme_bw())
 ## library(tidyr)
 ## library(haven)
 
@@ -450,7 +450,7 @@ paste0(
 
 RestoreWorkspace: No
 SaveWorkspace: No
-AlwaysSaveHistory: Yes
+AlwaysSaveHistory: No
 
 EnableCodeIndexing: Yes
 UseSpacesForTab: Yes
