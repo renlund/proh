@@ -1,4 +1,4 @@
-[![R build](https://github.com/renlund/proh/actions/workflows/R/badge.svg)](https://github.com/renlund/proh/actions/workflows/r.yml)
+[![R build](https://github.com/renlund/proh/workflows/R/badge.svg)](https://github.com/renlund/proh/actions/workflows/r.yml)
 
 proh
 ====
