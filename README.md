@@ -12,3 +12,5 @@ creates some standard folders and files. Some functions work (e.g. `fetch`,
 
 There are perhaps some inconsistencies, but the need for backwards compatability
 makes me not adress these.
+
+Update: package has morfed into **hproj** instead.
